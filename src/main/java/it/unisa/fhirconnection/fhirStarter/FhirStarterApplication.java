@@ -57,8 +57,13 @@ public class FhirStarterApplication {
     ) {
         return args -> {
 
-            Person person1 = new Person("firstName", "lastName", "gender", "18/05/2014");
+            Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
+            Person person2 = new Person("Nome2", "Cognome2", "female", "12/12/2012");
+            PatientEntity patientEntity2 = new PatientEntity();
+
+            Person person3= new Person("Nome3", "Cognome3", "female", "11/11/2011");
+            PatientEntity patientEntity3 = new PatientEntity();
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
@@ -72,6 +77,13 @@ public class FhirStarterApplication {
 
             person1.setPatientEntity(patientEntity1);
             patientEntity1.setPerson(person1);
+
+            person2.setPatientEntity(patientEntity2);
+            patientEntity2.setPerson(person2);
+
+            person3.setPatientEntity(patientEntity3);
+            patientEntity3.setPerson(person3);
+
             Set<DiagnosticReport> drs= patientEntity1.getDiagnosticReports();
             drs.add(diagnosticReport);
             patientEntity1.setDiagnosticReports(drs); //get e poi set
@@ -80,6 +92,13 @@ public class FhirStarterApplication {
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
+
+            personDAO.save(person2);
+            patientDAO.save(patientEntity2);
+
+            personDAO.save(person3);
+            patientDAO.save(patientEntity3);
+
             drDAO.save(diagnosticReport);
             System.out.println(patientEntity1.getIdpatient());
             for (PatientEntity patient : patientDAO.findAll()) {

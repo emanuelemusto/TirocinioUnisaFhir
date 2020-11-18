@@ -79,22 +79,34 @@ public class PatientProvider implements IResourceProvider {
     }
 
 
-    @Search
-    public ArrayList<Patient> searchPatient(HttpServletRequest request,
-                                                  @OptionalParam(name = Patient.SP_FAMILY) StringParam familyName,
-                                                  @OptionalParam(name= Patient.SP_GIVEN) StringParam givenName
-    ) {
+    @Search()
+    public ArrayList<Patient> searchPatientbyFamilyName(
+                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName
+    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientController.getAllPatients()) {
-                if (String.valueOf(givenName).toLowerCase().contains(patient.getPerson().getFirstName().toLowerCase()) || String.valueOf(familyName).toLowerCase().contains(patient.getPerson().getLastName().toLowerCase()))
-                    patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
+            if (patient.getPerson().getLastName().toLowerCase().contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+                patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
 
 
         }
-
-
             return patientArrayList;
     }
+
+    @Search()
+    public ArrayList<Patient> searchPatientbyGivenName(
+            @RequiredParam(name= Patient.SP_GIVEN) StringParam givenName
+    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
+        ArrayList<Patient> patientArrayList = new ArrayList<>();
+        for (PatientEntity patient : PatientController.getAllPatients()) {
+            if (patient.getPerson().getFirstName().toLowerCase().contains(String.valueOf(givenName.getValueNotNull()).toLowerCase()))
+                patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
+
+
+        }
+        return patientArrayList;
+    }
+
 
 
 }

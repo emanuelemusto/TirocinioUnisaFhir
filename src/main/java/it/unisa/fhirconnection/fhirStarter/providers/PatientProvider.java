@@ -85,7 +85,8 @@ public class PatientProvider implements IResourceProvider {
     ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientController.getAllPatients()) {
-            if (patient.getPerson().getLastName().toLowerCase().contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+            String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
+            if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
                 patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
 
 

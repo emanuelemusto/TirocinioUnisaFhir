@@ -9,6 +9,16 @@
         <webroots />
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="Hibernate" />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
+        </datasource-mapping>
+        <naming-strategy-map />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -47,6 +57,9 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-actuator:1.5.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.11.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-mongodb:1.5.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.4.3" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.4.3" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.10.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.13.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.3.11.RELEASE" level="project" />

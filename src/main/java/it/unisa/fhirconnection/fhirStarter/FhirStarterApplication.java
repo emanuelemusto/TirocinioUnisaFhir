@@ -59,11 +59,24 @@ public class FhirStarterApplication {
 
             Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
+
             Person person2 = new Person("Nome2", "Cognome2", "female", "12/12/2012");
             PatientEntity patientEntity2 = new PatientEntity();
 
-            Person person3= new Person("Nome3", "Cognome3", "female", "11/11/2011");
+            Person person3 = new Person("Nome3", "Cognome3", "female", "11/11/2011");
             PatientEntity patientEntity3 = new PatientEntity();
+
+            Person person4 = new Person("Nome4", "Cognome4", "null", "11/11/2011");
+            PatientEntity patientEntity4 = new PatientEntity();
+
+            Person person5 = new Person("Nome5", "Cognome5", "male", "11/11/2011");
+            PatientEntity patientEntity5 = new PatientEntity();
+
+            Person person6 = new Person("Nome6", "Cognome6", "female", "11/11/2011");
+            PatientEntity patientEntity6 = new PatientEntity();
+
+            Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
+            PatientEntity patientEntity7 = new PatientEntity();
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
@@ -84,6 +97,18 @@ public class FhirStarterApplication {
             person3.setPatientEntity(patientEntity3);
             patientEntity3.setPerson(person3);
 
+            person4.setPatientEntity(patientEntity4);
+            patientEntity4.setPerson(person4);
+
+            person5.setPatientEntity(patientEntity5);
+            patientEntity5.setPerson(person5);
+
+            person6.setPatientEntity(patientEntity6);
+            patientEntity6.setPerson(person6);
+
+            person7.setPatientEntity(patientEntity7);
+            patientEntity7.setPerson(person7);
+
             Set<DiagnosticReport> drs= patientEntity1.getDiagnosticReports();
             drs.add(diagnosticReport);
             patientEntity1.setDiagnosticReports(drs); //get e poi set
@@ -98,6 +123,19 @@ public class FhirStarterApplication {
 
             personDAO.save(person3);
             patientDAO.save(patientEntity3);
+
+            personDAO.save(person4);
+            patientDAO.save(patientEntity4);
+
+            personDAO.save(person5);
+            patientDAO.save(patientEntity5);
+
+            personDAO.save(person6);
+            patientDAO.save(patientEntity6);
+
+            personDAO.save(person7);
+            patientDAO.save(patientEntity7);
+
 
             drDAO.save(diagnosticReport);
             System.out.println(patientEntity1.getIdpatient());

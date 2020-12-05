@@ -20,6 +20,7 @@ public class Person {
 
     private String lastName;
 
+    //female, male or null
     private String gender;
 
     private String dateOfBirth;

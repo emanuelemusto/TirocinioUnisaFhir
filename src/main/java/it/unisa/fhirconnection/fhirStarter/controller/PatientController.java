@@ -6,28 +6,37 @@
 package it.unisa.fhirconnection.fhirStarter.controller;
 
 
+import it.unisa.fhirconnection.fhirStarter.RestController.DummyPatient;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
+import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
+import it.unisa.fhirconnection.fhirStarter.model.Address;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
+import it.unisa.fhirconnection.fhirStarter.model.Person;
+import it.unisa.fhirconnection.fhirStarter.model.Telecom;
 import lombok.RequiredArgsConstructor;
+import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Service
 public class PatientController {
     
-
+    private static PersonDAO personDAO;
 
     private static PatientDAO patientDAO;
 
     private  static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
 
     @Autowired
-    public PatientController(PatientDAO patientDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient ) {
+    public PatientController(PatientDAO patientDAO, PersonDAO personDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient ) {
         PatientController.patientDAO = patientDAO;
+        PatientController.personDAO = personDAO;
         PatientController.patientEntityToFHIRPatient = patientEntityToFHIRPatient;
     }
 
@@ -52,6 +61,66 @@ public class PatientController {
     public static void save(int id) {
         patientDAO.save(patientDAO.findByIdpatient(id));
     }
+
+    public static void addPatient(DummyPatient dummy){
+        Person person1 = new Person(dummy.getFirstname(), dummy.getFirstname(), dummy.getGender(), dummy.getDate());
+        PatientEntity patientEntity1 = new PatientEntity();
+
+        Telecom telecom1 = new Telecom();
+        telecom1.setValue(dummy.getTelecomValue());
+
+        switch(dummy.getTelecomUse().toLowerCase()) {
+            case ("home"):
+                telecom1.setTelecomUse(ContactPoint.ContactPointUse.HOME);
+                break;
+            case ("work"):
+                telecom1.setTelecomUse(ContactPoint.ContactPointUse.WORK);
+                break;
+            case ("old"):
+                telecom1.setTelecomUse(ContactPoint.ContactPointUse.OLD);
+                break;
+            case ("mobile"):
+                telecom1.setTelecomUse(ContactPoint.ContactPointUse.MOBILE);
+                break;
+        }
+
+
+
+        Address address1 = new Address();
+        address1.setCity(dummy.getCity());
+        address1.setPostcode(dummy.getPostCode());
+        address1.setCountry(dummy.getCountry());
+        address1.setLines(dummy.getAddressLine());
+
+        switch(dummy.getAddressUse().toLowerCase()) {
+            case ("home"):
+                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
+                break;
+            case ("work"):
+                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
+                break;
+            case ("old"):
+                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.OLD);
+                break;
+
+        }
+
+        Set<Telecom> telecoms = patientEntity1.getTelecoms();
+        telecoms.add(telecom1);
+        patientEntity1.setTelecoms(telecoms);
+
+        Set<Address> addresses = patientEntity1.getAddresses();
+        addresses.add(address1);
+        patientEntity1.setAddresses(addresses);
+
+        person1.setPatientEntity(patientEntity1);
+        patientEntity1.setPerson(person1);
+
+        personDAO.save(person1);
+        patientDAO.save(patientEntity1);
+
+    }
+
     
   /*  public static void addPatient(String socialSecurity, String firstName, String lastName, String gender, String dateOfBirth){
         PatientEntity p = new PatientEntity(PatientEntity.last_insert_id+1, socialSecurity, new Person(Person.last_insert_id+1, firstName, lastName, gender, dateOfBirth));

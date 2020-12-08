@@ -15,6 +15,7 @@ public class Address  {
 
     private String county;
 
+    //home | work | temp | old | mobile - purpose of this contact point
     private org.hl7.fhir.dstu3.model.Address.AddressUse use;
 
     public String getCountry() {

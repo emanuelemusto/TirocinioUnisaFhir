@@ -4,9 +4,8 @@ import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
-import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
-import it.unisa.fhirconnection.fhirStarter.model.Person;
+import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -88,6 +87,18 @@ public class FhirStarterApplication {
             diagnosticReport.setDescription("Ultrasonography of abdomen");
 
 
+            Telecom telecom1 = new Telecom();
+            telecom1.setValue("0648352638");
+            telecom1.setTelecomUse(ContactPoint.ContactPointUse.MOBILE);
+
+            Address address1 = new Address();
+            address1.setCity("Amsterdam");
+            address1.setPostcode("1055RW");
+            address1.setCountry("NLD");
+            address1.setLines("Bos en Lommerplein 280");
+            address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
+
+
             person1.setPatientEntity(patientEntity1);
             patientEntity1.setPerson(person1);
 
@@ -113,7 +124,13 @@ public class FhirStarterApplication {
             drs.add(diagnosticReport);
             patientEntity1.setDiagnosticReports(drs); //get e poi set
 
+            Set<Telecom> telecoms = patientEntity1.getTelecoms();
+            telecoms.add(telecom1);
+            patientEntity1.setTelecoms(telecoms);
 
+            Set<Address> addresses = patientEntity1.getAddresses();
+            addresses.add(address1);
+            patientEntity1.setAddresses(addresses);
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);

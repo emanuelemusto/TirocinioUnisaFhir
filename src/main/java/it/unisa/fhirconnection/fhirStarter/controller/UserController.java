@@ -5,8 +5,15 @@
  */
 package it.unisa.fhirconnection.fhirStarter.controller;
 
+import com.sun.deploy.nativesandbox.comm.Response;
 import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.annotation.WebServlet;
 
 
 public class UserController {
@@ -23,5 +30,15 @@ public class UserController {
         
         return false;        
     }
+
+    @GetMapping("/auth/{username}/{password}")
+    public void login(@PathVariable("username") String username, @PathVariable("password") String password)
+            throws Exception {
+        // No exception thrown means the authentication succeeded
+        System.out.println("eccomi");
+    }
+
+
+
     
 }

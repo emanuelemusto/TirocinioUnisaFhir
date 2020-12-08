@@ -16,6 +16,7 @@ public class Telecom  {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    //home | work | temp | old | mobile - purpose of this contact point
     private ContactPoint.ContactPointUse telecomUse;
 
 

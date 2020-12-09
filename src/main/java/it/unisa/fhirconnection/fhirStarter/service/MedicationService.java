@@ -1,4 +1,4 @@
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.database.MedicationDAO;
 import it.unisa.fhirconnection.fhirStarter.model.Medication;
@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MedicationController {
+public class MedicationService {
     private static MedicationDAO medicationDAO;
 
 
     @Autowired
-    public MedicationController(MedicationDAO medicationDAO) {
-        MedicationController.medicationDAO = medicationDAO;
+    public MedicationService(MedicationDAO medicationDAO) {
+        MedicationService.medicationDAO = medicationDAO;
     }
 
     public static void addMedication(String code, String manufacturer, String form, int amount, String dateStart, String dateEnd) {

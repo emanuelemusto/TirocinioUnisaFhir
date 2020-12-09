@@ -3,7 +3,7 @@ package it.unisa.fhirconnection.fhirStarter.RestController;
 import lombok.NoArgsConstructor;
 
 
-public class DummyPatient {
+public class PatientForm {
     private int id;
     private String firstname;
     private String familyname;

@@ -1,4 +1,4 @@
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class DiagnosticReportController {
+public class DiagnosticReportService {
     private static DiagnosticReportDAO diagnosticDAO;
 
 
     @Autowired
-    public DiagnosticReportController(DiagnosticReportDAO diagnosticDAO) {
-        DiagnosticReportController.diagnosticDAO = diagnosticDAO;
+    public DiagnosticReportService(DiagnosticReportDAO diagnosticDAO) {
+        DiagnosticReportService.diagnosticDAO = diagnosticDAO;
     }
 
     public static void addDiagnostic(String name, String status, String date, boolean experimental, String category, String description, String publisher, PatientEntity patientEntity){
@@ -34,6 +34,6 @@ public class DiagnosticReportController {
         patientEntity.setDiagnosticReports(drs);
         diagnosticReport.setPatientEntity(patientEntity);
         diagnosticDAO.save(diagnosticReport);
-        PatientController.save(patientEntity.getIdpatient());
+        PatientService.save(patientEntity.getIdpatient());
     }
 }

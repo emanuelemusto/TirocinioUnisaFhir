@@ -1,6 +1,6 @@
 package it.unisa.fhirconnection.fhirStarter;
 
-import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
+import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
@@ -17,8 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
@@ -164,7 +162,7 @@ public class FhirStarterApplication {
 
             }
             System.out.println(patientDAO.findByIdpatient(20).getPerson().getFirstName());
-            for (PatientEntity patient : PatientController.getAllPatients()) {
+            for (PatientEntity patient : PatientService.getAllPatients()) {
                 System.out.println(patient.getPerson().getLastName());
             }
 

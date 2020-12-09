@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 
-import it.unisa.fhirconnection.fhirStarter.RestController.DummyPatient;
+import it.unisa.fhirconnection.fhirStarter.RestController.PatientForm;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
@@ -14,9 +14,7 @@ import it.unisa.fhirconnection.fhirStarter.model.Address;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Person;
 import it.unisa.fhirconnection.fhirStarter.model.Telecom;
-import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Service
-public class PatientController {
+public class PatientService {
     
     private static PersonDAO personDAO;
 
@@ -34,10 +32,10 @@ public class PatientController {
     private  static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
 
     @Autowired
-    public PatientController(PatientDAO patientDAO, PersonDAO personDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient ) {
-        PatientController.patientDAO = patientDAO;
-        PatientController.personDAO = personDAO;
-        PatientController.patientEntityToFHIRPatient = patientEntityToFHIRPatient;
+    public PatientService(PatientDAO patientDAO, PersonDAO personDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient ) {
+        PatientService.patientDAO = patientDAO;
+        PatientService.personDAO = personDAO;
+        PatientService.patientEntityToFHIRPatient = patientEntityToFHIRPatient;
     }
 
     public static ArrayList<PatientEntity> getAllPatients(){
@@ -62,7 +60,7 @@ public class PatientController {
         patientDAO.save(patientDAO.findByIdpatient(id));
     }
 
-    public static void addPatient(DummyPatient dummy){
+    public static void addPatient(PatientForm dummy){
         Person person1 = new Person(dummy.getFirstname(), dummy.getFirstname(), dummy.getGender(), dummy.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
 

@@ -1,14 +1,14 @@
 package it.unisa.fhirconnection.fhirStarter.RestController;
 
-import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
+import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class PatientRestController {
     @RequestMapping(value = "addpatient", method = RequestMethod.POST)
-    public static void addEmployee(@RequestBody DummyPatient patient) {
-        PatientController.addPatient(patient);
+    public static void addEmployee(@RequestBody PatientForm patient) {
+        PatientService.addPatient(patient);
         System.out.println(patient.toString());
 
     }

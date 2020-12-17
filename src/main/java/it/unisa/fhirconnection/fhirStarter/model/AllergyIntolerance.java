@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,4 +49,14 @@ public class AllergyIntolerance {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
+
+    public Date getLastOccurenceAsDate() throws ParseException {
+        DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        return fmt.parse(lastOccurrence);
+    }
+
+    public Date getRecordedDateAsDate() throws ParseException {
+        DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        return fmt.parse(recordedDate);
+    }
 }

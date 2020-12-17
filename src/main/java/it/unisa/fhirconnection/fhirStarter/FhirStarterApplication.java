@@ -77,7 +77,10 @@ public class FhirStarterApplication {
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
-            diagnosticReport.setStatus("final");
+            diagnosticReport.setStatus("Final");
+            diagnosticReport.setCode("12192");
+            diagnosticReport.setDisplay("Display");
+            diagnosticReport.setSystem("RAD");
             diagnosticReport.setDate("1/11/2020");
             diagnosticReport.setExperimental(false);
             diagnosticReport.setCategory("RAD");
@@ -162,9 +165,7 @@ public class FhirStarterApplication {
 
             }
             System.out.println(patientDAO.findByIdpatient(20).getPerson().getFirstName());
-            for (PatientEntity patient : PatientService.getAllPatients()) {
-                System.out.println(patient.getPerson().getLastName());
-            }
+
 
 
 

@@ -81,7 +81,7 @@ public class PatientProvider implements IResourceProvider {
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
                                                   @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName
-    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
+    ) {
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientService.getAllPatients()) {
             String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
@@ -96,7 +96,7 @@ public class PatientProvider implements IResourceProvider {
     @Search()
     public ArrayList<Patient> searchPatientbyGivenName(
             @RequiredParam(name= Patient.SP_GIVEN) StringParam givenName
-    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
+    ) {
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientService.getAllPatients()) {
             if (patient.getPerson().getFirstName().toLowerCase().contains(String.valueOf(givenName.getValueNotNull()).toLowerCase()))

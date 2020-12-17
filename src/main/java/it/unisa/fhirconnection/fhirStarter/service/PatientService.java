@@ -61,7 +61,7 @@ public class PatientService {
     }
 
     public static void addPatient(PatientForm dummy){
-        Person person1 = new Person(dummy.getFirstname(), dummy.getFirstname(), dummy.getGender(), dummy.getDate());
+        Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
 
         Telecom telecom1 = new Telecom();

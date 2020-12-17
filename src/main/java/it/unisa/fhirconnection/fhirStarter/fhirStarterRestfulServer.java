@@ -9,6 +9,8 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import ca.uhn.fhir.util.VersionUtil;
+import it.unisa.fhirconnection.fhirStarter.providers.AllergyIntoleranceProvider;
+import it.unisa.fhirconnection.fhirStarter.providers.DiagnosticReportProvider;
 import it.unisa.fhirconnection.fhirStarter.providers.PatientProvider;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +58,9 @@ public class fhirStarterRestfulServer extends RestfulServer {
         }
 
 		setResourceProviders(Arrays.asList(
-				applicationContext.getBean(PatientProvider.class)
+				applicationContext.getBean(PatientProvider.class),
+				applicationContext.getBean(DiagnosticReportProvider.class),
+				applicationContext.getBean(AllergyIntoleranceProvider.class)
 		));
 
 

@@ -19,7 +19,6 @@ public class Telecom  {
     //home | work | temp | old | mobile - purpose of this contact point
     private ContactPoint.ContactPointUse telecomUse;
 
-
     private ContactPoint.ContactPointSystem system;
 
     public String getValue() {

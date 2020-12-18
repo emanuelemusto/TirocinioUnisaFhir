@@ -41,6 +41,9 @@ public class PatientEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     private Set<AllergyIntolerance> allergyIntolerances = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    private Set<Problem> problems = new HashSet<>();
+
     public void addIdentifiers(final Identifier identifier) {
         if (!this.identifiers.contains(identifier)) {
             identifiers.add(identifier);

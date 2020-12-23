@@ -11,6 +11,9 @@ public class Address  {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     private String city;
 
     private String county;
@@ -80,4 +83,9 @@ public class Address  {
     public void setPatientEntity(PatientEntity patientEntity) {
         this.patientEntity = patientEntity;
     }
+
+    public void setPractionerEntity(PractitionerEntity practitionerEntity) {
+        this.practitionerEntity = practitionerEntity;
+    }
+
 }

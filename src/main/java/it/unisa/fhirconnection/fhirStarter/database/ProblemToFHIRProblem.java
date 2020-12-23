@@ -76,7 +76,7 @@ public class ProblemToFHIRProblem implements Transformer<Problem, Condition> {
 
         condition.addNote(annotation);
 
-        /*allergyIntolerance1.setRecorder("dadad");*/ //TODO AGGIUNGERE MEDICO
+
 
         return condition;
     }

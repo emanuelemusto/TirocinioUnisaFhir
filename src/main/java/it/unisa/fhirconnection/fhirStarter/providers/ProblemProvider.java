@@ -12,7 +12,6 @@ import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.service.ProblemService;
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.OperationOutcome;

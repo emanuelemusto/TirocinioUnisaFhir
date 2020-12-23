@@ -55,6 +55,9 @@ public class DiagnosticReport {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     //TODO image
 
     public Date getDateAsDate() throws ParseException {

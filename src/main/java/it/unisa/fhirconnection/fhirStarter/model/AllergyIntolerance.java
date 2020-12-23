@@ -50,6 +50,9 @@ public class AllergyIntolerance {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     public Date getLastOccurenceAsDate() throws ParseException {
         DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         return fmt.parse(lastOccurrence);

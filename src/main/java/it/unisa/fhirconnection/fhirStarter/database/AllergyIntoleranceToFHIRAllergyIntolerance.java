@@ -3,6 +3,8 @@ package it.unisa.fhirconnection.fhirStarter.database;
 import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.Identifier;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.Transformer;
@@ -10,7 +12,11 @@ import org.apache.commons.collections4.Transformer;
 @Component
 public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<AllergyIntolerance, org.hl7.fhir.dstu3.model.AllergyIntolerance> {
 
+    @Autowired
     private static final PatientEntityToFHIRPatient patientEntityToFHIRPatient = new PatientEntityToFHIRPatient();
+
+    @Autowired
+    private static final PractitionerEntityToFHIRPractitioner practitionerEntityToFHIRPractitioner = new PractitionerEntityToFHIRPractitioner();
 
 
     @SneakyThrows
@@ -100,7 +106,10 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
 
         allergyIntolerance1.addNote(annotation);
 
-        /*allergyIntolerance1.setRecorder("dadad");*/ //TODO AGGIUNGERE MEDICO CHE FA COSE
+        Reference reference = new Reference();
+
+        reference.setReference(allergyIntoleranceEntity.getPractitionerEntity().getPerson().getLastName() + " " + allergyIntoleranceEntity.getPractitionerEntity().getPerson().getFirstName());
+        allergyIntolerance1.setRecorder(reference);
         allergyIntolerance1.setPatientTarget(patientEntityToFHIRPatient.transform(allergyIntoleranceEntity.getPatientEntity()));
         return allergyIntolerance1;
     }

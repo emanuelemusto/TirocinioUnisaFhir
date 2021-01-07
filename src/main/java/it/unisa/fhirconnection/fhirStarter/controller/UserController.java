@@ -6,39 +6,57 @@
 package it.unisa.fhirconnection.fhirStarter.controller;
 
 import com.sun.deploy.nativesandbox.comm.Response;
+import it.unisa.fhirconnection.fhirStarter.RestController.DummyPatient;
+import it.unisa.fhirconnection.fhirStarter.RestController.LoginForm;
+import it.unisa.fhirconnection.fhirStarter.RestController.RegistrationForm;
 import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
-import it.unisa.fhirconnection.fhirStarter.model.User;
+import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.annotation.WebServlet;
+import java.util.Set;
 
-
+@Service
 public class UserController {
-    
+
     private static User current_user = null;
     private static UserDAO userDAO;
-    
-    public static boolean authenticate(String username, String password){
-        User test = userDAO.findByUsername(username);
-        if(password.equals(test.getPassword())) {
-            current_user = new User(username);
-            return true;
+
+
+    @Autowired
+    public UserController(UserDAO userDAO){
+        this.userDAO =userDAO;
+    }
+
+    public static User authenticate(LoginForm userpass) {
+        System.out.println("lo username è:" + userpass.getUsername());
+        User test = userDAO.findByUsername(userpass.getUsername());
+        if (userpass.getPassword().equals(test.getPassword())) {
+            current_user = test;
+            return current_user;
         }
-        
-        return false;        
+
+        return null;
+
+
     }
 
-    @GetMapping("/auth/{username}/{password}")
-    public void login(@PathVariable("username") String username, @PathVariable("password") String password)
-            throws Exception {
-        // No exception thrown means the authentication succeeded
-        System.out.println("eccomi");
+    public static boolean registrate(LoginForm userpass){
+        System.out.print("questa è una prova per la registrazione"+userpass.getUsername()+"   "+userpass.getPassword());
+        User utente = new User(userpass.getUsername(),userpass.getPassword(),User.PATIENT_ROLE);
+        if(userDAO.save(utente) != null)
+            return true;
+
+            return false;
+
+
     }
-
-
-
-    
 }

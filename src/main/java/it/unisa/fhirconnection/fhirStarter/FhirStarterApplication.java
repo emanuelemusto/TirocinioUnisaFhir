@@ -4,6 +4,7 @@ import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.model.*;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,8 @@ public class FhirStarterApplication {
     public CommandLineRunner demo(
             PatientDAO patientDAO,
             PersonDAO personDAO,
-            DiagnosticReportDAO drDAO
+            DiagnosticReportDAO drDAO,
+            UserDAO userDAO
     ) {
         return args -> {
 
@@ -77,6 +79,12 @@ public class FhirStarterApplication {
             Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
             PatientEntity patientEntity7 = new PatientEntity();
 
+            //User utente = new User("mario","rossi",User.PATIENT_ROLE);
+            User utente = new User("mario","rossi",User.PATIENT_ROLE);
+
+
+
+
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
             diagnosticReport.setStatus("final");
@@ -99,8 +107,13 @@ public class FhirStarterApplication {
             address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
 
 
+
             person1.setPatientEntity(patientEntity1);
             patientEntity1.setPerson(person1);
+            person1.setUser(utente);
+            utente.setPerson(person1);
+
+
 
             person2.setPatientEntity(patientEntity2);
             patientEntity2.setPerson(person2);
@@ -134,6 +147,8 @@ public class FhirStarterApplication {
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
+            userDAO.save(utente);
+            System.out.println("prova1 "+ utente.getRole());
 
             personDAO.save(person2);
             patientDAO.save(patientEntity2);
@@ -167,6 +182,8 @@ public class FhirStarterApplication {
             for (PatientEntity patient : PatientController.getAllPatients()) {
                 System.out.println(patient.getPerson().getLastName());
             }
+
+            System.out.println("il ruolo è"+userDAO.findByUsername("mario").getRole());
 
 
 

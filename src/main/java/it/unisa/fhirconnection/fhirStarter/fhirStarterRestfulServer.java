@@ -33,7 +33,7 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		this.applicationContext = context;
 	}
 
-	@Value("http://192.168.1.15/STU3")
+	@Value("http://192.168.1.13/STU3")
 	private String serverBase;
 
 

@@ -16,4 +16,6 @@ public class PatientRestController {
     public static void getAllEmployees(){
         System.out.println("ci sono ");
     }
+
+
 }

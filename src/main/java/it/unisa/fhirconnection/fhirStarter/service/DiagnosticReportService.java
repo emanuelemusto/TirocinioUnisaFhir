@@ -1,8 +1,11 @@
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
+import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportToFHIRDiagnosticReport;
+import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
 import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +13,20 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class DiagnosticReportController {
+public class DiagnosticReportService {
     private static DiagnosticReportDAO diagnosticDAO;
+
+    private  static DiagnosticReportToFHIRDiagnosticReport diagnosticReportToFHIRDiagnosticReport;
 
 
     @Autowired
-    public DiagnosticReportController(DiagnosticReportDAO diagnosticDAO) {
-        DiagnosticReportController.diagnosticDAO = diagnosticDAO;
+    public DiagnosticReportService(DiagnosticReportDAO diagnosticDAO, DiagnosticReportToFHIRDiagnosticReport diagnosticReportToFHIRDiagnosticReport) {
+        DiagnosticReportService.diagnosticDAO = diagnosticDAO;
+        DiagnosticReportService.diagnosticReportToFHIRDiagnosticReport = diagnosticReportToFHIRDiagnosticReport;
+    }
+
+    public static org.hl7.fhir.dstu3.model.DiagnosticReport transform (DiagnosticReport diagnosticReport) {
+        return diagnosticReportToFHIRDiagnosticReport.transform(diagnosticReport);
     }
 
     public static void addDiagnostic(String name, String status, String date, boolean experimental, String category, String description, String publisher, PatientEntity patientEntity){
@@ -34,6 +44,6 @@ public class DiagnosticReportController {
         patientEntity.setDiagnosticReports(drs);
         diagnosticReport.setPatientEntity(patientEntity);
         diagnosticDAO.save(diagnosticReport);
-        PatientController.save(patientEntity.getIdpatient());
+        PatientService.save(patientEntity.getIdpatient());
     }
 }

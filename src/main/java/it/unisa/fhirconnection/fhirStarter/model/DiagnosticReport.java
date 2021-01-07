@@ -5,6 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +35,17 @@ public class DiagnosticReport {
 
     private String category;
 
+    private String code;
+
+    private String system;
+
+    private String display;
+
     private String publisher;
+
+    private String text;
+
+    //TODO Add performer
 
     @OneToOne(cascade = CascadeType.ALL)
     private Telecom contact;
@@ -41,5 +55,13 @@ public class DiagnosticReport {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     //TODO image
+
+    public Date getDateAsDate() throws ParseException {
+        DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        return fmt.parse(date);
+    }
 }

@@ -17,7 +17,7 @@ public class Person {
     private PatientEntity patientEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private PractitionerEntity practitionerEntity;
+    private User user;
 
     private String firstName;
 
@@ -109,5 +109,13 @@ public class Person {
 
     public void setPatientEntity(PatientEntity patientEntity) {
         this.patientEntity = patientEntity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

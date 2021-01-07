@@ -1,5 +1,6 @@
 package it.unisa.fhirconnection.fhirStarter;
 
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
@@ -50,9 +51,13 @@ public class FhirStarterApplication {
     public CommandLineRunner demo(
             PatientDAO patientDAO,
             PersonDAO personDAO,
-            DiagnosticReportDAO drDAO
+            DiagnosticReportDAO drDAO,
+            UserDAO userDAO
     ) {
         return args -> {
+            //User utente = new User("mario","rossi",User.PATIENT_ROLE);
+            User utente = new User("mario","rossi",User.PATIENT_ROLE);
+
 
             Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
@@ -74,6 +79,14 @@ public class FhirStarterApplication {
 
             Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
             PatientEntity patientEntity7 = new PatientEntity();
+
+            person1.setUser(utente);
+            utente.setPerson(person1);
+
+            personDAO.save(person1);
+            patientDAO.save(patientEntity1);
+            userDAO.save(utente);
+            System.out.println("prova1 "+ utente.getRole());
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");

@@ -2,9 +2,9 @@ package it.unisa.fhirconnection.fhirStarter.model;
 
 
 import lombok.*;
+import org.hl7.fhir.dstu3.model.Practitioner;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,11 +13,11 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class PatientEntity {
+public class PractitionerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int idpatient;
+    private int id;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Identifier> identifiers = new HashSet<Identifier>();
@@ -29,7 +29,7 @@ public class PatientEntity {
     private Set<Address> addresses = new HashSet<Address>();
 
     @NonNull
-    private String socialSecurity;
+    private Practitioner.PractitionerQualificationComponent qualificationComponent;
 
     @OneToOne(cascade = CascadeType.ALL)
     @NonNull
@@ -44,20 +44,17 @@ public class PatientEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     private Set<Problem> problems = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-    private Set<Medication> medications = new HashSet<>();
-
     public void addIdentifiers(final Identifier identifier) {
         if (!this.identifiers.contains(identifier)) {
             identifiers.add(identifier);
-            identifier.setPatientEntity(this);
+            identifier.setPractitionerEntity(this);
         }
     }
 
     public void addTelecoms(final Telecom telecom) {
         if (!this.telecoms.contains(telecom)) {
             telecoms.add(telecom);
-            telecom.setPatientEntity(this);
+            telecom.setPractionerEntity(this);
 
         }
     }
@@ -65,36 +62,9 @@ public class PatientEntity {
     public void addAddress(final Address address) {
         if (!this.addresses.contains(address)) {
             addresses.add(address);
-            address.setPatientEntity(this);
+            address.setPractionerEntity(this);
         }
     }
 
-    public void addDiagnosticReports(final DiagnosticReport diagnosticReport) {
-        if (!this.diagnosticReports.contains(diagnosticReport)) {
-            diagnosticReports.add(diagnosticReport);
-            diagnosticReport.setPatientEntity(this);
-        }
-    }
-
-    public void addAllergyIntolerance(final AllergyIntolerance allergyIntolerance) {
-        if (!this.allergyIntolerances.contains(allergyIntolerance)) {
-            allergyIntolerances.add(allergyIntolerance);
-            allergyIntolerance.setPatientEntity(this);
-        }
-    }
-
-    public void addMedications(final Medication medication) {
-        if (!this.medications.contains(medication)) {
-            medications.add(medication);
-            medication.setPatientEntity(this);
-        }
-    }
-
-    public void addProblem(final Problem problem) {
-        if (!this.problems.contains(problem)) {
-            problems.add(problem);
-            problem.setPatientEntity(this);
-        }
-    }
 
 }

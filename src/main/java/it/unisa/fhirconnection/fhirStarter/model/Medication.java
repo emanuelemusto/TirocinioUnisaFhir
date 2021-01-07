@@ -21,6 +21,9 @@ public class Medication {
     //	Codes that identify this medication
     private String code;
 
+    //	Name that identify this medication
+    private String name;
+
     //Manufacturer of the item
     private String  manufacturer;
 
@@ -33,4 +36,7 @@ public class Medication {
     private String dateStart;
 
     private String dateEnd;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PatientEntity patientEntity;
 }

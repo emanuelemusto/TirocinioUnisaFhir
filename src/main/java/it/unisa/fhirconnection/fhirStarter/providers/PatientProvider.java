@@ -5,7 +5,7 @@ import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
+import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.FHIRPatienttoPatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import org.hl7.fhir.dstu3.model.*;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Component
@@ -31,7 +30,7 @@ public class PatientProvider implements IResourceProvider {
     private static PatientDAO patientDAO;
 
     @Autowired
-    private static PatientController patientController;
+    private static PatientService patientService;
 
     private static final Logger log = LoggerFactory.getLogger(PatientProvider.class);
 
@@ -74,20 +73,20 @@ public class PatientProvider implements IResourceProvider {
 
     @Read()
     public Patient readPatient(@IdParam IdType internalId) {
-        PatientEntity patient = PatientController.getById(Integer.parseInt(internalId.getIdPart()));
-        return PatientController.trasformToFHIRPatient(patient);
+        PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
+        return PatientService.trasformToFHIRPatient(patient);
     }
 
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
                                                   @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName
-    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
+    ) {
         ArrayList<Patient> patientArrayList = new ArrayList<>();
-        for (PatientEntity patient : PatientController.getAllPatients()) {
+        for (PatientEntity patient : PatientService.getAllPatients()) {
             String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
             if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
+                patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
 
 
         }
@@ -97,11 +96,11 @@ public class PatientProvider implements IResourceProvider {
     @Search()
     public ArrayList<Patient> searchPatientbyGivenName(
             @RequiredParam(name= Patient.SP_GIVEN) StringParam givenName
-    ) { //TODO si potrebbe aggiungere altri valori di ricerca (data di nascita, identifier ecc.
+    ) {
         ArrayList<Patient> patientArrayList = new ArrayList<>();
-        for (PatientEntity patient : PatientController.getAllPatients()) {
+        for (PatientEntity patient : PatientService.getAllPatients()) {
             if (patient.getPerson().getFirstName().toLowerCase().contains(String.valueOf(givenName.getValueNotNull()).toLowerCase()))
-                patientArrayList.add(PatientController.trasformToFHIRPatient(patient));
+                patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
 
 
         }

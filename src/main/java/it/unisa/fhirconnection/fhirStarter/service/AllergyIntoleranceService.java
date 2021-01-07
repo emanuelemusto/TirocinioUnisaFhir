@@ -1,22 +1,29 @@
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceDAO;
+import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceToFHIRAllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
-import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class AllergyIntoleranceController {
+public class AllergyIntoleranceService {
     private static AllergyIntoleranceDAO allergyIntoleranceDAO;
+    public static AllergyIntoleranceToFHIRAllergyIntolerance allergyIntoleranceToFHIRAllergyIntolerance;
 
 
     @Autowired
-    public AllergyIntoleranceController(AllergyIntoleranceDAO allergyIntoleranceDAO) {
-        AllergyIntoleranceController.allergyIntoleranceDAO = allergyIntoleranceDAO;
+    public AllergyIntoleranceService(AllergyIntoleranceDAO allergyIntoleranceDAO, AllergyIntoleranceToFHIRAllergyIntolerance allergyIntoleranceToFHIRAllergyIntolerance) {
+        AllergyIntoleranceService.allergyIntoleranceDAO = allergyIntoleranceDAO;
+        AllergyIntoleranceService.allergyIntoleranceToFHIRAllergyIntolerance = allergyIntoleranceToFHIRAllergyIntolerance;
+    }
+
+    public static org.hl7.fhir.dstu3.model.AllergyIntolerance transform(AllergyIntolerance allergyIntolerance) {
+        return allergyIntoleranceToFHIRAllergyIntolerance.transform(allergyIntolerance);
     }
 
     public static void addAllergy(String name, String clinicalStatus, String verificationStatus, String type, String recordedDate, String lastOccurrence, String category, String note, PatientEntity patientEntity){
@@ -35,7 +42,7 @@ public class AllergyIntoleranceController {
         patientEntity.setAllergyIntolerances(als);
         allergyIntolerance.setPatientEntity(patientEntity);
         allergyIntoleranceDAO.save(allergyIntolerance);
-        PatientController.save(patientEntity.getIdpatient());
+        PatientService.save(patientEntity.getIdpatient());
     }
 
 

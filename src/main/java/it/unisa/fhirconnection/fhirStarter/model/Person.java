@@ -16,6 +16,9 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     private String firstName;
 
     private String lastName;

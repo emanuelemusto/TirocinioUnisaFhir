@@ -1,12 +1,11 @@
 package it.unisa.fhirconnection.fhirStarter;
 
-import it.unisa.fhirconnection.fhirStarter.controller.PatientController;
+import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
-import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
-import it.unisa.fhirconnection.fhirStarter.model.Person;
+import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,8 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
@@ -80,13 +77,82 @@ public class FhirStarterApplication {
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
-            diagnosticReport.setStatus("final");
+            diagnosticReport.setStatus("Final");
+            diagnosticReport.setCode("12192");
+            diagnosticReport.setDisplay("Display");
+            diagnosticReport.setSystem("RAD");
             diagnosticReport.setDate("1/11/2020");
             diagnosticReport.setExperimental(false);
             diagnosticReport.setCategory("RAD");
             diagnosticReport.setPublisher("Health Level Seven International (Clinical Genomics)");
             diagnosticReport.setDescription("Ultrasonography of abdomen");
 
+            DiagnosticReport report = new DiagnosticReport();
+            report.setName("Radiology 2 of patient 1");
+            report.setStatus("Final");
+            report.setCode("12193");
+            report.setDisplay("Display");
+            report.setSystem("ReD");
+            report.setDate("1/1/2020");
+            report.setExperimental(false);
+            report.setCategory("RAD");
+            report.setPublisher("Health Level Seven International (Clinical Genomics)");
+            report.setDescription("Ultrasonography of abdomen");
+
+
+            Telecom telecom1 = new Telecom();
+            telecom1.setValue("0648352638");
+            telecom1.setTelecomUse(ContactPoint.ContactPointUse.MOBILE);
+
+            Address address1 = new Address();
+            address1.setCity("Amsterdam");
+            address1.setPostcode("1055RW");
+            address1.setCountry("NLD");
+            address1.setLines("Bos en Lommerplein 280");
+            address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
+
+            Medication medication = new Medication();
+            medication.setAmount(1);
+            medication.setCode("31321");
+            medication.setDateStart("1/1/2020");
+            medication.setDateEnd("1/2/2020");
+            medication.setForm("capsule");
+            medication.setManufacturer("BigPharma");
+            medication.setName("Name Medication 1");
+
+
+            Set<Medication> medications = patientEntity1.getMedications();
+            medications.add(medication);
+            patientEntity1.setMedications(medications);
+
+
+            Problem problem1 = new Problem();
+            problem1.setCategory("RAS");
+            problem1.setBodySite("Stomach");
+            problem1.setClinicalStatus("active");
+            problem1.setVerificationStatus("confirmed");
+            problem1.setCode("Problem 1");
+            problem1.setLastOccurrence("1/2/2020");
+            problem1.setRecordedDate("1/1/2020");
+            problem1.setNote("Doctor's note");
+
+            Set<Problem> problems = patientEntity1.getProblems();
+            problems.add(problem1);
+            patientEntity1.setProblems(problems);
+
+            AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
+            allergyIntolerance.setCategory("food");
+            allergyIntolerance.setVerificationStatus("CONFIRMED");
+            allergyIntolerance.setClinicalStatus("active");
+            allergyIntolerance.setType("ALLERGY");
+            allergyIntolerance.setLastOccurrence("1/1/2020");
+            allergyIntolerance.setName("Food Allergy");
+            allergyIntolerance.setRecordedDate("1/2/2000");
+
+
+            Set<AllergyIntolerance> allergyIntolerances = patientEntity1.getAllergyIntolerances();
+            allergyIntolerances.add(allergyIntolerance);
+            patientEntity1.setAllergyIntolerances(allergyIntolerances);
 
             person1.setPatientEntity(patientEntity1);
             patientEntity1.setPerson(person1);
@@ -110,10 +176,17 @@ public class FhirStarterApplication {
             patientEntity7.setPerson(person7);
 
             Set<DiagnosticReport> drs= patientEntity1.getDiagnosticReports();
+            drs.add(report);
             drs.add(diagnosticReport);
             patientEntity1.setDiagnosticReports(drs); //get e poi set
 
+            Set<Telecom> telecoms = patientEntity1.getTelecoms();
+            telecoms.add(telecom1);
+            patientEntity1.setTelecoms(telecoms);
 
+            Set<Address> addresses = patientEntity1.getAddresses();
+            addresses.add(address1);
+            patientEntity1.setAddresses(addresses);
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
@@ -137,7 +210,9 @@ public class FhirStarterApplication {
             patientDAO.save(patientEntity7);
 
 
+            drDAO.save(report);
             drDAO.save(diagnosticReport);
+
             System.out.println(patientEntity1.getIdpatient());
             for (PatientEntity patient : patientDAO.findAll()) {
                 System.out.println(patient.getPerson().getLastName());
@@ -147,9 +222,7 @@ public class FhirStarterApplication {
 
             }
             System.out.println(patientDAO.findByIdpatient(20).getPerson().getFirstName());
-            for (PatientEntity patient : PatientController.getAllPatients()) {
-                System.out.println(patient.getPerson().getLastName());
-            }
+
 
 
 

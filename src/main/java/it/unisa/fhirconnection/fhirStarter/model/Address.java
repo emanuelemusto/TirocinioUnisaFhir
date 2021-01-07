@@ -11,10 +11,14 @@ public class Address  {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
     private String city;
 
     private String county;
 
+    //home | work | temp | old | mobile - purpose of this contact point
     private org.hl7.fhir.dstu3.model.Address.AddressUse use;
 
     public String getCountry() {
@@ -79,4 +83,9 @@ public class Address  {
     public void setPatientEntity(PatientEntity patientEntity) {
         this.patientEntity = patientEntity;
     }
+
+    public void setPractionerEntity(PractitionerEntity practitionerEntity) {
+        this.practitionerEntity = practitionerEntity;
+    }
+
 }

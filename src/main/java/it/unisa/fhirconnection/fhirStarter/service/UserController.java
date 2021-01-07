@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.fhirconnection.fhirStarter.controller;
+package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.model.User;

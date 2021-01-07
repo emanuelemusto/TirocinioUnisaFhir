@@ -2,7 +2,6 @@ package it.unisa.fhirconnection.fhirStarter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -19,6 +18,9 @@ public class Identifier {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
 
     private String value;
 

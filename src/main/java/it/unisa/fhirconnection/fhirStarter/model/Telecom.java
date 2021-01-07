@@ -16,8 +16,15 @@ public class Telecom  {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
-    private ContactPoint.ContactPointUse telecomUse;
+    public PractitionerEntity getPractionerEntity() {
+        return practitionerEntity;
+    }
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private PractitionerEntity practitionerEntity;
+
+    //home | work | temp | old | mobile - purpose of this contact point
+    private ContactPoint.ContactPointUse telecomUse;
 
     private ContactPoint.ContactPointSystem system;
 
@@ -52,6 +59,11 @@ public class Telecom  {
     public void setPatientEntity(PatientEntity patientEntity) {
         this.patientEntity = patientEntity;
     }
+
+    public void setPractionerEntity(PractitionerEntity practitionerEntity) {
+        this.practitionerEntity = practitionerEntity;
+    }
+
 
 
 }

@@ -3,6 +3,7 @@ package it.unisa.fhirconnection.fhirStarter.providers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
@@ -47,13 +48,13 @@ public class DiagnosticReportProvider implements IResourceProvider {
     }
 
 
-    @Read()
-    public ArrayList<DiagnosticReport> getAllbyPatient(@IdParam IdType internalId) {
-        PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
+    @Search()
+    public ArrayList<DiagnosticReport> getAllbyPatient(@RequiredParam(name = DiagnosticReport.SP_RES_ID) StringParam id) {
+        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<DiagnosticReport> diagnosticReports = new ArrayList<>();
 
         for (it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport diagnosticReport : patient.getDiagnosticReports()) {
-            diagnosticReports.add(DiagnosticReportService.trasform(diagnosticReport));
+            diagnosticReports.add(DiagnosticReportService.transform(diagnosticReport));
 
 
         }

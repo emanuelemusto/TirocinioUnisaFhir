@@ -1,18 +1,18 @@
 package it.unisa.fhirconnection.fhirStarter.providers;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.annotation.Create;
-import ca.uhn.fhir.rest.annotation.IdParam;
-import ca.uhn.fhir.rest.annotation.Read;
-import ca.uhn.fhir.rest.annotation.ResourceParam;
+import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
+import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.service.ProblemService;
 import org.hl7.fhir.dstu3.model.Condition;
+import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -60,13 +60,28 @@ public class ProblemProvider implements IResourceProvider {
         ArrayList<Condition> conditionds = new ArrayList<>();
 
         for (Problem problem : patient.getProblems()) {
-            conditionds.add(ProblemService.trasform(problem));
+            conditionds.add(ProblemService.transform(problem));
 
 
         }
 
         return conditionds;
     }
+
+    @Search()
+    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id) {
+        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+        ArrayList<Condition> conditions = new ArrayList<>();
+
+        for (it.unisa.fhirconnection.fhirStarter.model.Problem problem : patient.getProblems()) {
+            conditions.add(ProblemService.transform(problem));
+
+
+        }
+
+        return conditions;
+    }
+
 
 
 

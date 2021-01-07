@@ -9,10 +9,7 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.IServerInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import ca.uhn.fhir.util.VersionUtil;
-import it.unisa.fhirconnection.fhirStarter.providers.AllergyIntoleranceProvider;
-import it.unisa.fhirconnection.fhirStarter.providers.DiagnosticReportProvider;
-import it.unisa.fhirconnection.fhirStarter.providers.PatientProvider;
-import it.unisa.fhirconnection.fhirStarter.providers.PractitionerProvider;
+import it.unisa.fhirconnection.fhirStarter.providers.*;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -36,7 +33,7 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		this.applicationContext = context;
 	}
 
-	@Value("http://192.168.1.15/STU3")
+	@Value("http://192.168.1.11/STU3")
 	private String serverBase;
 
 
@@ -62,7 +59,9 @@ public class fhirStarterRestfulServer extends RestfulServer {
 				applicationContext.getBean(PatientProvider.class),
 				applicationContext.getBean(DiagnosticReportProvider.class),
 				applicationContext.getBean(AllergyIntoleranceProvider.class),
-				applicationContext.getBean(PractitionerProvider.class)
+				applicationContext.getBean(PractitionerProvider.class),
+				applicationContext.getBean(ProblemProvider.class),
+				applicationContext.getBean(MedicationProvider.class)
 		));
 
 

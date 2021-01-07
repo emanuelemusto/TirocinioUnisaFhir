@@ -25,7 +25,7 @@ public class DiagnosticReportService {
         DiagnosticReportService.diagnosticReportToFHIRDiagnosticReport = diagnosticReportToFHIRDiagnosticReport;
     }
 
-    public static org.hl7.fhir.dstu3.model.DiagnosticReport trasform (DiagnosticReport diagnosticReport) {
+    public static org.hl7.fhir.dstu3.model.DiagnosticReport transform (DiagnosticReport diagnosticReport) {
         return diagnosticReportToFHIRDiagnosticReport.transform(diagnosticReport);
     }
 

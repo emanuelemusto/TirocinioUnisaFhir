@@ -4,6 +4,7 @@ import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.Identifier;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.springframework.stereotype.Component;
 import lombok.SneakyThrows;
@@ -75,6 +76,10 @@ public class ProblemToFHIRProblem implements Transformer<Problem, Condition> {
         annotation.setTime(problem.getRecordedDateAsDate());
 
         condition.addNote(annotation);
+
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.setText(problem.getCode());
+        condition.setCode(codeableConcept);
 
 
 

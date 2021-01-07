@@ -14,17 +14,17 @@ import java.util.Set;
 
 @Service
 public class ProblemService {
-    private static ProblemDAO ProblemDAO;
+    private static ProblemDAO problemDAO;
     public static ProblemToFHIRProblem problemToFHIRProblem;
 
 
     @Autowired
     public ProblemService(ProblemDAO problemDAO, ProblemToFHIRProblem problemToFHIRProblem) {
-        this.ProblemDAO = problemDAO;
-        this.problemToFHIRProblem = problemToFHIRProblem;
+        ProblemService.problemDAO = problemDAO;
+        ProblemService.problemToFHIRProblem = problemToFHIRProblem;
     }
 
-    public static Condition trasform(Problem problem) {
+    public static Condition transform(Problem problem) {
         return problemToFHIRProblem.transform(problem);
     }
 
@@ -43,7 +43,7 @@ public class ProblemService {
         als.add(problem);
         patientEntity.setAllergyIntolerances(als);
         problem.setPatientEntity(patientEntity);*/
-        ProblemDAO.save(problem);
+        problemDAO.save(problem);
         PatientService.save(patientEntity.getIdpatient());
     }
 

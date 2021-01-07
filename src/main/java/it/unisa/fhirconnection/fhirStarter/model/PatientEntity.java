@@ -44,6 +44,9 @@ public class PatientEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     private Set<Problem> problems = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    private Set<Medication> medications = new HashSet<>();
+
     public void addIdentifiers(final Identifier identifier) {
         if (!this.identifiers.contains(identifier)) {
             identifiers.add(identifier);
@@ -77,6 +80,20 @@ public class PatientEntity {
         if (!this.allergyIntolerances.contains(allergyIntolerance)) {
             allergyIntolerances.add(allergyIntolerance);
             allergyIntolerance.setPatientEntity(this);
+        }
+    }
+
+    public void addMedications(final Medication medication) {
+        if (!this.medications.contains(medication)) {
+            medications.add(medication);
+            medication.setPatientEntity(this);
+        }
+    }
+
+    public void addProblem(final Problem problem) {
+        if (!this.problems.contains(problem)) {
+            problems.add(problem);
+            problem.setPatientEntity(this);
         }
     }
 

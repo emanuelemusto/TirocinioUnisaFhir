@@ -22,7 +22,7 @@ public class AllergyIntoleranceService {
         AllergyIntoleranceService.allergyIntoleranceToFHIRAllergyIntolerance = allergyIntoleranceToFHIRAllergyIntolerance;
     }
 
-    public static org.hl7.fhir.dstu3.model.AllergyIntolerance trasform(AllergyIntolerance allergyIntolerance) {
+    public static org.hl7.fhir.dstu3.model.AllergyIntolerance transform(AllergyIntolerance allergyIntolerance) {
         return allergyIntoleranceToFHIRAllergyIntolerance.transform(allergyIntolerance);
     }
 

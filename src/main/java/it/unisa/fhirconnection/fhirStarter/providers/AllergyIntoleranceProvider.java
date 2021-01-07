@@ -3,6 +3,7 @@ package it.unisa.fhirconnection.fhirStarter.providers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
@@ -54,13 +55,28 @@ public class AllergyIntoleranceProvider implements IResourceProvider {
         ArrayList<AllergyIntolerance> allergyIntolerances = new ArrayList<>();
 
         for (it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance allergyIntolerance : patient.getAllergyIntolerances()) {
-            allergyIntolerances.add(AllergyIntoleranceService.trasform(allergyIntolerance));
+            allergyIntolerances.add(AllergyIntoleranceService.transform(allergyIntolerance));
 
 
         }
 
         return allergyIntolerances;
     }
+
+    @Search()
+    public ArrayList<AllergyIntolerance> getAllbyPatient(@RequiredParam(name = AllergyIntolerance.SP_RES_ID) StringParam id) {
+        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+        ArrayList<AllergyIntolerance> allergyIntolerances = new ArrayList<>();
+
+        for (it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance allergyIntolerance : patient.getAllergyIntolerances()) {
+            allergyIntolerances.add(AllergyIntoleranceService.transform(allergyIntolerance));
+
+
+        }
+
+        return allergyIntolerances;
+    }
+
 
 
 

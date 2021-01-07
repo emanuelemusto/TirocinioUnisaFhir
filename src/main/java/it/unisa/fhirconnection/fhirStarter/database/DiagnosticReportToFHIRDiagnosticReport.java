@@ -77,15 +77,17 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         codeableConcept.addCoding(coding);
         diagnosticReportFhir.setCategory(codeableConcept);
 
+/*
        diagnosticReportFhir.getSubject().setReference(diagnosticReport.getPatientEntity().getPerson().getLastName() + " " + diagnosticReport.getPatientEntity().getPerson().getFirstName());
+*/
 
-
+/*
        Reference reference = new Reference();
        reference.setReference(diagnosticReport.getPractitionerEntity().getPerson().getLastName() + " " + diagnosticReport.getPractitionerEntity().getPerson().getFirstName());
         org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent diagnosticReportPerformerComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent();
         diagnosticReportPerformerComponent.setActor(reference);
 
-       diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);
+       diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);*/
         Narrative narrative = new Narrative();
         narrative.setDivAsString(diagnosticReport.getText());
         diagnosticReportFhir.setText(narrative);

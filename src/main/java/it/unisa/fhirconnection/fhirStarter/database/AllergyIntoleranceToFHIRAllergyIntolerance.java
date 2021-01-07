@@ -3,6 +3,7 @@ package it.unisa.fhirconnection.fhirStarter.database;
 import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.Identifier;
 import org.hl7.fhir.dstu3.model.Annotation;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -106,11 +107,17 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
 
         allergyIntolerance1.addNote(annotation);
 
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.setText(allergyIntoleranceEntity.getName());
+        allergyIntolerance1.setCode(codeableConcept);
+
         Reference reference = new Reference();
 
+/*
         reference.setReference(allergyIntoleranceEntity.getPractitionerEntity().getPerson().getLastName() + " " + allergyIntoleranceEntity.getPractitionerEntity().getPerson().getFirstName());
+*/
         allergyIntolerance1.setRecorder(reference);
-        allergyIntolerance1.setPatientTarget(patientEntityToFHIRPatient.transform(allergyIntoleranceEntity.getPatientEntity()));
+/*        allergyIntolerance1.setPatientTarget(patientEntityToFHIRPatient.transform(allergyIntoleranceEntity.getPatientEntity()));*/
         return allergyIntolerance1;
     }
 }

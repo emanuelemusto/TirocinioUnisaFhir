@@ -1,13 +1,14 @@
 package it.unisa.fhirconnection.fhirStarter.database;
 
-import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.Medication;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.Transformer;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Narrative;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MedicationToFhirMedication implements Transformer<Medication, org.hl7.fhir.dstu3.model.Medication> {
     @SneakyThrows
     @Override
@@ -22,7 +23,7 @@ public class MedicationToFhirMedication implements Transformer<Medication, org.h
         codeableConcept.setText(medicationEntity.getForm());
         medication1.setForm(codeableConcept);
         Narrative narrative = new Narrative();
-        narrative.setDivAsString(medicationEntity.getDateStart() + " " + medicationEntity.getDateEnd());
+        narrative.setDivAsString(medicationEntity.getDateStart() + "  *" + medicationEntity.getDateEnd() + "  *" + medicationEntity.getName());
         medication1.setText(narrative);
 
         return medication1;

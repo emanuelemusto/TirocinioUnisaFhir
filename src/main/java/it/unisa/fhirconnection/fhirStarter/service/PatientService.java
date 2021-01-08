@@ -60,14 +60,14 @@ public class PatientService {
         patientDAO.save(patientDAO.findByIdpatient(id));
     }
 
-    public static void addPatient(PatientForm dummy){
-        Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
+    public static void addPatient(PatientForm patientForm){
+        Person person1 = new Person(patientForm.getFirstname(), patientForm.getFamilyname(), patientForm.getGender(), patientForm.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
 
         Telecom telecom1 = new Telecom();
-        telecom1.setValue(dummy.getTelecomValue());
+        telecom1.setValue(patientForm.getTelecomValue());
 
-        switch(dummy.getTelecomUse().toLowerCase()) {
+        switch(patientForm.getTelecomUse().toLowerCase()) {
             case ("home"):
                 telecom1.setTelecomUse(ContactPoint.ContactPointUse.HOME);
                 break;
@@ -85,12 +85,12 @@ public class PatientService {
 
 
         Address address1 = new Address();
-        address1.setCity(dummy.getCity());
-        address1.setPostcode(dummy.getPostCode());
-        address1.setCountry(dummy.getCountry());
-        address1.setLines(dummy.getAddressLine());
+        address1.setCity(patientForm.getCity());
+        address1.setPostcode(patientForm.getPostCode());
+        address1.setCountry(patientForm.getCountry());
+        address1.setLines(patientForm.getAddressLine());
 
-        switch(dummy.getAddressUse().toLowerCase()) {
+        switch(patientForm.getAddressUse().toLowerCase()) {
             case ("home"):
                 address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
                 break;

@@ -88,6 +88,17 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         diagnosticReportPerformerComponent.setActor(reference);
 
        diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);*/
+
+
+        org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent diagnosticReportImageComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent();
+        diagnosticReportImageComponent.setComment(diagnosticReport.getMediacomment());
+
+        Reference reference = new Reference();
+        reference.setReference(diagnosticReport.getMedia());
+        diagnosticReportImageComponent.setLink(reference);
+
+        diagnosticReportFhir.addImage(diagnosticReportImageComponent);
+
         Narrative narrative = new Narrative();
         narrative.setDivAsString(diagnosticReport.getText());
         diagnosticReportFhir.setText(narrative);

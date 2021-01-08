@@ -83,10 +83,6 @@ public class FhirStarterApplication {
             person1.setUser(utente);
             utente.setPerson(person1);
 
-            personDAO.save(person1);
-            patientDAO.save(patientEntity1);
-            userDAO.save(utente);
-            System.out.println("prova1 "+ utente.getRole());
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
@@ -99,6 +95,8 @@ public class FhirStarterApplication {
             diagnosticReport.setCategory("RAD");
             diagnosticReport.setPublisher("Health Level Seven International (Clinical Genomics)");
             diagnosticReport.setDescription("Ultrasonography of abdomen");
+            diagnosticReport.setMediacomment("Rad of patient 1");
+            diagnosticReport.setMedia("src/main/media/rad.jpg");
 
             DiagnosticReport report = new DiagnosticReport();
             report.setName("Radiology 2 of patient 1");
@@ -203,6 +201,8 @@ public class FhirStarterApplication {
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
+            userDAO.save(utente);
+            System.out.println("prova1 "+ utente.getRole());
 
             personDAO.save(person2);
             patientDAO.save(patientEntity2);

@@ -45,6 +45,10 @@ public class DiagnosticReport {
 
     private String text;
 
+    private String media;
+
+    private String mediacomment;
+
     //TODO Add performer
 
     @OneToOne(cascade = CascadeType.ALL)

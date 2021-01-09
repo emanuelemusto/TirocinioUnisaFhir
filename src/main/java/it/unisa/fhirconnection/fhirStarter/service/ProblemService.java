@@ -1,9 +1,11 @@
 package it.unisa.fhirconnection.fhirStarter.service;
 
+import it.unisa.fhirconnection.fhirStarter.RestController.ProblemForm;
 import it.unisa.fhirconnection.fhirStarter.database.ProblemDAO;
 import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceToFHIRAllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.database.ProblemToFHIRProblem;
 import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
+import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import org.hl7.fhir.dstu3.model.Condition;
@@ -28,22 +30,23 @@ public class ProblemService {
         return problemToFHIRProblem.transform(problem);
     }
 
-    public static void addProblem(String name, String clinicalStatus, String verificationStatus, String type, String recordedDate, String lastOccurrence, String category, String note, PatientEntity patientEntity){
+    public static void addProblem(ProblemForm form){
         Problem problem = new Problem();
-        problem.setName(name);
-        problem.setClinicalStatus(clinicalStatus);
-        problem.setVerificationStatus(verificationStatus);
-        problem.setCategory(type);
-        problem.setRecordedDate(recordedDate);
-        problem.setCategory(category);
-        problem.setNote(note);
+        problem.setName(form.getName());
+        problem.setClinicalStatus(form.getClinicalStatus());
+        problem.setVerificationStatus(form.getVerificationStatus());
+        problem.setRecordedDate(form.getDate());
+        problem.setNote(form.getDescription());
 
 
-       /* Set<AllergyIntolerance> als= patientEntity.getAllergyIntolerances();
-        als.add(problem);
-        patientEntity.setAllergyIntolerances(als);
-        problem.setPatientEntity(patientEntity);*/
-        problemDAO.save(problem);
+        PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
+        System.out.println(patientEntity);
+
+        Set<Problem> prs= patientEntity.getProblems();
+        prs.add(problem);
+        patientEntity.setProblems(prs);
+        PatientService.save(patientEntity.getIdpatient());
+
         PatientService.save(patientEntity.getIdpatient());
     }
 

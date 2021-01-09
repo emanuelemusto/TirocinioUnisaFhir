@@ -9,11 +9,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Schedule {
 
     @Id
@@ -26,15 +27,20 @@ public class Schedule {
     @OneToOne(cascade = CascadeType.ALL)
     private PractitionerEntity practitionerEntity;
 
-    private String title;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Identifier> identifiers = new HashSet<Identifier>();
 
-    private String motivation;
+    private boolean active;
 
-    private String date;
+    private String serviceType;
+
+    private String serviceCategory;
+
+    private String planning;
 
     public Date getDateAsDate() throws ParseException {
         DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        return fmt.parse(date);
+        return fmt.parse(planning);
     }
 
 }

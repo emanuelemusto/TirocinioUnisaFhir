@@ -28,6 +28,9 @@ public class PractitionerEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<Address>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PractitionerEntity> patientEntity = new HashSet<>();
+
     @NonNull
     private Practitioner.PractitionerQualificationComponent qualificationComponent;
 

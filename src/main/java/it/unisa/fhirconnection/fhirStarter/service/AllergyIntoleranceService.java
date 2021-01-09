@@ -1,8 +1,10 @@
 package it.unisa.fhirconnection.fhirStarter.service;
 
+import it.unisa.fhirconnection.fhirStarter.RestController.AllergyIntoleranceForm;
 import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceDAO;
 import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceToFHIRAllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
+import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +28,26 @@ public class AllergyIntoleranceService {
         return allergyIntoleranceToFHIRAllergyIntolerance.transform(allergyIntolerance);
     }
 
-    public static void addAllergy(String name, String clinicalStatus, String verificationStatus, String type, String recordedDate, String lastOccurrence, String category, String note, PatientEntity patientEntity){
+    public static void addAllergy(AllergyIntoleranceForm form){
         AllergyIntolerance allergyIntolerance = new AllergyIntolerance();
-        allergyIntolerance.setName(name);
-        allergyIntolerance.setClinicalStatus(clinicalStatus);
-        allergyIntolerance.setVerificationStatus(verificationStatus);
-        allergyIntolerance.setType(type);
-        allergyIntolerance.setRecordedDate(recordedDate);
-        allergyIntolerance.setCategory(category);
-        allergyIntolerance.setNote(note);
+        allergyIntolerance.setName(form.getName());
+        allergyIntolerance.setClinicalStatus(form.getClinicalStatus());
+        allergyIntolerance.setVerificationStatus(form.getVerificationStatus());
+        allergyIntolerance.setType(form.getType());
+        allergyIntolerance.setRecordedDate(form.getIssueddateController());
+        allergyIntolerance.setLastOccurrence(form.getLastOccurencedateController());
+        allergyIntolerance.setCategory(form.getCategory());
+        allergyIntolerance.setNote(form.getNote());
 
 
-        Set<AllergyIntolerance> als= patientEntity.getAllergyIntolerances();
-        als.add(allergyIntolerance);
-        patientEntity.setAllergyIntolerances(als);
-        allergyIntolerance.setPatientEntity(patientEntity);
-        allergyIntoleranceDAO.save(allergyIntolerance);
+        System.out.println(form);
+
+        PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
+        System.out.println(patientEntity);
+
+        Set<AllergyIntolerance> allergyIntoleranceSet= patientEntity.getAllergyIntolerances();
+        allergyIntoleranceSet.add(allergyIntolerance);
+        patientEntity.setAllergyIntolerances(allergyIntoleranceSet);
         PatientService.save(patientEntity.getIdpatient());
     }
 

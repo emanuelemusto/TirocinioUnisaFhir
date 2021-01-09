@@ -77,27 +77,32 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         codeableConcept.addCoding(coding);
         diagnosticReportFhir.setCategory(codeableConcept);
 
-/*
-       diagnosticReportFhir.getSubject().setReference(diagnosticReport.getPatientEntity().getPerson().getLastName() + " " + diagnosticReport.getPatientEntity().getPerson().getFirstName());
-*/
 
-/*
-       Reference reference = new Reference();
-       reference.setReference(diagnosticReport.getPractitionerEntity().getPerson().getLastName() + " " + diagnosticReport.getPractitionerEntity().getPerson().getFirstName());
-        org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent diagnosticReportPerformerComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent();
-        diagnosticReportPerformerComponent.setActor(reference);
-
-       diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);*/
+        if(diagnosticReport.getPractitionerEntity()!=null) {
+            diagnosticReportFhir.getSubject().setReference(diagnosticReport.getPatientEntity().getPerson().getLastName() + " " + diagnosticReport.getPatientEntity().getPerson().getFirstName());
+        }
 
 
-        org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent diagnosticReportImageComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent();
-        diagnosticReportImageComponent.setComment(diagnosticReport.getMediacomment());
+       if(diagnosticReport.getPractitionerEntity()!=null) {
+           Reference reference = new Reference();
+           reference.setReference(diagnosticReport.getPractitionerEntity().getPerson().getLastName() + " " + diagnosticReport.getPractitionerEntity().getPerson().getFirstName());
+           org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent diagnosticReportPerformerComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent();
+           diagnosticReportPerformerComponent.setActor(reference);
 
-        Reference reference = new Reference();
-        reference.setReference(diagnosticReport.getMedia());
-        diagnosticReportImageComponent.setLink(reference);
+           diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);
+       }
 
-        diagnosticReportFhir.addImage(diagnosticReportImageComponent);
+
+        if (diagnosticReport.getMedia()!=null) {
+            org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent diagnosticReportImageComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent();
+            diagnosticReportImageComponent.setComment(diagnosticReport.getMediacomment());
+
+            Reference reference = new Reference();
+            reference.setReference(diagnosticReport.getMedia());
+            diagnosticReportImageComponent.setLink(reference);
+
+            diagnosticReportFhir.addImage(diagnosticReportImageComponent);
+        }
 
         Narrative narrative = new Narrative();
         narrative.setDivAsString(diagnosticReport.getText());

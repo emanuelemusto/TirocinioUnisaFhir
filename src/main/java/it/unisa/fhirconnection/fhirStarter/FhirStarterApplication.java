@@ -55,9 +55,7 @@ public class FhirStarterApplication {
             UserDAO userDAO
     ) {
         return args -> {
-            //User utente = new User("mario","rossi",User.PATIENT_ROLE);
             User utente = new User("mario","rossi",User.PATIENT_ROLE);
-
 
             Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
@@ -82,7 +80,6 @@ public class FhirStarterApplication {
 
             person1.setUser(utente);
             utente.setPerson(person1);
-
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");
@@ -128,13 +125,63 @@ public class FhirStarterApplication {
             medication.setDateStart("1/1/2020");
             medication.setDateEnd("1/2/2020");
             medication.setForm("capsule");
-            medication.setManufacturer("BigPharma");
+            medication.setManufacturer("Pharma 1");
             medication.setName("Name Medication 1");
 
+            Medication medication2 = new Medication();
+            medication2.setAmount(1);
+            medication2.setCode("31313313121");
+            medication2.setDateStart("1/1/2020");
+            medication2.setDateEnd("1/2/2020");
+            medication2.setForm("capsule");
+            medication2.setManufacturer("Pharma");
+            medication2.setName("Name Medication 2");
+
+            Medication medication3 = new Medication();
+            medication3.setAmount(1);
+            medication3.setCode("31313313121");
+            medication3.setDateStart("1/1/2020");
+            medication3.setDateEnd("1/2/2020");
+            medication3.setForm("capsule");
+            medication3.setManufacturer("Pharma");
+            medication3.setName("Name Medication 3");
+
+            Medication medication4 = new Medication();
+            medication4.setAmount(1);
+            medication4.setCode("31313313121");
+            medication4.setDateStart("1/1/2020");
+            medication4.setDateEnd("1/2/2020");
+            medication4.setForm("capsule");
+            medication4.setManufacturer("BigPharma");
+            medication4.setName("Name Medication 4");
+
+            Medication medication5 = new Medication();
+            medication5.setAmount(1);
+            medication5.setCode("31313313121");
+            medication5.setDateStart("1/1/2020");
+            medication5.setDateEnd("1/2/2020");
+            medication5.setForm("capsule");
+            medication5.setManufacturer("BigPharma");
+            medication5.setName("Name Medication 5");
+
+            Medication medication6 = new Medication();
+            medication6.setAmount(1);
+            medication6.setCode("31313313121");
+            medication6.setDateStart("1/1/2020");
+            medication6.setDateEnd("1/2/2020");
+            medication6.setForm("capsule");
+            medication6.setManufacturer("BigPharma");
+            medication6.setName("Name Medication 6");
 
             Set<Medication> medications = patientEntity1.getMedications();
             medications.add(medication);
+            medications.add(medication2);
+            medications.add(medication3);
+            medications.add(medication4);
+            medications.add(medication5);
+            medications.add(medication6);
             patientEntity1.setMedications(medications);
+
 
 
             Problem problem1 = new Problem();

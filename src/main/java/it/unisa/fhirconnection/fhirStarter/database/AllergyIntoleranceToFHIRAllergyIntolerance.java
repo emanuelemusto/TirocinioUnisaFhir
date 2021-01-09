@@ -22,12 +22,12 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
 
     @SneakyThrows
     @Override
-    public org.hl7.fhir.dstu3.model.AllergyIntolerance transform(AllergyIntolerance allergyIntoleranceEntity){
+    public org.hl7.fhir.dstu3.model.AllergyIntolerance transform(AllergyIntolerance allergyIntoleranceEntity) {
         final org.hl7.fhir.dstu3.model.AllergyIntolerance allergyIntolerance1 = new org.hl7.fhir.dstu3.model.AllergyIntolerance();
 
 
         allergyIntolerance1.setId(String.valueOf(allergyIntoleranceEntity.getId()));
-        if(allergyIntoleranceEntity.getIdentifiers()!=null) {
+        if (allergyIntoleranceEntity.getIdentifiers() != null) {
             for (Identifier identifier : allergyIntoleranceEntity.getIdentifiers()) {
                 allergyIntolerance1.addIdentifier()
                         .setSystem(identifier.getSystem())
@@ -35,7 +35,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
             }
         }
 
-        switch (allergyIntoleranceEntity.getClinicalStatus().toUpperCase()){
+        switch (allergyIntoleranceEntity.getClinicalStatus().toUpperCase()) {
             case ("ACTIVE"):
                 allergyIntolerance1.setClinicalStatus(org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClinicalStatus.ACTIVE);
                 break;
@@ -50,7 +50,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
                 break;
         }
 
-        switch (allergyIntoleranceEntity.getVerificationStatus().toUpperCase()){
+        switch (allergyIntoleranceEntity.getVerificationStatus().toUpperCase()) {
             case ("CONFIRMED"):
                 allergyIntolerance1.setVerificationStatus(org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.CONFIRMED);
                 break;
@@ -68,7 +68,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
                 break;
         }
 
-        switch (allergyIntoleranceEntity.getType().toUpperCase()){
+        switch (allergyIntoleranceEntity.getCategory().toUpperCase()) {
             case ("INTOLERANCE"):
                 allergyIntolerance1.setType(org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceType.INTOLERANCE);
                 break;
@@ -113,10 +113,10 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
 
         Reference reference = new Reference();
 
-/*
-        reference.setReference(allergyIntoleranceEntity.getPractitionerEntity().getPerson().getLastName() + " " + allergyIntoleranceEntity.getPractitionerEntity().getPerson().getFirstName());
-*/
-        allergyIntolerance1.setRecorder(reference);
+        if(allergyIntoleranceEntity.getPractitionerEntity()!=null) {
+            reference.setReference(allergyIntoleranceEntity.getPractitionerEntity().getPerson().getLastName() + " " + allergyIntoleranceEntity.getPractitionerEntity().getPerson().getFirstName());
+            allergyIntolerance1.setRecorder(reference);
+        }
 /*        allergyIntolerance1.setPatientTarget(patientEntityToFHIRPatient.transform(allergyIntoleranceEntity.getPatientEntity()));*/
         return allergyIntolerance1;
     }

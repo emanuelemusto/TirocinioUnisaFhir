@@ -1,7 +1,9 @@
 package it.unisa.fhirconnection.fhirStarter.service;
 
+import it.unisa.fhirconnection.fhirStarter.RestController.DiagnosticReportForm;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
 import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportToFHIRDiagnosticReport;
+import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
 import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
@@ -26,14 +28,17 @@ import java.util.Set;
 public class DiagnosticReportService {
     private static DiagnosticReportDAO diagnosticDAO;
 
+    private static PatientDAO patientDAO;
+
     private static String BASE_PATH = "src/main/media/";
 
     private  static DiagnosticReportToFHIRDiagnosticReport diagnosticReportToFHIRDiagnosticReport;
 
 
     @Autowired
-    public DiagnosticReportService(DiagnosticReportDAO diagnosticDAO, DiagnosticReportToFHIRDiagnosticReport diagnosticReportToFHIRDiagnosticReport) {
+    public DiagnosticReportService(DiagnosticReportDAO diagnosticDAO, PatientDAO patientDAO, DiagnosticReportToFHIRDiagnosticReport diagnosticReportToFHIRDiagnosticReport) {
         DiagnosticReportService.diagnosticDAO = diagnosticDAO;
+        DiagnosticReportService.patientDAO = patientDAO;
         DiagnosticReportService.diagnosticReportToFHIRDiagnosticReport = diagnosticReportToFHIRDiagnosticReport;
     }
 
@@ -41,24 +46,24 @@ public class DiagnosticReportService {
         return diagnosticReportToFHIRDiagnosticReport.transform(diagnosticReport);
     }
 
-    public static void addDiagnostic(String name, String status, String date, boolean experimental, String category, String description, String publisher, PatientEntity patientEntity){
+    public static void addDiagnosticReport(DiagnosticReportForm form){
         DiagnosticReport diagnosticReport = new DiagnosticReport();
-        diagnosticReport.setName(name);
-        diagnosticReport.setStatus(status);
-        diagnosticReport.setDate(date);
-        diagnosticReport.setExperimental(experimental);
-        diagnosticReport.setCategory(category);
-        diagnosticReport.setPublisher(publisher);
-        diagnosticReport.setDescription(description);
+        diagnosticReport.setName(form.getName());
+        diagnosticReport.setStatus(form.getStatus());
+        diagnosticReport.setDate(form.getDate());
+        diagnosticReport.setCategory(form.getCategory());
+        diagnosticReport.setCode(form.getCode());
+        diagnosticReport.setSystem(form.getSystem());
+        diagnosticReport.setDisplay(form.getCategory());
 
+        System.out.println(form);
 
-
+        PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
+        System.out.println(patientEntity);
 
         Set<DiagnosticReport> drs= patientEntity.getDiagnosticReports();
         drs.add(diagnosticReport);
         patientEntity.setDiagnosticReports(drs);
-        diagnosticReport.setPatientEntity(patientEntity);
-        diagnosticDAO.save(diagnosticReport);
         PatientService.save(patientEntity.getIdpatient());
     }
 

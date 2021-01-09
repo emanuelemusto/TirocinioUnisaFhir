@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -27,6 +28,9 @@ public class PatientEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<Address>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PractitionerEntity> practitionerEntities = new HashSet<>();
 
     @NonNull
     private String socialSecurity;
@@ -97,4 +101,26 @@ public class PatientEntity {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PatientEntity)) return false;
+        PatientEntity that = (PatientEntity) o;
+        return idpatient == that.idpatient &&
+                Objects.equals(identifiers, that.identifiers) &&
+                Objects.equals(telecoms, that.telecoms) &&
+                Objects.equals(addresses, that.addresses) &&
+                Objects.equals(practitionerEntities, that.practitionerEntities) &&
+                Objects.equals(socialSecurity, that.socialSecurity) &&
+                Objects.equals(person, that.person) &&
+                Objects.equals(diagnosticReports, that.diagnosticReports) &&
+                Objects.equals(allergyIntolerances, that.allergyIntolerances) &&
+                Objects.equals(problems, that.problems) &&
+                Objects.equals(medications, that.medications);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idpatient, identifiers, telecoms, addresses, practitionerEntities, socialSecurity, person, diagnosticReports, allergyIntolerances, problems, medications);
+    }
 }

@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -67,5 +68,35 @@ public class DiagnosticReport {
     public Date getDateAsDate() throws ParseException {
         DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         return fmt.parse(date);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DiagnosticReport)) return false;
+        DiagnosticReport that = (DiagnosticReport) o;
+        return id == that.id &&
+                experimental == that.experimental &&
+                Objects.equals(identifiers, that.identifiers) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(category, that.category) &&
+                Objects.equals(code, that.code) &&
+                Objects.equals(system, that.system) &&
+                Objects.equals(display, that.display) &&
+                Objects.equals(publisher, that.publisher) &&
+                Objects.equals(text, that.text) &&
+                Objects.equals(media, that.media) &&
+                Objects.equals(mediacomment, that.mediacomment) &&
+                Objects.equals(contact, that.contact) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(patientEntity, that.patientEntity) &&
+                Objects.equals(practitionerEntity, that.practitionerEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, identifiers, name, status, date, experimental, category, code, system, display, publisher, text, media, mediacomment, contact, description, patientEntity, practitionerEntity);
     }
 }

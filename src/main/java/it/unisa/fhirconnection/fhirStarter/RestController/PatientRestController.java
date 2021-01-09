@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class PatientRestController {
     @RequestMapping(value = "addpatient", method = RequestMethod.POST)
-    public static void addEmployee(@RequestBody PatientForm patient) {
+    public static void addPatient(@RequestBody PatientForm patient) {
         PatientService.addPatient(patient);
         System.out.println(patient.toString());
 

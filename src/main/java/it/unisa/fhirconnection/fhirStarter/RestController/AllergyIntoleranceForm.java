@@ -11,8 +11,8 @@ public class AllergyIntoleranceForm {
     String verificationStatus;
     String patientId;
     String category;
-    String issueddateController;
-    String lastOccurencedateController;
+    String issueddate;
+    String lastOccurencedate;
     String practitionerId;
     String patientName;
     String type;

@@ -34,8 +34,8 @@ public class AllergyIntoleranceService {
         allergyIntolerance.setClinicalStatus(form.getClinicalStatus());
         allergyIntolerance.setVerificationStatus(form.getVerificationStatus());
         allergyIntolerance.setType(form.getType());
-        allergyIntolerance.setRecordedDate(form.getIssueddateController());
-        allergyIntolerance.setLastOccurrence(form.getLastOccurencedateController());
+        allergyIntolerance.setRecordedDate(form.getIssueddate());
+        allergyIntolerance.setLastOccurrence(form.getLastOccurencedate());
         allergyIntolerance.setCategory(form.getCategory());
         allergyIntolerance.setNote(form.getNote());
 
@@ -43,7 +43,6 @@ public class AllergyIntoleranceService {
         System.out.println(form);
 
         PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
-        System.out.println(patientEntity);
 
         Set<AllergyIntolerance> allergyIntoleranceSet= patientEntity.getAllergyIntolerances();
         allergyIntoleranceSet.add(allergyIntolerance);

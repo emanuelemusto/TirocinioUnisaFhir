@@ -20,7 +20,7 @@ public class MedicationToFhirMedication implements Transformer<Medication, org.h
         reference.setDisplay(medicationEntity.getManufacturer());
         medication1.setManufacturer(reference);
         CodeableConcept codeableConcept = new CodeableConcept();
-        codeableConcept.setText(medicationEntity.getForm());
+        codeableConcept.setText(medicationEntity.getForm() + " " + medicationEntity.getAmount());
         medication1.setForm(codeableConcept);
         Narrative narrative = new Narrative();
         narrative.setDivAsString(medicationEntity.getDateStart() + "  *" + medicationEntity.getDateEnd() + "  *" + medicationEntity.getName());

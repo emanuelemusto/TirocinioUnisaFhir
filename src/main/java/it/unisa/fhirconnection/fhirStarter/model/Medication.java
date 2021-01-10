@@ -31,7 +31,7 @@ public class Medication {
     private String form;
 
     //allergy | intolerance - Underlying mechanism (if known)
-    private int amount;
+    private String amount;
 
     private String dateStart;
 

@@ -120,7 +120,7 @@ public class FhirStarterApplication {
             address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
 
             Medication medication = new Medication();
-            medication.setAmount(1);
+            medication.setAmount("100 ml");
             medication.setCode("31321");
             medication.setDateStart("1/1/2020");
             medication.setDateEnd("1/2/2020");
@@ -129,7 +129,7 @@ public class FhirStarterApplication {
             medication.setName("Name Medication 1");
 
             Medication medication2 = new Medication();
-            medication2.setAmount(1);
+            medication2.setAmount("65 ml");
             medication2.setCode("31313313121");
             medication2.setDateStart("1/1/2020");
             medication2.setDateEnd("1/2/2020");
@@ -138,7 +138,7 @@ public class FhirStarterApplication {
             medication2.setName("Name Medication 2");
 
             Medication medication3 = new Medication();
-            medication3.setAmount(1);
+            medication3.setAmount("50 capsule");
             medication3.setCode("31313313121");
             medication3.setDateStart("1/1/2020");
             medication3.setDateEnd("1/2/2020");
@@ -147,7 +147,7 @@ public class FhirStarterApplication {
             medication3.setName("Name Medication 3");
 
             Medication medication4 = new Medication();
-            medication4.setAmount(1);
+            medication4.setAmount("20 pillow");
             medication4.setCode("31313313121");
             medication4.setDateStart("1/1/2020");
             medication4.setDateEnd("1/2/2020");
@@ -156,7 +156,7 @@ public class FhirStarterApplication {
             medication4.setName("Name Medication 4");
 
             Medication medication5 = new Medication();
-            medication5.setAmount(1);
+            medication5.setAmount("100 ml");
             medication5.setCode("31313313121");
             medication5.setDateStart("1/1/2020");
             medication5.setDateEnd("1/2/2020");
@@ -165,11 +165,11 @@ public class FhirStarterApplication {
             medication5.setName("Name Medication 5");
 
             Medication medication6 = new Medication();
-            medication6.setAmount(1);
+            medication6.setAmount("2 ml");
             medication6.setCode("31313313121");
             medication6.setDateStart("1/1/2020");
             medication6.setDateEnd("1/2/2020");
-            medication6.setForm("capsule");
+            medication6.setForm("Spray");
             medication6.setManufacturer("BigPharma");
             medication6.setName("Name Medication 6");
 

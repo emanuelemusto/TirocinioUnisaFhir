@@ -61,7 +61,8 @@ public class fhirStarterRestfulServer extends RestfulServer {
 				applicationContext.getBean(AllergyIntoleranceProvider.class),
 				applicationContext.getBean(PractitionerProvider.class),
 				applicationContext.getBean(ProblemProvider.class),
-				applicationContext.getBean(MedicationProvider.class)
+				applicationContext.getBean(MedicationProvider.class),
+				applicationContext.getBean(ScheduleProvider.class)
 		));
 
 

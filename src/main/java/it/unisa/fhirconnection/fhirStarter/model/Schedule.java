@@ -21,14 +21,18 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    private String patientName;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private PractitionerEntity practitionerEntity;
 
+    private String practitionerName;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Identifier> identifiers = new HashSet<Identifier>();
+    private Set<Identifier> identifiers = new HashSet<>();
 
     private boolean active;
 

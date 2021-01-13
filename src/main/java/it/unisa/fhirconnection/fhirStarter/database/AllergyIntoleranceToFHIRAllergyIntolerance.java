@@ -68,7 +68,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
                 break;
         }
 
-        switch (allergyIntoleranceEntity.getCategory().toUpperCase()) {
+        switch (allergyIntoleranceEntity.getType().toUpperCase()) {
             case ("INTOLERANCE"):
                 allergyIntolerance1.setType(org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceType.INTOLERANCE);
                 break;
@@ -80,7 +80,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
                 break;
         }
 
-        switch (allergyIntoleranceEntity.getType().toUpperCase()) {
+        switch (allergyIntoleranceEntity.getCategory().toUpperCase()) {
             case ("BIOLOGIC"):
                 allergyIntolerance1.addCategory(org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceCategory.BIOLOGIC);
                 break;

@@ -3,10 +3,12 @@ package it.unisa.fhirconnection.fhirStarter.service;
 import it.unisa.fhirconnection.fhirStarter.RestController.ScheduleForm;
 import it.unisa.fhirconnection.fhirStarter.database.*;
 import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Service
 public class ScheduleService {
@@ -37,7 +39,7 @@ public class ScheduleService {
         return scheduleDAO.findById(id);
     }
 
-    public static org.hl7.fhir.dstu3.model.Schedule trasformToFHIRPatient(Schedule schedule) {
+    public static org.hl7.fhir.dstu3.model.Schedule transform(Schedule schedule) {
         return scheduleToFHIRSchedule.transform(schedule);
     }
 
@@ -50,8 +52,8 @@ public class ScheduleService {
         schedule.setPlanning(scheduleForm.getPlanning());
         schedule.setServiceCategory(scheduleForm.getServiceCategory());
         schedule.setServiceType(scheduleForm.getServiceType());
-        schedule.setPatientEntity(PatientService.getById(Integer.parseInt(scheduleForm.getPatientId())));
-
+        schedule.setPatientName(PatientService.getById(Integer.parseInt(scheduleForm.getPatientId())).getPerson().getFirstName() + " " + PatientService.getById(Integer.parseInt(scheduleForm.getPatientId())).getPerson().getLastName());
+        schedule.setPatientName(PractitionerService.getById(Integer.parseInt(scheduleForm.getPatientId())).getPerson().getFirstName() + " " + PractitionerService.getById(Integer.parseInt(scheduleForm.getPatientId())).getPerson().getLastName());
 
         switch(scheduleForm.getActive().toLowerCase()) {
             case ("active"):
@@ -62,7 +64,29 @@ public class ScheduleService {
                 break;
         }
 
-        System.out.println(schedule.toString());
+        PatientEntity patientEntity = PatientService.getById(Integer.parseInt(scheduleForm.getPatientId()));
+        Set<Schedule> patientEntitySchedules= patientEntity.getSchedules();
+        patientEntitySchedules.add(schedule);
+        patientEntity.setSchedules(patientEntitySchedules);
+
+        PractitionerEntity practitioner = PractitionerService.getById(Integer.parseInt(scheduleForm.getPractitionerId()));
+        Set<Schedule> practitionerSchedules= practitioner.getSchedules();
+        practitionerSchedules.add(schedule);
+        patientEntity.setSchedules(practitionerSchedules);
+
+        PatientService.save(patientEntity.getIdpatient());
+        PractitionerService.save(practitioner.getId());
+    }
+
+    public static void confirmSchedule(int id) {
+        Schedule schedule = scheduleDAO.findById(id);
+        schedule.setActive(true);
+        scheduleDAO.save(schedule);
+    }
+
+    public static void rejectSchedule(int id) {
+        Schedule schedule = scheduleDAO.findById(id);
+        schedule.setActive(false);
         scheduleDAO.save(schedule);
     }
 }

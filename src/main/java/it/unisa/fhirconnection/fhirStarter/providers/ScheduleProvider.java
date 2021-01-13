@@ -2,37 +2,40 @@ package it.unisa.fhirconnection.fhirStarter.providers;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
-import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import it.unisa.fhirconnection.fhirStarter.service.PractitionerService;
+import it.unisa.fhirconnection.fhirStarter.database.ScheduleDAO;
+import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
+import it.unisa.fhirconnection.fhirStarter.service.MedicationService;
+import it.unisa.fhirconnection.fhirStarter.service.PatientService;
+import it.unisa.fhirconnection.fhirStarter.service.PractitionerService;
+import it.unisa.fhirconnection.fhirStarter.service.ScheduleService;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import it.unisa.fhirconnection.fhirStarter.database.PractitionerDAO;
 
 import java.util.ArrayList;
 
 @Component
-public class PractitionerProvider implements IResourceProvider {
+public class ScheduleProvider implements IResourceProvider {
 
     @Autowired
     FhirContext ctx;
 
 
     @Autowired
-    private static PractitionerDAO practitionerDAO;
+    private static ScheduleDAO scheduleDAO;
 
 
-    private static final Logger log = LoggerFactory.getLogger(PractitionerProvider.class);
+    private static final Logger log = LoggerFactory.getLogger(ScheduleProvider.class);
 
     @Override
     public Class<? extends IBaseResource> getResourceType() {
-        return Practitioner.class;
+        return Schedule.class;
     }
 
    /* @Create
@@ -68,25 +71,33 @@ public class PractitionerProvider implements IResourceProvider {
     }*/
 
     @Read()
-    public Practitioner readPractitioner(@IdParam IdType internalId) {
-        PractitionerEntity practitioner = PractitionerService.getById(Integer.parseInt(internalId.getIdPart()));
-        return PractitionerService.trasformToFHIRPractitioner(practitioner);
+    public Schedule readSchedule(@IdParam IdType internalId) {
+        it.unisa.fhirconnection.fhirStarter.model.Schedule schedule = ScheduleService.getById(Integer.parseInt(internalId.getIdPart()));
+        return ScheduleService.transform(schedule);
     }
 
 
     @Search()
-    public ArrayList<Practitioner> searchPractitionerbyFamilyName(
-            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName
-    ) {
-        ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
-        for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
-            String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
-            if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
+    public ArrayList<Schedule> getAllbyPatient(@RequiredParam(name = Schedule.SP_RES_ID) StringParam id) {
+        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+        ArrayList<Schedule> schedules = new ArrayList<>();
 
-
+        for (it.unisa.fhirconnection.fhirStarter.model.Schedule schedule : patient.getSchedules()) {
+            schedules.add(ScheduleService.transform(schedule));
         }
-        return practitionerArrayList;
+
+        return schedules;
     }
 
+    @Search()
+    public ArrayList<Schedule> getAllbyPractionier(@RequiredParam(name = Schedule.SP_ACTOR) StringParam id) { //"actor"
+        PractitionerEntity practitionerEntity = PractitionerService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+        ArrayList<Schedule> schedules = new ArrayList<>();
+
+        for (it.unisa.fhirconnection.fhirStarter.model.Schedule schedule : practitionerEntity.getSchedules()) {
+            schedules.add(ScheduleService.transform(schedule));
+        }
+
+        return schedules;
+    }
 }

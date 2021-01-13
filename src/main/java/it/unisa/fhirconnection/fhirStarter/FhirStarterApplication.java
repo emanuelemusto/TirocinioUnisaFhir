@@ -1,12 +1,11 @@
 package it.unisa.fhirconnection.fhirStarter;
 
-import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
+import it.unisa.fhirconnection.fhirStarter.database.*;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
-import it.unisa.fhirconnection.fhirStarter.database.DiagnosticReportDAO;
-import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
-import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
 import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.ContactPoint;
+import org.hl7.fhir.dstu3.model.Practitioner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -52,7 +51,8 @@ public class FhirStarterApplication {
             PatientDAO patientDAO,
             PersonDAO personDAO,
             DiagnosticReportDAO drDAO,
-            UserDAO userDAO
+            UserDAO userDAO,
+            PractitionerDAO practitionerDAO
     ) {
         return args -> {
             User utente = new User("mario","rossi",User.PATIENT_ROLE);
@@ -233,6 +233,48 @@ public class FhirStarterApplication {
             person7.setPatientEntity(patientEntity7);
             patientEntity7.setPerson(person7);
 
+            Person person8 = new Person("1", "Doctor", "male", "11/11/1961");
+            PractitionerEntity practitionerEntity1 = new PractitionerEntity();
+            practitionerEntity1.setQualificationComponent("Dentist");
+            practitionerEntity1.setIssuer("Issue 1");
+
+
+            Person person9 = new Person("2", "Doctor", "female", "11/11/1961");
+            PractitionerEntity practitionerEntity2 = new PractitionerEntity();
+            practitionerEntity2.setQualificationComponent("Dentist");
+            practitionerEntity2.setIssuer("Issue 2");
+
+            Schedule schedule = new Schedule();
+            schedule.setActive(true);
+            schedule.setServiceType("Service 1");
+            schedule.setServiceCategory("Category 1");
+            schedule.setPlanning("11/11/1961 12:00");
+
+            Telecom telecom2 = new Telecom();
+            telecom2.setValue("0648352738");
+            telecom2.setTelecomUse(ContactPoint.ContactPointUse.WORK);
+
+            Address address2 = new Address();
+            address2.setCity("Amsterdam");
+            address2.setPostcode("1055RW");
+            address2.setCountry("NLD");
+            address2.setLines("Bos en Lommerplein 280");
+            address2.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
+
+            Set<Telecom> telecoms2 = practitionerEntity1.getTelecoms();
+            telecoms2.add(telecom2);
+            practitionerEntity1.setTelecoms(telecoms2);
+
+            Set<Address> addresses2 = practitionerEntity1.getAddresses();
+            addresses2.add(address2);
+            practitionerEntity1.setAddresses(addresses2);
+
+            practitionerEntity1.setPerson(person8);
+            person8.setPractitionerEntity(practitionerEntity1);
+
+            practitionerEntity2.setPerson(person9);
+            person9.setPractitionerEntity(practitionerEntity2);
+
             Set<DiagnosticReport> drs= patientEntity1.getDiagnosticReports();
             drs.add(report);
             drs.add(diagnosticReport);
@@ -245,6 +287,17 @@ public class FhirStarterApplication {
             Set<Address> addresses = patientEntity1.getAddresses();
             addresses.add(address1);
             patientEntity1.setAddresses(addresses);
+
+            Set<Schedule> scheduleSet = patientEntity1.getSchedules();
+            scheduleSet.add(schedule);
+            patientEntity1.setSchedules(scheduleSet);
+
+            Set<Schedule> scheduleSet2 = practitionerEntity1.getSchedules();
+            scheduleSet2.add(schedule);
+            practitionerEntity1.setSchedules(scheduleSet2);
+            schedule.setPractitionerName(practitionerEntity1.getPerson().getFirstName() + " " + practitionerEntity1.getPerson().getLastName());
+            schedule.setPatientName(patientEntity1.getPerson().getFirstName() + " " + patientEntity1.getPerson().getLastName());
+
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
@@ -269,6 +322,11 @@ public class FhirStarterApplication {
             personDAO.save(person7);
             patientDAO.save(patientEntity7);
 
+            personDAO.save(person8);
+            practitionerDAO.save(practitionerEntity1);
+
+            personDAO.save(person9);
+            practitionerDAO.save(practitionerEntity1);
 
             drDAO.save(report);
             drDAO.save(diagnosticReport);
@@ -279,6 +337,11 @@ public class FhirStarterApplication {
                 for (DiagnosticReport diagnosticReport1 : patient.getDiagnosticReports()) {
                     System.out.println(diagnosticReport1.toString());
                 }
+
+            }
+
+            for (PractitionerEntity patient : practitionerDAO.findAll()) {
+                System.out.println(patient.getPerson().getLastName());
 
             }
             System.out.println(patientDAO.findByIdpatient(20).getPerson().getFirstName());

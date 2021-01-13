@@ -47,7 +47,7 @@ public class ScheduleToFHIRSchedule  implements Transformer<it.unisa.fhirconnect
         }
 
         Reference reference1 = new Reference();
-        reference1.setReference(scheduleEntity.getPatientEntity().getPerson().getLastName() + scheduleEntity.getPatientEntity().getPerson().getFirstName());
+        reference1.setReference(scheduleEntity.getPractitionerName() + " / " +  scheduleEntity.getPatientName());
         scheduleFHIR.addActor(reference1);
 
         return scheduleFHIR;

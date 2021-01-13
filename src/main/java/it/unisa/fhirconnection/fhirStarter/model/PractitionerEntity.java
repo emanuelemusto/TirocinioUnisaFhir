@@ -31,21 +31,19 @@ public class PractitionerEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<PractitionerEntity> patientEntity = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Set<Schedule> schedules = new HashSet<Schedule>();
+
+
     @NonNull
-    private Practitioner.PractitionerQualificationComponent qualificationComponent;
+    private String qualificationComponent;
+
+    @NonNull
+    private String issuer;
 
     @OneToOne(cascade = CascadeType.ALL)
     @NonNull
     private Person person;
-
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-    private Set<DiagnosticReport> diagnosticReports = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-    private Set<AllergyIntolerance> allergyIntolerances = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
-    private Set<Problem> problems = new HashSet<>();
 
     public void addIdentifiers(final Identifier identifier) {
         if (!this.identifiers.contains(identifier)) {

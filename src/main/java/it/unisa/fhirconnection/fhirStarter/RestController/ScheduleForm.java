@@ -14,7 +14,4 @@ public class ScheduleForm {
     private String planning;
     private String active;
 
- /*   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Identifier> identifiers = new HashSet<Identifier>();
-*/
 }

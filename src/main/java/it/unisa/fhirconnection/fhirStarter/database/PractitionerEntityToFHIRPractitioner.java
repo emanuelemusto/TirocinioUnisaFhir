@@ -68,14 +68,19 @@ public class PractitionerEntityToFHIRPractitioner  implements Transformer<Practi
 
 
             address.addLine(addressEntity.getLines());
-            //TODO
             if (addressEntity.getCity()!=null) address.setCity(addressEntity.getCity());
             if (addressEntity.getCounty()!=null) address.setDistrict(addressEntity.getCounty());
             if (addressEntity.getPostcode()!=null) address.setPostalCode(addressEntity.getPostcode());
             if (addressEntity.getUse()!=null) address.setUse(addressEntity.getUse());
         }
-
-        practitioner.addQualification(practitionerEntity.getQualificationComponent());
+        CodeableConcept codeableConcept = new CodeableConcept();
+        codeableConcept.setText(practitionerEntity.getQualificationComponent());
+        Practitioner.PractitionerQualificationComponent practitionerQualificationComponent = new Practitioner.PractitionerQualificationComponent();
+        practitionerQualificationComponent.setCode(codeableConcept);
+        Reference reference1 = new Reference();
+        reference1.setReference(practitionerEntity.getIssuer());
+        practitionerQualificationComponent.setIssuer(reference1);
+        practitioner.addQualification(practitionerQualificationComponent);
 
 
         return practitioner;

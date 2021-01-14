@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
@@ -11,10 +12,7 @@ import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.service.ProblemService;
-import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.OperationOutcome;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
 
 @Component
 public class ProblemProvider implements IResourceProvider {
@@ -69,7 +69,9 @@ public class ProblemProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id) {
+    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id,@RequiredParam(name= Condition.SP_IDENTIFIER) TokenParam theId) {
+        boolean authorize = authorize(theId.getValue());
+        System.out.println("token Condition "+ authorize);
         PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Condition> conditions = new ArrayList<>();
 

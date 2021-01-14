@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.database.MedicationToFhirMedication;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
 
 @Component
 public class MedicationProvider implements IResourceProvider {
@@ -66,7 +69,9 @@ public class MedicationProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id) {
+    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id,@RequiredParam(name= Medication.SP_FORM) TokenParam theId ) {
+        boolean authorize = authorize(theId.getValue());
+        System.out.println("token Medication "+ authorize);
         PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Medication> medications = new ArrayList<>();
 

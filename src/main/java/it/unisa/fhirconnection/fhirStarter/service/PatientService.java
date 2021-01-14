@@ -10,10 +10,8 @@ import it.unisa.fhirconnection.fhirStarter.RestController.PatientForm;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.model.Address;
-import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
-import it.unisa.fhirconnection.fhirStarter.model.Person;
-import it.unisa.fhirconnection.fhirStarter.model.Telecom;
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
+import it.unisa.fhirconnection.fhirStarter.model.*;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,7 @@ public class PatientService {
     private static PersonDAO personDAO;
 
     private static PatientDAO patientDAO;
+    private static UserDAO userDAO;
 
     private  static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
 
@@ -61,8 +60,12 @@ public class PatientService {
     }
 
     public static void addPatient(PatientForm dummy){
+        User utente = userDAO.findByUsername(dummy.getUser()) ;
+
         Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
+        person1.setUser(utente);
+        utente.setPerson(person1);
 
         Telecom telecom1 = new Telecom();
         telecom1.setValue(dummy.getTelecomValue());

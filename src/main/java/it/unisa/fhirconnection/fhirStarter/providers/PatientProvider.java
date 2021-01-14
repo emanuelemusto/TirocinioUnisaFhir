@@ -4,7 +4,9 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.FHIRPatienttoPatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
@@ -18,6 +20,8 @@ import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 
 import java.util.ArrayList;
 
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
+
 @Component
 public class PatientProvider implements IResourceProvider {
 
@@ -28,6 +32,9 @@ public class PatientProvider implements IResourceProvider {
 
     @Autowired
     private static PatientDAO patientDAO;
+    @Autowired
+    private static UserDAO userDAO;
+
 
     @Autowired
     private static PatientService patientService;
@@ -80,12 +87,15 @@ public class PatientProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
-                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName
+                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId
     ) {
+        System.out.println("prova token server "+theId.getValue());
+        boolean authorize = authorize(theId.getValue());
+        System.out.println("token "+ authorize);
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientService.getAllPatients()) {
             String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
-            if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+             if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
                 patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
 
 

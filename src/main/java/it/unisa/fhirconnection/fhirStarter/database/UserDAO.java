@@ -9,4 +9,5 @@ import it.unisa.fhirconnection.fhirStarter.model.User;
 @Repository
 public interface UserDAO extends CrudRepository<User, Integer> {
        User findByUsername(String username);
+       Boolean existsUsersByToken(String Token);
 }

@@ -86,7 +86,9 @@ public class FhirStarterApplication {
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
             userDAO.save(utente);
-            System.out.println("prova1 "+ utente.getRole());
+
+
+            System.out.println("prova1 "+ utente.getToken());
 
             DiagnosticReport diagnosticReport = new DiagnosticReport();
             diagnosticReport.setName("Radiology of patient 1");

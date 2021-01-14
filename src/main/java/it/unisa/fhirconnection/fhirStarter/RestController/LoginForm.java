@@ -3,6 +3,17 @@ package it.unisa.fhirconnection.fhirStarter.RestController;
 public class LoginForm {
     private String username;
     private String password;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
 
 
     public String getUsername() {
@@ -26,6 +37,7 @@ public class LoginForm {
         return "LoginForm{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

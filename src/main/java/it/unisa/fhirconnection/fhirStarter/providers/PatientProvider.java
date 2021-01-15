@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.FHIRPatienttoPatientEntity;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
 
 @Component
 public class PatientProvider implements IResourceProvider {
@@ -80,8 +83,17 @@ public class PatientProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
-                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName
+                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName,@RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId
     ) {
+        System.out.println("prova token server "+theId.getValue());
+        System.out.println("prova token server "+theId.getSystem());
+        String username = theId.getSystem();
+        String token = theId.getValue();
+
+        String role = authorize(token,username);
+
+        //la lista di tutti i pazienti solo il medico puo vederla
+        if(role.equals("MEDIC")){
         ArrayList<Patient> patientArrayList = new ArrayList<>();
         for (PatientEntity patient : PatientService.getAllPatients()) {
             String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
@@ -91,6 +103,8 @@ public class PatientProvider implements IResourceProvider {
 
         }
             return patientArrayList;
+        }
+        return null;
     }
 
     @Search()

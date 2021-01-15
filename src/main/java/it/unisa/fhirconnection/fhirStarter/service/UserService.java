@@ -35,8 +35,15 @@ public class UserService {
         this.userDAO =userDAO;
     }
 
-    public static Boolean authorize(String token){
-        return userDAO.existsUsersByToken(token);
+    // restituisce il ruolo solo se quell'utente si è loggato
+    public static String authorize(String token, String username){
+        if(userDAO.existsUsersByToken(token)){
+            User user = userDAO.findByUsername(username);
+            return  user.getRole();
+
+        }
+
+        return null;
     }
 
 

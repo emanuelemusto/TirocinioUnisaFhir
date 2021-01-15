@@ -10,10 +10,8 @@ import it.unisa.fhirconnection.fhirStarter.RestController.PatientForm;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PatientEntityToFHIRPatient;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.model.Address;
-import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
-import it.unisa.fhirconnection.fhirStarter.model.Person;
-import it.unisa.fhirconnection.fhirStarter.model.Telecom;
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
+import it.unisa.fhirconnection.fhirStarter.model.*;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +22,11 @@ import java.util.Set;
 
 @Service
 public class PatientService {
-    
+
     private static PersonDAO personDAO;
 
     private static PatientDAO patientDAO;
+    private static UserDAO userDAO;
 
     private  static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
 
@@ -60,14 +59,18 @@ public class PatientService {
         patientDAO.save(patientDAO.findByIdpatient(id));
     }
 
-    public static void addPatient(PatientForm patientForm){
-        Person person1 = new Person(patientForm.getFirstname(), patientForm.getFamilyname(), patientForm.getGender(), patientForm.getDate());
+    public static void addPatient(PatientForm dummy){
+        User utente = userDAO.findByUsername(dummy.getUser()) ;
+
+        Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
+        person1.setUser(utente);
+        utente.setPerson(person1);
 
         Telecom telecom1 = new Telecom();
-        telecom1.setValue(patientForm.getTelecomValue());
+        telecom1.setValue(dummy.getTelecomValue());
 
-        switch(patientForm.getTelecomUse().toLowerCase()) {
+        switch(dummy.getTelecomUse().toLowerCase()) {
             case ("home"):
                 telecom1.setTelecomUse(ContactPoint.ContactPointUse.HOME);
                 break;
@@ -85,12 +88,12 @@ public class PatientService {
 
 
         Address address1 = new Address();
-        address1.setCity(patientForm.getCity());
-        address1.setPostcode(patientForm.getPostCode());
-        address1.setCountry(patientForm.getCountry());
-        address1.setLines(patientForm.getAddressLine());
+        address1.setCity(dummy.getCity());
+        address1.setPostcode(dummy.getPostCode());
+        address1.setCountry(dummy.getCountry());
+        address1.setLines(dummy.getAddressLine());
 
-        switch(patientForm.getAddressUse().toLowerCase()) {
+        switch(dummy.getAddressUse().toLowerCase()) {
             case ("home"):
                 address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
                 break;
@@ -119,13 +122,12 @@ public class PatientService {
 
     }
 
-    
+
   /*  public static void addPatient(String socialSecurity, String firstName, String lastName, String gender, String dateOfBirth){
         PatientEntity p = new PatientEntity(PatientEntity.last_insert_id+1, socialSecurity, new Person(Person.last_insert_id+1, firstName, lastName, gender, dateOfBirth));
         patientEntityList.add(p);
         patientDAO.save(p);
     }
-
     public static void editPatient(PatientEntity p, String socialSecurity, String firstName, String lastName, String gender, String dateOfBirth) {
         p.setSocialSecurity(socialSecurity);
         p.getPerson().setFirstName(firstName);
@@ -134,10 +136,8 @@ public class PatientService {
         p.getPerson().setDateOfBirth(dateOfBirth);
         db.editPatient(p);
     }
-
     public static void deletePatient(PatientEntity p) {
         patientEntityList.remove(p);
         db.deletePatient(p);
     }*/
 }
-

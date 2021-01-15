@@ -24,6 +24,7 @@ public class User {
 
 
 
+
     @Id
     private String username;
 
@@ -37,6 +38,17 @@ public class User {
     @NonNull
     private Person person;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
     public User(String username) {
         this.username = username;
     }
@@ -49,6 +61,13 @@ public class User {
         role = role;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
     public String getUsername() {
         return username;
@@ -60,6 +79,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                ", token='" + token + '\'' +
+                '}';
     }
 
 }

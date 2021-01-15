@@ -66,7 +66,7 @@ public class MedicationProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id) {
+    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id ) {
         PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Medication> medications = new ArrayList<>();
 

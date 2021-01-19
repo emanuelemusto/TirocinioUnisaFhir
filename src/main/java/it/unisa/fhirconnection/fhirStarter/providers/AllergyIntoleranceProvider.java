@@ -74,9 +74,9 @@ public class AllergyIntoleranceProvider implements IResourceProvider {
         String username = theId.getSystem();
         String token = theId.getValue();
 
-        String role = authorize(token,username);
+
        if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))){
-           System.out.println("prova entarta ");
+           System.out.println("allergia ");
         PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<AllergyIntolerance> allergyIntolerances = new ArrayList<>();
 

@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.database.MedicationToFhirMedication;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorizeByPatientId;
 
 @Component
 public class MedicationProvider implements IResourceProvider {
@@ -66,17 +69,26 @@ public class MedicationProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id ) {
-        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
-        ArrayList<Medication> medications = new ArrayList<>();
-
-        for (it.unisa.fhirconnection.fhirStarter.model.Medication medication : patient.getMedications()) {
-            medications.add(MedicationService.transform(medication));
+    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId ) {
+        String username = theId.getSystem();
+        String token = theId.getValue();
 
 
+        if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
+            System.out.println("medication ");
+
+            PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+            ArrayList<Medication> medications = new ArrayList<>();
+
+            for (it.unisa.fhirconnection.fhirStarter.model.Medication medication : patient.getMedications()) {
+                medications.add(MedicationService.transform(medication));
+
+
+            }
+
+            return medications;
         }
-
-        return medications;
+        return null;
     }
 
 

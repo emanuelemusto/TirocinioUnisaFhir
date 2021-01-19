@@ -56,6 +56,7 @@ public class FhirStarterApplication {
     ) {
         return args -> {
             User utente = new User("mario","rossi",User.PATIENT_ROLE);
+            User utenteDoc = new User("sav", "sav", User.MEDIC_ROLE);
 
             Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
@@ -77,6 +78,8 @@ public class FhirStarterApplication {
 
             Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
             PatientEntity patientEntity7 = new PatientEntity();
+
+
 
             person1.setUser(utente);
             utente.setPerson(person1);
@@ -298,6 +301,14 @@ public class FhirStarterApplication {
             schedule.setPractitionerName(practitionerEntity1.getPerson().getFirstName() + " " + practitionerEntity1.getPerson().getLastName());
             schedule.setPatientName(patientEntity1.getPerson().getFirstName() + " " + patientEntity1.getPerson().getLastName());
 
+            person8.setUser(utenteDoc);
+            utenteDoc.setPerson(person8);
+
+            Set<PatientEntity> patientEntities = practitionerEntity1.getPatientEntity();
+            patientEntities.add(patientEntity1);
+            practitionerEntity1.setPatientEntity(patientEntities);
+
+
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
@@ -324,6 +335,7 @@ public class FhirStarterApplication {
 
             personDAO.save(person8);
             practitionerDAO.save(practitionerEntity1);
+            userDAO.save(utente);
 
             personDAO.save(person9);
             practitionerDAO.save(practitionerEntity1);

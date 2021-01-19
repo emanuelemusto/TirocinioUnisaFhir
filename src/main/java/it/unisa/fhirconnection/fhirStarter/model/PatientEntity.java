@@ -29,7 +29,7 @@ public class PatientEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<Address>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<PractitionerEntity> practitionerEntities = new HashSet<>();
 
     @NonNull

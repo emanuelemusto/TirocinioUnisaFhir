@@ -6,10 +6,13 @@
 package it.unisa.fhirconnection.fhirStarter.service;
 
 
+import it.unisa.fhirconnection.fhirStarter.RestController.PractitionerForm;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerEntityToFHIRPractitioner;
 import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
+import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
+import it.unisa.fhirconnection.fhirStarter.model.*;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import java.util.Set;
 
 @Service
 public class PractitionerService {
+
 
     private static PersonDAO personDAO;
 
@@ -55,9 +59,14 @@ public class PractitionerService {
         practitionerDAO.save(practitionerDAO.findById(id));
     }
 
-    /*public static void addPractitioner(PractitionerForm dummy){
+    public static void addPractitioner(PractitionerForm dummy){
+
+        User utente = UserService.getByUsername(dummy.getUser());
+        System.out.println("prova nel metodo addPractitioner"+utente.getUsername());
         Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
         PractitionerEntity practitionerEntity1 = new PractitionerEntity();
+        person1.setUser(utente);
+        utente.setPerson(person1);
 
         Telecom telecom1 = new Telecom();
         telecom1.setValue(dummy.getTelecomValue());
@@ -112,7 +121,7 @@ public class PractitionerService {
         personDAO.save(person1);
         practitionerDAO.save(practitionerEntity1);
 
-    }*/
+    }
 
     
   /*  public static void addPractitioner(String socialSecurity, String firstName, String lastName, String gender, String dateOfBirth){

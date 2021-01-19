@@ -28,8 +28,8 @@ public class PractitionerEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<Address>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<PractitionerEntity> patientEntity = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Set<PatientEntity> patientEntity = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Schedule> schedules = new HashSet<Schedule>();

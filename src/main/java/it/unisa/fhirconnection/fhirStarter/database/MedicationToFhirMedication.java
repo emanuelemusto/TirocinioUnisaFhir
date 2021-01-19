@@ -23,8 +23,11 @@ public class MedicationToFhirMedication implements Transformer<Medication, org.h
         codeableConcept.setText(medicationEntity.getForm() + " " + medicationEntity.getAmount());
         medication1.setForm(codeableConcept);
         Narrative narrative = new Narrative();
-        narrative.setDivAsString(medicationEntity.getDateStart() + "  *" + medicationEntity.getDateEnd() + "  *" + medicationEntity.getName());
+        narrative.setDivAsString(medicationEntity.getDateStart() + "   *" + medicationEntity.getDateEnd() + "  @" + medicationEntity.getName());
         medication1.setText(narrative);
+        CodeableConcept codeableConcept2 = new CodeableConcept();
+        codeableConcept2.setText(medicationEntity.getCode());
+        medication1.setCode(codeableConcept2);
 
         return medication1;
     }

@@ -9,6 +9,7 @@ public class MedicationForm {
     private String name;
     private String code;
     private String form;
+    private String manufacturer;
     private String dateStart;
     private String dateEnd;
     private String patientId;

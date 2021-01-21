@@ -102,7 +102,7 @@ public class FhirStarterApplication {
             report.setCode("12193");
             report.setDisplay("Display");
             report.setSystem("ReD");
-            report.setDate("1/1/2020");
+            report.setDate("01/01/2020");
             report.setExperimental(false);
             report.setCategory("RAD");
             report.setPublisher("Health Level Seven International (Clinical Genomics)");
@@ -250,7 +250,7 @@ public class FhirStarterApplication {
             schedule.setActive(true);
             schedule.setServiceType("Service 1");
             schedule.setServiceCategory("Category 1");
-            schedule.setPlanning("30/01/2021 12:00");
+            schedule.setPlanning("2021-01-29 12:00:00");
 
             Telecom telecom2 = new Telecom();
             telecom2.setValue("0648352738");

@@ -80,8 +80,8 @@ public class PractitionerProvider implements IResourceProvider {
     ) {
         ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
         for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
-            String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
-            if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+            String qualification = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase() + " " + practitioner.getQualificationComponent().toLowerCase();
+            if (qualification.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
                 practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
 
 

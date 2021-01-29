@@ -79,15 +79,15 @@ public class PractitionerProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Practitioner> searchPractitionerbyFamilyName(
-            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName,@RequiredParam(name=Practitioner.SP_IDENTIFIER) TokenParam theId
+            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName, @RequiredParam(name = Practitioner.SP_IDENTIFIER) TokenParam theId
     ) {
         String username = theId.getSystem();
         String token = theId.getValue();
 
-        String role = authorize(token,username);
+        String role = authorize(token, username);
 
         assert role != null;
-        if(role.equals("PATIENT")) {
+        if (role.equals("PATIENT")) {
             ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
             for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
                 String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();

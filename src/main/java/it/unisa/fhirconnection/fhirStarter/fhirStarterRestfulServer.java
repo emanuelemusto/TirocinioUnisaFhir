@@ -33,11 +33,11 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		this.applicationContext = context;
 	}
 
-	@Value("http://192.168.1.10/STU3")
+	@Value("http://127.0.0.1/STU3")
 	private String serverBase;
 
 
-    @Override
+	@Override
 	public void addHeadersToResponse(HttpServletResponse theHttpResponse) {
 		theHttpResponse.addHeader("X-Powered-By", "HAPI FHIR " + VersionUtil.getVersion() + " RESTful Server (INTEROPen Care Connect STU3)");
 	}
@@ -52,8 +52,8 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		setFhirContext(new FhirContext(fhirVersion));
 
 		if (serverBase != null && !serverBase.isEmpty()) {
-            setServerAddressStrategy(new HardcodedServerAddressStrategy(serverBase));
-        }
+			setServerAddressStrategy(new HardcodedServerAddressStrategy(serverBase));
+		}
 
 		setResourceProviders(Arrays.asList(
 				applicationContext.getBean(PatientProvider.class),
@@ -66,9 +66,9 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		));
 
 
-		FifoMemoryPagingProvider pp = new FifoMemoryPagingProvider(10);
-		pp.setDefaultPageSize(10);
-		pp.setMaximumPageSize(100);
+		FifoMemoryPagingProvider pp = new FifoMemoryPagingProvider(1000000);
+		pp.setDefaultPageSize(1000000);
+		pp.setMaximumPageSize(100000000);
 		setPagingProvider(pp);
 
 		setDefaultPrettyPrint(true);
@@ -84,7 +84,5 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		ResponseHighlighterInterceptor retVal = new ResponseHighlighterInterceptor();
 		return retVal;
 	}
-
-
 
 }

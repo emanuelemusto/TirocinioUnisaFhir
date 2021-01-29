@@ -56,7 +56,7 @@ public class FhirStarterApplication {
     ) {
         return args -> {
             User utente = new User("mario","rossi",User.PATIENT_ROLE);
-            User utenteDoc = new User("sav", "sav", User.MEDIC_ROLE);
+            User utente2 = new User("giuseppe","verdi",User.MEDIC_ROLE);
 
             Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
             PatientEntity patientEntity1 = new PatientEntity();
@@ -78,8 +78,6 @@ public class FhirStarterApplication {
 
             Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
             PatientEntity patientEntity7 = new PatientEntity();
-
-
 
             person1.setUser(utente);
             utente.setPerson(person1);
@@ -104,7 +102,7 @@ public class FhirStarterApplication {
             report.setCode("12193");
             report.setDisplay("Display");
             report.setSystem("ReD");
-            report.setDate("1/1/2020");
+            report.setDate("01/01/2020");
             report.setExperimental(false);
             report.setCategory("RAD");
             report.setPublisher("Health Level Seven International (Clinical Genomics)");
@@ -125,56 +123,62 @@ public class FhirStarterApplication {
             Medication medication = new Medication();
             medication.setAmount("100 ml");
             medication.setCode("31321");
-            medication.setDateStart("1/1/2020");
-            medication.setDateEnd("1/2/2020");
+            medication.setDateStart("01/01/2020");
+            medication.setDateEnd("01/02/2020");
             medication.setForm("capsule");
             medication.setManufacturer("Pharma 1");
             medication.setName("Name Medication 1");
+            medication.setNote("Note 1");
 
             Medication medication2 = new Medication();
             medication2.setAmount("65 ml");
             medication2.setCode("31313313121");
-            medication2.setDateStart("1/1/2020");
-            medication2.setDateEnd("1/2/2020");
+            medication2.setDateStart("01/01/2020");
+            medication2.setDateEnd("01/02/2020");
             medication2.setForm("capsule");
             medication2.setManufacturer("Pharma");
             medication2.setName("Name Medication 2");
+            medication2.setNote("Note 2");
 
             Medication medication3 = new Medication();
             medication3.setAmount("50 capsule");
             medication3.setCode("31313313121");
-            medication3.setDateStart("1/1/2020");
-            medication3.setDateEnd("1/2/2020");
+            medication3.setDateStart("01/01/2020");
+            medication3.setDateEnd("01/02/2020");
             medication3.setForm("capsule");
             medication3.setManufacturer("Pharma");
             medication3.setName("Name Medication 3");
+            medication3.setNote("Note 3");
 
             Medication medication4 = new Medication();
             medication4.setAmount("20 pillow");
             medication4.setCode("31313313121");
-            medication4.setDateStart("1/1/2020");
-            medication4.setDateEnd("1/2/2020");
+            medication4.setDateStart("01/01/2020");
+            medication4.setDateEnd("01/02/2020");
             medication4.setForm("capsule");
             medication4.setManufacturer("BigPharma");
             medication4.setName("Name Medication 4");
+            medication4.setNote("Note 4");
 
             Medication medication5 = new Medication();
             medication5.setAmount("100 ml");
             medication5.setCode("31313313121");
-            medication5.setDateStart("1/1/2020");
-            medication5.setDateEnd("1/2/2020");
+            medication5.setDateStart("01/01/2020");
+            medication5.setDateEnd("01/02/2020");
             medication5.setForm("capsule");
             medication5.setManufacturer("BigPharma");
             medication5.setName("Name Medication 5");
+            medication5.setNote("Note 5");
 
             Medication medication6 = new Medication();
             medication6.setAmount("2 ml");
             medication6.setCode("31313313121");
-            medication6.setDateStart("1/1/2020");
-            medication6.setDateEnd("1/2/2020");
+            medication6.setDateStart("01/01/2020");
+            medication6.setDateEnd("01/02/2020");
             medication6.setForm("Spray");
             medication6.setManufacturer("BigPharma");
             medication6.setName("Name Medication 6");
+            medication6.setNote("Note 6");
 
             Set<Medication> medications = patientEntity1.getMedications();
             medications.add(medication);
@@ -240,18 +244,19 @@ public class FhirStarterApplication {
             PractitionerEntity practitionerEntity1 = new PractitionerEntity();
             practitionerEntity1.setQualificationComponent("Dentist");
             practitionerEntity1.setIssuer("Issue 1");
-
+            person8.setUser(utente2);
+            utente2.setPerson(person8);
 
             Person person9 = new Person("2", "Doctor", "female", "11/11/1961");
             PractitionerEntity practitionerEntity2 = new PractitionerEntity();
-            practitionerEntity2.setQualificationComponent("Dentist");
+            practitionerEntity2.setQualificationComponent("Family doctor");
             practitionerEntity2.setIssuer("Issue 2");
 
             Schedule schedule = new Schedule();
             schedule.setActive(true);
             schedule.setServiceType("Service 1");
             schedule.setServiceCategory("Category 1");
-            schedule.setPlanning("11/11/1961 12:00");
+            schedule.setPlanning("2021-01-29 12:00:00");
 
             Telecom telecom2 = new Telecom();
             telecom2.setValue("0648352738");
@@ -301,14 +306,9 @@ public class FhirStarterApplication {
             schedule.setPractitionerName(practitionerEntity1.getPerson().getFirstName() + " " + practitionerEntity1.getPerson().getLastName());
             schedule.setPatientName(patientEntity1.getPerson().getFirstName() + " " + patientEntity1.getPerson().getLastName());
 
-            person8.setUser(utenteDoc);
-            utenteDoc.setPerson(person8);
-
-            Set<PatientEntity> patientEntities = practitionerEntity1.getPatientEntity();
-            patientEntities.add(patientEntity1);
-            practitionerEntity1.setPatientEntity(patientEntities);
-
-
+            Set<PatientEntity> patientEntitySet = practitionerEntity1.getPatientEntity();
+            patientEntitySet.add(patientEntity1);
+            practitionerEntity1.setPatientEntity(patientEntitySet);
 
             personDAO.save(person1);
             patientDAO.save(patientEntity1);
@@ -335,7 +335,7 @@ public class FhirStarterApplication {
 
             personDAO.save(person8);
             practitionerDAO.save(practitionerEntity1);
-            userDAO.save(utente);
+            userDAO.save(utente2);
 
             personDAO.save(person9);
             practitionerDAO.save(practitionerEntity1);

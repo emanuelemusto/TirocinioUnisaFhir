@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -38,7 +40,11 @@ public class User {
     @NonNull
     private Person person;
 
+
     private String token;
+    private Long time;
+
+
 
     public String getToken() {
         return token;

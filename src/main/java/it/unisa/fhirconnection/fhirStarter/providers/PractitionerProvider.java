@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.service.PractitionerService;
 import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerDAO;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
 
 @Component
 public class PractitionerProvider implements IResourceProvider {
@@ -76,17 +79,28 @@ public class PractitionerProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Practitioner> searchPractitionerbyFamilyName(
-            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName
+            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName, @RequiredParam(name = Practitioner.SP_IDENTIFIER) TokenParam theId
     ) {
-        ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
-        for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
-            String qualification = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase() + " " + practitioner.getQualificationComponent().toLowerCase();
-            if (qualification.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
+
+        String username = theId.getSystem();
+        String token = theId.getValue();
+
+        String role = authorize(token, username);
+
+        assert role != null;
+        if (role.equals("PATIENT")) {
+            ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
+            for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
+                String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
+                if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+                    practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
 
 
+
+            }
+            return practitionerArrayList;
         }
-        return practitionerArrayList;
+        return null;
     }
 
 }

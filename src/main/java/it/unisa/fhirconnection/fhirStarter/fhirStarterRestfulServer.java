@@ -37,7 +37,7 @@ public class fhirStarterRestfulServer extends RestfulServer {
 	private String serverBase;
 
 
-    @Override
+	@Override
 	public void addHeadersToResponse(HttpServletResponse theHttpResponse) {
 		theHttpResponse.addHeader("X-Powered-By", "HAPI FHIR " + VersionUtil.getVersion() + " RESTful Server (INTEROPen Care Connect STU3)");
 	}
@@ -52,8 +52,8 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		setFhirContext(new FhirContext(fhirVersion));
 
 		if (serverBase != null && !serverBase.isEmpty()) {
-            setServerAddressStrategy(new HardcodedServerAddressStrategy(serverBase));
-        }
+			setServerAddressStrategy(new HardcodedServerAddressStrategy(serverBase));
+		}
 
 		setResourceProviders(Arrays.asList(
 				applicationContext.getBean(PatientProvider.class),
@@ -84,7 +84,5 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		ResponseHighlighterInterceptor retVal = new ResponseHighlighterInterceptor();
 		return retVal;
 	}
-
-
 
 }

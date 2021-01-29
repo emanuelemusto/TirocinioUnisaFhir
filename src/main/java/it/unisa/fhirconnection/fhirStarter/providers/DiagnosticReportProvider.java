@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorizeByPatientId;
 
 @Component
 public class DiagnosticReportProvider implements IResourceProvider {
@@ -49,17 +52,25 @@ public class DiagnosticReportProvider implements IResourceProvider {
 
 
     @Search()
-    public ArrayList<DiagnosticReport> getAllbyPatient(@RequiredParam(name = DiagnosticReport.SP_RES_ID) StringParam id) {
-        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
-        ArrayList<DiagnosticReport> diagnosticReports = new ArrayList<>();
+    public ArrayList<DiagnosticReport> getAllbyPatient(@RequiredParam(name = DiagnosticReport.SP_RES_ID) StringParam id, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId) {
+        String username = theId.getSystem();
+        String token = theId.getValue();
 
-        for (it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport diagnosticReport : patient.getDiagnosticReports()) {
-            diagnosticReports.add(DiagnosticReportService.transform(diagnosticReport));
+        if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
+            System.out.println("report ");
+
+            PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+            ArrayList<DiagnosticReport> diagnosticReports = new ArrayList<>();
+
+            for (it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport diagnosticReport : patient.getDiagnosticReports()) {
+                diagnosticReports.add(DiagnosticReportService.transform(diagnosticReport));
 
 
+            }
+
+            return diagnosticReports;
         }
-
-        return diagnosticReports;
+        return  null;
     }
 
 

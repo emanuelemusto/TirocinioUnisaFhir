@@ -1,34 +1,30 @@
 package it.unisa.fhirconnection.fhirStarter.RestController;
 
-import it.unisa.fhirconnection.fhirStarter.service.MediaService;
+import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class MediaRestController {
 
-    final
-    MediaService fileService;
-
-    public MediaRestController(MediaService fileService) {
-        this.fileService = fileService;
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "upload";
-    }
-
     @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public void uploadFile(@RequestParam("file") MultipartFile file) {
 
-        fileService.uploadFile(file);
+        DiagnosticReportService.uploadFile(file);
 
-        redirectAttributes.addFlashAttribute("message",
+        System.out.println("message" +
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+    }
+
+    @RequestMapping(value = "loadFile", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public static Resource reject(@ModelAttribute(value="path") String path) throws Exception {
+        System.out.println(path);
+        return DiagnosticReportService.loadAsResource(path);
     }
 }

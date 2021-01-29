@@ -61,7 +61,6 @@ public class PatientService {
 
     public static void addPatient(PatientForm form){
 
-
         Person person1 = new Person(form.getFirstname(), form.getFamilyname(), form.getGender(), form.getDate());
         PatientEntity patientEntity1 = new PatientEntity();
 

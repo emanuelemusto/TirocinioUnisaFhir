@@ -42,7 +42,8 @@ public class MedicationService {
         medication.setManufacturer(form.getManufacturer());
         medication.setDateStart(form.getDateStart());
         medication.setDateEnd(form.getDateEnd());
-        medication.setAmount((form.getAmount()));
+        medication.setAmount(form.getAmount());
+        medication.setNote(form.getNote());
 
         System.out.println(form);
 

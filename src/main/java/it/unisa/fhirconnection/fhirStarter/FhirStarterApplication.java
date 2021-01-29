@@ -128,6 +128,7 @@ public class FhirStarterApplication {
             medication.setForm("capsule");
             medication.setManufacturer("Pharma 1");
             medication.setName("Name Medication 1");
+            medication.setNote("Note 1");
 
             Medication medication2 = new Medication();
             medication2.setAmount("65 ml");
@@ -137,6 +138,7 @@ public class FhirStarterApplication {
             medication2.setForm("capsule");
             medication2.setManufacturer("Pharma");
             medication2.setName("Name Medication 2");
+            medication2.setNote("Note 2");
 
             Medication medication3 = new Medication();
             medication3.setAmount("50 capsule");
@@ -146,6 +148,7 @@ public class FhirStarterApplication {
             medication3.setForm("capsule");
             medication3.setManufacturer("Pharma");
             medication3.setName("Name Medication 3");
+            medication3.setNote("Note 3");
 
             Medication medication4 = new Medication();
             medication4.setAmount("20 pillow");
@@ -155,6 +158,7 @@ public class FhirStarterApplication {
             medication4.setForm("capsule");
             medication4.setManufacturer("BigPharma");
             medication4.setName("Name Medication 4");
+            medication4.setNote("Note 4");
 
             Medication medication5 = new Medication();
             medication5.setAmount("100 ml");
@@ -164,6 +168,7 @@ public class FhirStarterApplication {
             medication5.setForm("capsule");
             medication5.setManufacturer("BigPharma");
             medication5.setName("Name Medication 5");
+            medication5.setNote("Note 5");
 
             Medication medication6 = new Medication();
             medication6.setAmount("2 ml");
@@ -173,6 +178,7 @@ public class FhirStarterApplication {
             medication6.setForm("Spray");
             medication6.setManufacturer("BigPharma");
             medication6.setName("Name Medication 6");
+            medication6.setNote("Note 6");
 
             Set<Medication> medications = patientEntity1.getMedications();
             medications.add(medication);
@@ -243,7 +249,7 @@ public class FhirStarterApplication {
 
             Person person9 = new Person("2", "Doctor", "female", "11/11/1961");
             PractitionerEntity practitionerEntity2 = new PractitionerEntity();
-            practitionerEntity2.setQualificationComponent("Dentist");
+            practitionerEntity2.setQualificationComponent("Family doctor");
             practitionerEntity2.setIssuer("Issue 2");
 
             Schedule schedule = new Schedule();

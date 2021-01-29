@@ -37,6 +37,8 @@ public class Medication {
 
     private String dateEnd;
 
+    private String note;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;
 }

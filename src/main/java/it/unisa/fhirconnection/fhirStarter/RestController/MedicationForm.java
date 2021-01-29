@@ -14,4 +14,5 @@ public class MedicationForm {
     private String dateEnd;
     private String patientId;
     private String amount;
+    private String note;
 }

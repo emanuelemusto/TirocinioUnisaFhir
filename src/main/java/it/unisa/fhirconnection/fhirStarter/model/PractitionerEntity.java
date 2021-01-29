@@ -45,6 +45,8 @@ public class PractitionerEntity {
     @NonNull
     private Person person;
 
+    private String descrition;
+
     public void addIdentifiers(final Identifier identifier) {
         if (!this.identifiers.contains(identifier)) {
             identifiers.add(identifier);

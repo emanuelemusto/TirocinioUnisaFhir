@@ -63,7 +63,7 @@ public class PatientService {
         User utente = UserService.getByUsername(dummy.getUser());
 
 
-        Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate());
+        Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate(), dummy.getCf());
         PatientEntity patientEntity1 = new PatientEntity();
         person1.setUser(utente);
         utente.setPerson(person1);

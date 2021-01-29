@@ -16,7 +16,7 @@ public class ScheduleToFHIRSchedule  implements Transformer<it.unisa.fhirconnect
     public Schedule transform(it.unisa.fhirconnection.fhirStarter.model.Schedule scheduleEntity) {
         final Schedule scheduleFHIR = new Schedule();
 
-        Meta meta = new Meta().addProfile("https://fhir.hl7.org/STU3/StructureDefinition/CareConnect-Patient-1"); //TODO
+        Meta meta = new Meta().addProfile("https://fhir.hl7.org/STU3/StructureDefinition/CareConnect-Schedule-" + scheduleEntity.getId()); //TODO
 
         scheduleFHIR.setMeta(meta);
 

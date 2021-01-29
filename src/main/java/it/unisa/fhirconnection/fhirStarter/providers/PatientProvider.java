@@ -83,7 +83,7 @@ public class PatientProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
-                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName,@RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId
+                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId
     ) {
         System.out.println("prova token value "+theId.getValue());
         System.out.println("prova token System "+theId.getSystem());

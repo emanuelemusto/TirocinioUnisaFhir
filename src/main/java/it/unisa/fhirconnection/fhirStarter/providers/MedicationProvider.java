@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorizeByPatientId;
 
@@ -89,6 +90,15 @@ public class MedicationProvider implements IResourceProvider {
             return medications;
         }
         return null;
+    }
+
+    @Search()
+    public List<Medication> getAllApprovedMedication(@RequiredParam(name = Medication.SP_STATUS) StringParam param ) {
+        if("true".equals(String.valueOf(param.getValueNotNull()))){
+            return new ArrayList<Medication>(MedicationService.medicationApproved());
+        }else {
+            return null;
+        }
     }
 
 

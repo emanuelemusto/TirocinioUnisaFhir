@@ -81,6 +81,7 @@ public class PractitionerProvider implements IResourceProvider {
     public ArrayList<Practitioner> searchPractitionerbyFamilyName(
             @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName, @RequiredParam(name = Practitioner.SP_IDENTIFIER) TokenParam theId
     ) {
+
         String username = theId.getSystem();
         String token = theId.getValue();
 
@@ -93,6 +94,7 @@ public class PractitionerProvider implements IResourceProvider {
                 String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
                 if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
                     practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
+
 
 
             }

@@ -43,7 +43,7 @@ public class Schedule {
     private String planning;
 
     public Date getDateAsDate() throws ParseException {
-        DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return fmt.parse(planning);
     }
 

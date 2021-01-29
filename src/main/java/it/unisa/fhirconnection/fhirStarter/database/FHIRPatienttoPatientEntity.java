@@ -52,7 +52,6 @@ public class FHIRPatienttoPatientEntity implements Transformer<Patient, PatientE
         }
         for (Address address : patient.getAddress()) {
             it.unisa.fhirconnection.fhirStarter.model.Address addressEntity = new it.unisa.fhirconnection.fhirStarter.model.Address();
-//TODO
                 addressEntity.setLines(address.getLine().get(0).toString());
 
 

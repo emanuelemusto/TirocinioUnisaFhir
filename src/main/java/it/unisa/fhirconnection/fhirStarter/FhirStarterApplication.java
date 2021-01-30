@@ -58,25 +58,25 @@ public class FhirStarterApplication {
             User utente = new User("mario","rossi",User.PATIENT_ROLE);
             User utente2 = new User("giuseppe","verdi",User.MEDIC_ROLE);
 
-            Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014");
+            Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014","RSSMRA80A01H501U");
             PatientEntity patientEntity1 = new PatientEntity();
 
-            Person person2 = new Person("Nome2", "Cognome2", "female", "12/12/2012");
+            Person person2 = new Person("Nome2", "Cognome2", "female", "12/12/2012","RSSMRA80A01H501U");
             PatientEntity patientEntity2 = new PatientEntity();
 
-            Person person3 = new Person("Nome3", "Cognome3", "female", "11/11/2011");
+            Person person3 = new Person("Nome3", "Cognome3", "female", "11/11/2011","RSSMRA80A01H501U");
             PatientEntity patientEntity3 = new PatientEntity();
 
-            Person person4 = new Person("Nome4", "Cognome4", "null", "11/11/2011");
+            Person person4 = new Person("Nome4", "Cognome4", "null", "11/11/2011","RSSMRA80A01H501U");
             PatientEntity patientEntity4 = new PatientEntity();
 
-            Person person5 = new Person("Nome5", "Cognome5", "male", "11/11/2011");
+            Person person5 = new Person("Nome5", "Cognome5", "male", "11/11/2011","RSSMRA80A01H501U");
             PatientEntity patientEntity5 = new PatientEntity();
 
-            Person person6 = new Person("Nome6", "Cognome6", "female", "11/11/2011");
+            Person person6 = new Person("Nome6", "Cognome6", "female", "11/11/2011","RSSMRA80A01H501U");
             PatientEntity patientEntity6 = new PatientEntity();
 
-            Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011");
+            Person person7 = new Person("Nome7", "Cognome7", "male", "11/11/2011","RSSMRA80A01H501U");
             PatientEntity patientEntity7 = new PatientEntity();
 
             person1.setUser(utente);
@@ -240,14 +240,14 @@ public class FhirStarterApplication {
             person7.setPatientEntity(patientEntity7);
             patientEntity7.setPerson(person7);
 
-            Person person8 = new Person("1", "Doctor", "male", "11/11/1961");
+            Person person8 = new Person("1", "Doctor", "male", "11/11/1961", "RSSMRA80A01H501U");
             PractitionerEntity practitionerEntity1 = new PractitionerEntity();
             practitionerEntity1.setQualificationComponent("Dentist");
             practitionerEntity1.setIssuer("Issue 1");
             person8.setUser(utente2);
             utente2.setPerson(person8);
 
-            Person person9 = new Person("2", "Doctor", "female", "11/11/1961");
+            Person person9 = new Person("2", "Doctor", "female", "11/11/1961", "RSSMRA80A01H501U");
             PractitionerEntity practitionerEntity2 = new PractitionerEntity();
             practitionerEntity2.setQualificationComponent("Family doctor");
             practitionerEntity2.setIssuer("Issue 2");
@@ -308,6 +308,12 @@ public class FhirStarterApplication {
 
             Set<PatientEntity> patientEntitySet = practitionerEntity1.getPatientEntity();
             patientEntitySet.add(patientEntity1);
+            patientEntitySet.add(patientEntity2);
+            patientEntitySet.add(patientEntity3);
+            patientEntitySet.add(patientEntity4);
+            patientEntitySet.add(patientEntity5);
+            patientEntitySet.add(patientEntity6);
+            patientEntitySet.add(patientEntity7);
             practitionerEntity1.setPatientEntity(patientEntitySet);
 
             personDAO.save(person1);
@@ -357,9 +363,6 @@ public class FhirStarterApplication {
 
             }
             System.out.println(patientDAO.findByIdpatient(20).getPerson().getFirstName());
-
-
-
 
         };
 

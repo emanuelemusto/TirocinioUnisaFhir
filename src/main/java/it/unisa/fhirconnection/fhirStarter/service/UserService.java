@@ -40,13 +40,12 @@ public class UserService {
     private static UserDAO userDAO;
 
 
-
     @Autowired
-    public UserService(UserDAO userDAO){
-        this.userDAO =userDAO;
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public static User getByUsername(String username){
+    public static User getByUsername(String username) {
         return userDAO.findByUsername(username);
     }
 
@@ -57,13 +56,13 @@ public class UserService {
 
         ArrayList<User> utenti = (ArrayList<User>) userDAO.findAll();
 
-        for (User utente:utenti) {
-            if(utente.getTime() != null) {
-               Long tempoTrascorso= TimeUnit.MILLISECONDS.toHours(startTime - utente.getTime());
-               if(tempoTrascorso==1){
-                   utente.setToken(null);
-                   userDAO.save(utente);
-               }
+        for (User utente : utenti) {
+            if (utente.getTime() != null) {
+                Long tempoTrascorso = TimeUnit.MILLISECONDS.toHours(startTime - utente.getTime());
+                if (tempoTrascorso == 1) {
+                    utente.setToken(null);
+                    userDAO.save(utente);
+                }
 
             }
 
@@ -73,38 +72,38 @@ public class UserService {
     }
 
     // restituisce il ruolo solo se quell'utente si è loggato
-    public static String authorize(String token, String username){
-        if(userDAO.existsUsersByToken(token)){
+    public static String authorize(String token, String username) {
+        if (userDAO.existsUsersByToken(token)) {
             User user = userDAO.findByUsername(username);
-            return  user.getRole();
+            return user.getRole();
 
         }
 
         return null;
     }
 
-    public static Boolean authorizeByPatientId(String token, String username,int id){
+    public static Boolean authorizeByPatientId(String token, String username, int id) {
 
-        if(userDAO.existsUsersByToken(token)){
+        if (userDAO.existsUsersByToken(token)) {
 
             User user = userDAO.findByUsername(username);
             Person person = user.getPerson();
             Set<PatientEntity> patients;
-            String role=  user.getRole();
-            if(role.equals("MEDIC")){
+            String role = user.getRole();
+            if (role.equals("MEDIC")) {
 
-                  patients =person.getPractitionerEntity().getPatientEntity();
+                patients = person.getPractitionerEntity().getPatientEntity();
 
                 for (PatientEntity patientEntity : patients) {
 
-                    if( patientEntity.getIdpatient()==id){
+                    if (patientEntity.getIdpatient() == id) {
 
                         return true;
                     }
 
                 }
 
-            }else return role.equals("PATIENT") && (person.getPatientEntity().getIdpatient() == id);
+            } else return role.equals("PATIENT") && (person.getPatientEntity().getIdpatient() == id);
         }
         return false;
     }
@@ -112,15 +111,15 @@ public class UserService {
 
     public static User authenticate(LoginForm userpass) {
         System.out.println("lo username è:" + userpass.getUsername());
-        User test = userDAO.findByUsername(userpass.getUsername()) ;
-        if(test != null){
+        User test = userDAO.findByUsername(userpass.getUsername());
+        if (test != null) {
             if (userpass.getPassword().equals(test.getPassword())) {
 
-                test.setTime( System.currentTimeMillis());
+                test.setTime(System.currentTimeMillis());
                 test.setToken(userpass.getToken());
                 userDAO.save(test);
                 current_user = test;
-                System.out.println("prova token metodo authenticate "+current_user.getToken());
+                System.out.println("prova token metodo authenticate " + current_user.getToken());
 
                 return current_user;
             }
@@ -131,11 +130,11 @@ public class UserService {
 
     }
 
-    public static boolean registrate(RegistrationForm userpass){
-        System.out.print("questa è una prova per la registrazione"+userpass.getUsername()+"   "+userpass.getPassword());
+    public static boolean registrate(RegistrationForm userpass) {
+        System.out.print("questa è una prova per la registrazione" + userpass.getUsername() + "   " + userpass.getPassword());
         User test = userDAO.findByUsername(userpass.getUsername());
-        if(test == null) {
-            System.out.print("ecco il ruolo "+userpass.getRuolo());
+        if (test == null) {
+            System.out.print("ecco il ruolo " + userpass.getRuolo());
             User utente = new User(userpass.getUsername(), userpass.getPassword(), userpass.getRuolo());
             if (userDAO.save(utente) != null)
                 return true;
@@ -144,5 +143,10 @@ public class UserService {
         return false;
 
 
+    }
+
+    public static String findbyUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        return user.getRole();
     }
 }

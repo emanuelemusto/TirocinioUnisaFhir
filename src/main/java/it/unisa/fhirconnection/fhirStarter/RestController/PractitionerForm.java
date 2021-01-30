@@ -17,6 +17,28 @@ public class PractitionerForm {
     private String country;
     private String addressUse;
     private String user;
+    public String getDescrition() {
+        return descrition;
+    }
+
+    public void setDescrition(String descrition) {
+        this.descrition = descrition;
+    }
+
+    private String descrition;
+
+
+
+    public String getCf() {
+        return cf;
+    }
+
+    public void setCf(String cf) {
+        this.cf = cf;
+    }
+
+    private String cf;
+
 
     public String getUser() {
         return user;
@@ -137,6 +159,8 @@ public class PractitionerForm {
                 ", postCode='" + postCode + '\'' +
                 ", country='" + country + '\'' +
                 ", addressUse='" + addressUse + '\'' +
+                ", CF='" + cf + '\'' +
+                ", descrition='" + descrition + '\'' +
                 '}';
     }
 }

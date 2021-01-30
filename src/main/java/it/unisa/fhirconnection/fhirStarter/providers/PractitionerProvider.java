@@ -38,38 +38,6 @@ public class PractitionerProvider implements IResourceProvider {
         return Practitioner.class;
     }
 
-   /* @Create
-    public MethodOutcome createPractitioner(@ResourceParam Practitioner practitioner) {
-
-        log.debug("Create Practitioner Provider called");
-
-        MethodOutcome method = new MethodOutcome();
-        method.setCreated(true);
-        OperationOutcome opOutcome = new OperationOutcome();
-        method.setOperationOutcome(opOutcome);
-
-        try {
-            PractitionerEntity practitionerEntity = fhirPractitionertoPractitionerEntity.transform(practitioner);
-            practitionerDAO.save(practitionerEntity);
-            log.info(String.valueOf(practitionerEntity.getId()));
-            method.setId(practitioner.getIdElement());
-            method.setResource(practitioner);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
-
-        log.debug("called create Practitioner method");
-
-        return method;
-    }*/
-
-    /*@Read
-    public ArrayList<PractitionerEntity> getAllPatitent(HttpServletRequest request) {
-        for (PractitionerEntity p : practitionerDAO.findAll())
-            practitionerEntityList.add(p);
-        return practitionerEntityList;
-    }*/
-
     @Read()
     public Practitioner readPractitioner(@IdParam IdType internalId) {
         PractitionerEntity practitioner = PractitionerService.getById(Integer.parseInt(internalId.getIdPart()));
@@ -94,7 +62,6 @@ public class PractitionerProvider implements IResourceProvider {
                 String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
                 if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
                     practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
-
 
 
             }

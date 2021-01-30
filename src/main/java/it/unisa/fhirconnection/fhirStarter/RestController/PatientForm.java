@@ -17,6 +17,16 @@ public class PatientForm {
     private String country;
     private String addressUse;
     private String user;
+    private String cf;
+
+    public String getCf() {
+        return cf;
+    }
+
+    public void setCf(String cf) {
+        this.cf = cf;
+    }
+
 
     public String getUser() {
         return user;
@@ -137,6 +147,7 @@ public class PatientForm {
                 ", postCode='" + postCode + '\'' +
                 ", country='" + country + '\'' +
                 ", addressUse='" + addressUse + '\'' +
+                ", CF='" + cf + '\'' +
                 '}';
     }
 }

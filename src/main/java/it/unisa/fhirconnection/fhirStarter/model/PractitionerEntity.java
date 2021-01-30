@@ -41,6 +41,8 @@ public class PractitionerEntity {
     @NonNull
     private String issuer;
 
+    private String descrition;
+
     @OneToOne(cascade = CascadeType.ALL)
     @NonNull
     private Person person;

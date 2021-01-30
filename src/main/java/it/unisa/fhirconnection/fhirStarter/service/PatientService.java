@@ -28,18 +28,18 @@ public class PatientService {
     private static PatientDAO patientDAO;
     private static UserDAO userDAO;
 
-    private  static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
+    private static PatientEntityToFHIRPatient patientEntityToFHIRPatient;
 
     @Autowired
-    public PatientService(PatientDAO patientDAO, PersonDAO personDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient ) {
+    public PatientService(PatientDAO patientDAO, PersonDAO personDAO, PatientEntityToFHIRPatient patientEntityToFHIRPatient) {
         PatientService.patientDAO = patientDAO;
         PatientService.personDAO = personDAO;
         PatientService.patientEntityToFHIRPatient = patientEntityToFHIRPatient;
     }
 
-    public static ArrayList<PatientEntity> getAllPatients(){
+    public static ArrayList<PatientEntity> getAllPatients() {
         ArrayList<PatientEntity> patientEntityList = new ArrayList<>();
-        for(PatientEntity patientEntity : patientDAO.findAll()) {
+        for (PatientEntity patientEntity : patientDAO.findAll()) {
             System.out.println(patientEntity.getIdpatient());
             patientEntityList.add(patientEntity);
         }
@@ -47,11 +47,11 @@ public class PatientService {
         return patientEntityList;
     }
 
-    public static PatientEntity getById(int id){
+    public static PatientEntity getById(int id) {
         return patientDAO.findByIdpatient(id);
     }
 
-    public static Patient trasformToFHIRPatient (PatientEntity patientEntity) {
+    public static Patient trasformToFHIRPatient(PatientEntity patientEntity) {
         return patientEntityToFHIRPatient.transform(patientEntity);
     }
 
@@ -59,12 +59,12 @@ public class PatientService {
         patientDAO.save(patientDAO.findByIdpatient(id));
     }
 
-    public static void addPatient(PatientForm form){
+    public static void addPatient(PatientForm form) {
 
-        Person person1 = new Person(form.getFirstname(), form.getFamilyname(), form.getGender(), form.getDate());
+        Person person1 = new Person(form.getFirstname(), form.getFamilyname(), form.getGender(), form.getDate(), form.getCf());
         PatientEntity patientEntity1 = new PatientEntity();
 
-        if(form.getUser() != null) {
+        if (form.getUser() != null) {
             User user = userDAO.findByUsername(form.getUser());
             person1.setUser(user);
             user.setPerson(person1);
@@ -73,7 +73,7 @@ public class PatientService {
         Telecom telecom1 = new Telecom();
         telecom1.setValue(form.getTelecomValue());
 
-        switch(form.getTelecomUse().toLowerCase()) {
+        switch (form.getTelecomUse().toLowerCase()) {
             case ("home"):
                 telecom1.setTelecomUse(ContactPoint.ContactPointUse.HOME);
                 break;
@@ -89,14 +89,13 @@ public class PatientService {
         }
 
 
-
         Address address1 = new Address();
         address1.setCity(form.getCity());
         address1.setPostcode(form.getPostCode());
         address1.setCountry(form.getCountry());
         address1.setLines(form.getAddressLine());
 
-        switch(form.getAddressUse().toLowerCase()) {
+        switch (form.getAddressUse().toLowerCase()) {
             case ("home"):
                 address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
                 break;

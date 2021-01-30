@@ -90,7 +90,7 @@ public class ScheduleProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Schedule> getAllbyPractionier(@RequiredParam(name = Schedule.SP_ACTOR) StringParam id) { //"actor"
+    public ArrayList<Schedule> getAllbyPractionier(@RequiredParam(name = Schedule.SP_ACTOR) StringParam id) {
         PractitionerEntity practitionerEntity = PractitionerService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Schedule> schedules = new ArrayList<>();
 

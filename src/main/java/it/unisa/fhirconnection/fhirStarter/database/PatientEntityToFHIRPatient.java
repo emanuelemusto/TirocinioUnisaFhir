@@ -34,6 +34,11 @@ public class PatientEntityToFHIRPatient  implements Transformer<PatientEntity, P
         if (patientEntity.getPerson().getDateOfBirth() != null) {
             patient.setBirthDate(patientEntity.getPerson().getDateOfBirthAsDate());
         }
+
+        if (patientEntity.getPerson().getCf() != null) {
+            patient.setLanguage(patientEntity.getPerson().getCf());
+        }
+
         if (patientEntity.getPerson().getGender()!=null) {
             switch(patientEntity.getPerson().getGender().toLowerCase()) {
                 case ("male"):
@@ -67,7 +72,6 @@ public class PatientEntityToFHIRPatient  implements Transformer<PatientEntity, P
 
 
                 address.addLine(addressEntity.getLines());
-            //TODO
             if (addressEntity.getCity()!=null) address.setCity(addressEntity.getCity());
             if (addressEntity.getCounty()!=null) address.setDistrict(addressEntity.getCounty());
             if (addressEntity.getPostcode()!=null) address.setPostalCode(addressEntity.getPostcode());

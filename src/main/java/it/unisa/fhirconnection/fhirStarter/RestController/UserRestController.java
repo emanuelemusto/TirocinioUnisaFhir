@@ -21,11 +21,21 @@ public class UserRestController {
             System.out.println("loggato"+utente.getRole());
 
 
-            return ResponseEntity.ok().body("{\n" +
-                    "    \"username\":\""+utente.getUsername()+"\",\n" +
-                    "    \"role\":\""+utente.getRole()+"\",\n" +
-                    "    \"token\":"+utente.getToken()+"\n" +
-                    "}");
+            if (utente.getRole()=="MEDIC") {
+                return ResponseEntity.ok().body("{\n" +
+                        "    \"username\":\"" + utente.getUsername() + "\",\n" +
+                        "    \"role\":\"" + utente.getRole() + "\",\n" +
+                        "    \"token\":" + utente.getToken() + ",\n" +
+                        "    \"id\":" + utente.getPerson().getPractitionerEntity().getId() + "\n" +
+                        "}");
+            } else {
+                return ResponseEntity.ok().body("{\n" +
+                        "    \"username\":\"" + utente.getUsername() + "\",\n" +
+                        "    \"role\":\"" + utente.getRole() + "\",\n" +
+                        "    \"token\":" + utente.getToken() + ",\n" +
+                        "    \"id\":" + utente.getPerson().getPatientEntity().getIdpatient() + "\n" +
+                        "}");
+            }
         }else{
             System.out.println("non loggato");
         }

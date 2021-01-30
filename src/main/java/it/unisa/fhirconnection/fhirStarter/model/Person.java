@@ -22,6 +22,8 @@ public class Person {
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
+    private String cf;
+
     private String firstName;
 
     private String lastName;
@@ -44,11 +46,12 @@ public class Person {
         }
     }
 
-    public Person(String firstName, String lastName, String gender, String dateOfBirth) {
+    public Person(String firstName, String lastName, String gender, String dateOfBirth,  String cf) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.cf = cf;
     }
 
     public Person(){
@@ -127,5 +130,13 @@ public class Person {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getCf() {
+        return cf;
+    }
+
+    public void setCf(String cf) {
+        this.cf = cf;
     }
 }

@@ -67,13 +67,6 @@ public class PatientProvider implements IResourceProvider {
         return method;
     }
 
-    /*@Read
-    public ArrayList<PatientEntity> getAllPatitent(HttpServletRequest request) {
-        for (PatientEntity p : patientDAO.findAll())
-            patientEntityList.add(p);
-        return patientEntityList;
-    }*/
-
     @Read()
     public Patient readPatient(@IdParam IdType internalId) {
         PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
@@ -106,21 +99,4 @@ public class PatientProvider implements IResourceProvider {
         }
         return null;
     }
-
-    @Search()
-    public ArrayList<Patient> searchPatientbyGivenName(
-            @RequiredParam(name= Patient.SP_GIVEN) StringParam givenName
-    ) {
-        ArrayList<Patient> patientArrayList = new ArrayList<>();
-        for (PatientEntity patient : PatientService.getAllPatients()) {
-            if (patient.getPerson().getFirstName().toLowerCase().contains(String.valueOf(givenName.getValueNotNull()).toLowerCase()))
-                patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
-
-
-        }
-        return patientArrayList;
-    }
-
-
-
 }

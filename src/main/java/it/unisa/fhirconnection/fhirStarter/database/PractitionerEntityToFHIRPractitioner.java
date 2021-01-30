@@ -35,6 +35,11 @@ public class PractitionerEntityToFHIRPractitioner  implements Transformer<Practi
         if (practitionerEntity.getPerson().getDateOfBirth() != null) {
             practitioner.setBirthDate(practitionerEntity.getPerson().getDateOfBirthAsDate());
         }
+
+        if (practitionerEntity.getPerson().getCf() != null) {
+            practitioner.setLanguage(practitionerEntity.getPerson().getCf());
+        }
+
         if (practitionerEntity.getPerson().getGender()!=null) {
             switch(practitionerEntity.getPerson().getGender().toLowerCase()) {
                 case ("male"):

@@ -12,16 +12,16 @@ public class UserRestController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public static ResponseEntity<String> login(@RequestBody LoginForm userpass) {
         // No exception thrown means the authentication succeeded
-        String body="";
+        String body = "";
         User utente = UserService.authenticate(userpass);
 
-        if(utente!=  null){
-            //usernma e password corrispondono
+        if (utente != null) {
+            //username e password corrispondono
             System.out.println("loggato");
-            System.out.println("loggato"+utente.getRole());
+            System.out.println("loggato" + utente.getRole());
 
 
-            if (utente.getRole()=="MEDIC") {
+            if (utente.getRole() == "MEDIC") {
                 return ResponseEntity.ok().body("{\n" +
                         "    \"username\":\"" + utente.getUsername() + "\",\n" +
                         "    \"role\":\"" + utente.getRole() + "\",\n" +
@@ -36,11 +36,10 @@ public class UserRestController {
                         "    \"id\":" + utente.getPerson().getPatientEntity().getIdpatient() + "\n" +
                         "}");
             }
-        }else{
+        } else {
             System.out.println("non loggato");
         }
         return ResponseEntity.ok().body(null);
-
 
 
     }
@@ -50,20 +49,17 @@ public class UserRestController {
         // No exception thrown means the authentication succeeded
         boolean result = UserService.registrate(registrationData);
 
-        if(result){
+        if (result) {
             //usernma e password corrispondono
             System.out.println("Registrato con successo");
 
 
-
             return ResponseEntity.ok().body("utente registrato");
-        }else{
+        } else {
             System.out.println("utente gia esistente");
             return ResponseEntity.ok().body("utente gia esistente");
 
         }
-
-
 
 
     }

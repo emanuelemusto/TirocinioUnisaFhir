@@ -7,10 +7,9 @@ package it.unisa.fhirconnection.fhirStarter.service;
 
 
 import it.unisa.fhirconnection.fhirStarter.RestController.PractitionerForm;
+import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerDAO;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerEntityToFHIRPractitioner;
-import it.unisa.fhirconnection.fhirStarter.database.PersonDAO;
-import it.unisa.fhirconnection.fhirStarter.database.UserDAO;
 import it.unisa.fhirconnection.fhirStarter.model.*;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Practitioner;

@@ -3,7 +3,6 @@ package it.unisa.fhirconnection.fhirStarter.service;
 import it.unisa.fhirconnection.fhirStarter.RestController.MedicationForm;
 import it.unisa.fhirconnection.fhirStarter.database.MedicationDAO;
 import it.unisa.fhirconnection.fhirStarter.database.MedicationToFhirMedication;
-import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.model.Medication;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @Service

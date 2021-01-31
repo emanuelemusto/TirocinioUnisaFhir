@@ -15,15 +15,4 @@ public class daoConfig {
         return FhirContext.forDstu3();
     }
 
-    /*
-    @Bean
-    public EntityManagerFactory entityManagerFactory() {
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(
-                "ogm-jpa-tutorial");
-
-        return emf;
-    }
-*/
-
 }

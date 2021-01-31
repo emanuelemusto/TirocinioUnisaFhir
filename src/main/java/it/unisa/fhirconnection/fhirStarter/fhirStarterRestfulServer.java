@@ -66,9 +66,9 @@ public class fhirStarterRestfulServer extends RestfulServer {
 		));
 
 
-		FifoMemoryPagingProvider pp = new FifoMemoryPagingProvider(1000000);
-		pp.setDefaultPageSize(1000000);
-		pp.setMaximumPageSize(100000000);
+		FifoMemoryPagingProvider pp = new FifoMemoryPagingProvider(10000);
+		pp.setDefaultPageSize(10000);
+		pp.setMaximumPageSize(10000);
 		setPagingProvider(pp);
 
 		setDefaultPrettyPrint(true);

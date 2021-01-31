@@ -1,11 +1,8 @@
 package it.unisa.fhirconnection.fhirStarter;
 
 import it.unisa.fhirconnection.fhirStarter.database.*;
-import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.model.*;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.fhir.dstu3.model.Practitioner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -42,7 +42,7 @@ public class UserService {
 
     @Autowired
     public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+        UserService.userDAO = userDAO;
     }
 
     public static User getByUsername(String username) {
@@ -136,8 +136,7 @@ public class UserService {
         if (test == null) {
             System.out.print("ecco il ruolo " + userpass.getRuolo());
             User utente = new User(userpass.getUsername(), userpass.getPassword(), userpass.getRuolo());
-            if (userDAO.save(utente) != null)
-                return true;
+            return userDAO.save(utente) != null;
         }
 
         return false;

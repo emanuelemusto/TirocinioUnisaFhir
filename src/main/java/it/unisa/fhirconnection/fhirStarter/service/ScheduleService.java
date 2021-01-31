@@ -3,11 +3,9 @@ package it.unisa.fhirconnection.fhirStarter.service;
 import it.unisa.fhirconnection.fhirStarter.RestController.ScheduleForm;
 import it.unisa.fhirconnection.fhirStarter.database.*;
 import it.unisa.fhirconnection.fhirStarter.model.*;
-import org.hl7.fhir.dstu3.model.Practitioner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Set;
 

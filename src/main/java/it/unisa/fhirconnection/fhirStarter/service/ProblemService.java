@@ -2,10 +2,7 @@ package it.unisa.fhirconnection.fhirStarter.service;
 
 import it.unisa.fhirconnection.fhirStarter.RestController.ProblemForm;
 import it.unisa.fhirconnection.fhirStarter.database.ProblemDAO;
-import it.unisa.fhirconnection.fhirStarter.database.AllergyIntoleranceToFHIRAllergyIntolerance;
 import it.unisa.fhirconnection.fhirStarter.database.ProblemToFHIRProblem;
-import it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance;
-import it.unisa.fhirconnection.fhirStarter.model.DiagnosticReport;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import org.hl7.fhir.dstu3.model.Condition;

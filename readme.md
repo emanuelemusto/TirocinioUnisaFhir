@@ -8,4 +8,5 @@ Java 14
 HAPI FHIR 5.1.0
 Useful Links
 
-Clone this repo: 
+Clone this repo:  https://github.com/emanuelemusto/TirocinioUnisaFhir.git
+install lombook plugin

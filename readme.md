@@ -9,4 +9,11 @@ HAPI FHIR 5.1.0
 Useful Links
 
 Clone this repo:  https://github.com/emanuelemusto/TirocinioUnisaFhir.git
-install lombook plugin
+
+open cmd as Admin
+
+install maven: https://maven.apache.org/download.cgi#
+
+move into the project directory and run command: "mvn install" and move into "target" directory with "cd target" and run: jar file with following command "java -jar unisa-fhirStarter-1.0-SNAPSHOT.jar"
+
+

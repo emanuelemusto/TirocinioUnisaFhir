@@ -56,7 +56,7 @@ public class FhirStarterApplication {
                 User utente = new User("mario", "rossi", User.PATIENT_ROLE);
                 User utente2 = new User("giuseppe", "verdi", User.MEDIC_ROLE);
 
-                Person person1 = new Person("firstName", "Cognome", "male", "18/05/2014", "RSSMRA80A01H501U");
+                Person person1 = new Person("Mario", "Rossi", "male", "18/05/2014", "RSSMRA80A01H501U");
                 PatientEntity patientEntity1 = new PatientEntity();
 
                 Person person2 = new Person("Nome2", "Cognome2", "female", "12/12/2012", "RSSMRA80A01H501U");
@@ -237,7 +237,7 @@ public class FhirStarterApplication {
                 person7.setPatientEntity(patientEntity7);
                 patientEntity7.setPerson(person7);
 
-                Person person8 = new Person("1", "Doctor", "male", "11/11/1961", "RSSMRA80A01H501U");
+                Person person8 = new Person("Verdi", "Giuseppe", "male", "11/11/1961", "RSSMRA80A01H501U");
                 PractitionerEntity practitionerEntity1 = new PractitionerEntity();
                 practitionerEntity1.setQualificationComponent("Dentist");
                 practitionerEntity1.setIssuer("Issue 1");

@@ -52,7 +52,7 @@ public class FhirStarterApplication {
             PractitionerDAO practitionerDAO
     ) {
         return args -> {
-            if (userDAO.findAll() == null) {
+            if (userDAO.findByUsername("mario") == null || userDAO.findByUsername("giuseppe") == null) {
                 User utente = new User("mario", "rossi", User.PATIENT_ROLE);
                 User utente2 = new User("giuseppe", "verdi", User.MEDIC_ROLE);
 

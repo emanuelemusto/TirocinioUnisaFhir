@@ -40,8 +40,6 @@ public class UserRestController {
             System.out.println("non loggato");
         }
         return ResponseEntity.status(503).body(null);
-
-
     }
 
     @RequestMapping(value = "registrazione", method = RequestMethod.POST)

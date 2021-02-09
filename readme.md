@@ -14,6 +14,8 @@ open cmd as Admin
 
 install maven: https://maven.apache.org/download.cgi#
 
+if you want have a mysql Database you must install Mysql server, change the file "application.property" with user, pass and url of your mySql server
+
 move into the project directory and run command: "mvn install" and move into "target" directory with "cd target" and run: jar file with following command "java -jar unisa-fhirStarter-1.0-SNAPSHOT.jar"
 
 

@@ -24,7 +24,7 @@ public class ScheduleToFHIRSchedule  implements Transformer<it.unisa.fhirconnect
         if(scheduleEntity.getIdentifiers()!=null) {
             for (it.unisa.fhirconnection.fhirStarter.model.Identifier identifier : scheduleEntity.getIdentifiers()) {
                 scheduleFHIR.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }

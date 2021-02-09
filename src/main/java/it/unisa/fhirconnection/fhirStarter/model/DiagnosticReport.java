@@ -2,7 +2,6 @@ package it.unisa.fhirconnection.fhirStarter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.text.DateFormat;
@@ -38,7 +37,7 @@ public class DiagnosticReport {
 
     private String code;
 
-    private String system;
+    private String systemd;
 
     private String display;
 
@@ -83,7 +82,7 @@ public class DiagnosticReport {
                 Objects.equals(date, that.date) &&
                 Objects.equals(category, that.category) &&
                 Objects.equals(code, that.code) &&
-                Objects.equals(system, that.system) &&
+                Objects.equals(systemd, that.systemd) &&
                 Objects.equals(display, that.display) &&
                 Objects.equals(publisher, that.publisher) &&
                 Objects.equals(text, that.text) &&
@@ -97,6 +96,6 @@ public class DiagnosticReport {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, identifiers, name, status, date, experimental, category, code, system, display, publisher, text, media, mediacomment, contact, description, patientEntity, practitionerEntity);
+        return Objects.hash(id, identifiers, name, status, date, experimental, category, code, systemd, display, publisher, text, media, mediacomment, contact, description, patientEntity, practitionerEntity);
     }
 }

@@ -1,7 +1,6 @@
 package it.unisa.fhirconnection.fhirStarter.database;
 
 
-import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
 import lombok.SneakyThrows;
 import org.hl7.fhir.dstu3.model.*;
@@ -25,7 +24,7 @@ public class PractitionerEntityToFHIRPractitioner  implements Transformer<Practi
         if(practitionerEntity.getIdentifiers()!=null) {
             for (it.unisa.fhirconnection.fhirStarter.model.Identifier identifier : practitionerEntity.getIdentifiers()) {
                 practitioner.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }
@@ -61,7 +60,7 @@ public class PractitionerEntityToFHIRPractitioner  implements Transformer<Practi
         for (Telecom telecom : practitionerEntity.getTelecoms()) {
             ContactPoint contactPoint = new ContactPoint();
             contactPoint.setValue(telecom.getValue());
-            if (telecom.getSystem() != null) contactPoint.setSystem(telecom.getSystem());
+            if (telecom.getSystemt() != null) contactPoint.setSystem(telecom.getSystemt());
             if (telecom.getTelecomUse()!=null) {
                 contactPoint.setUse(telecom.getTelecomUse());
             }
@@ -72,11 +71,11 @@ public class PractitionerEntityToFHIRPractitioner  implements Transformer<Practi
             practitioner.getAddress().add(address);
 
 
-            address.addLine(addressEntity.getLines());
+            address.addLine(addressEntity.getLinesAddress());
             if (addressEntity.getCity()!=null) address.setCity(addressEntity.getCity());
             if (addressEntity.getCounty()!=null) address.setDistrict(addressEntity.getCounty());
             if (addressEntity.getPostcode()!=null) address.setPostalCode(addressEntity.getPostcode());
-            if (addressEntity.getUse()!=null) address.setUse(addressEntity.getUse());
+            if (addressEntity.getAddressUse()!=null) address.setUse(addressEntity.getAddressUse());
         }
         CodeableConcept codeableConcept = new CodeableConcept();
         codeableConcept.setText(practitionerEntity.getQualificationComponent());

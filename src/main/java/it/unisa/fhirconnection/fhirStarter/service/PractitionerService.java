@@ -92,17 +92,17 @@ public class PractitionerService {
         address1.setCity(dummy.getCity());
         address1.setPostcode(dummy.getPostCode());
         address1.setCountry(dummy.getCountry());
-        address1.setLines(dummy.getAddressLine());
+        address1.setLinesAddress(dummy.getAddressLine());
 
         switch(dummy.getAddressUse().toLowerCase()) {
             case ("home"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
                 break;
             case ("work"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
                 break;
             case ("old"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.OLD);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.OLD);
                 break;
 
         }

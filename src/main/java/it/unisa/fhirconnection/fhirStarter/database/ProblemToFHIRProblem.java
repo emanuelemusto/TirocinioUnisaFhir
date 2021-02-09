@@ -26,7 +26,7 @@ public class ProblemToFHIRProblem implements Transformer<Problem, Condition> {
         if(problem.getIdentifiers()!=null) {
             for (Identifier identifier : problem.getIdentifiers()) {
                 condition.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }
@@ -66,10 +66,6 @@ public class ProblemToFHIRProblem implements Transformer<Problem, Condition> {
                 condition.setVerificationStatus(Condition.ConditionVerificationStatus.UNKNOWN);
                 break;
         }
-
-
-
-        //TODO
 
         Annotation annotation = new Annotation();
         annotation.setText(problem.getNote());

@@ -19,7 +19,7 @@ public class Address  {
     private String county;
 
     //home | work | temp | old | mobile - purpose of this contact point
-    private org.hl7.fhir.dstu3.model.Address.AddressUse use;
+    private org.hl7.fhir.dstu3.model.Address.AddressUse addressUse;
 
     public String getCountry() {
         return country;
@@ -35,7 +35,7 @@ public class Address  {
     private String postcode;
 
 
-    private String lines;
+    private String linesAddress;
 
     public String getPostcode() {
         return postcode;
@@ -52,20 +52,20 @@ public class Address  {
     public String getCounty() { return this.county; }
     public void setCounty(String county) { this.county = county; }
 
-    public org.hl7.fhir.dstu3.model.Address.AddressUse getUse() {
-        return use;
+    public org.hl7.fhir.dstu3.model.Address.AddressUse getAddressUse() {
+        return addressUse;
     }
 
-    public void setUse(org.hl7.fhir.dstu3.model.Address.AddressUse use) {
-        this.use = use;
+    public void setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse use) {
+        this.addressUse = use;
     }
 
-    public String getLines() {
-        return lines;
+    public String getLinesAddress() {
+        return linesAddress;
     }
 
-    public void setLines(String lines) {
-        this.lines = lines;
+    public void setLinesAddress(String lines) {
+        this.linesAddress = lines;
     }
 
     public int getId() {

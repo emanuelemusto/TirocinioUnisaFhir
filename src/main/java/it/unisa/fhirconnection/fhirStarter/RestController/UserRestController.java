@@ -21,7 +21,7 @@ public class UserRestController {
             System.out.println("loggato" + utente.getRole());
 
 
-            if (utente.getRole() == "MEDIC") {
+            if (utente.getRole().equals("MEDIC")) {
                 return ResponseEntity.ok().body("{\n" +
                         "    \"username\":\"" + utente.getUsername() + "\",\n" +
                         "    \"role\":\"" + utente.getRole() + "\",\n" +

@@ -24,7 +24,7 @@ public class PatientEntityToFHIRPatient  implements Transformer<PatientEntity, P
         if(patientEntity.getIdentifiers()!=null) {
             for (it.unisa.fhirconnection.fhirStarter.model.Identifier identifier : patientEntity.getIdentifiers()) {
                 patient.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }
@@ -60,7 +60,7 @@ public class PatientEntityToFHIRPatient  implements Transformer<PatientEntity, P
         for (Telecom telecom : patientEntity.getTelecoms()) {
             ContactPoint contactPoint = new ContactPoint();
             contactPoint.setValue(telecom.getValue());
-            if (telecom.getSystem() != null) contactPoint.setSystem(telecom.getSystem());
+            if (telecom.getSystemt() != null) contactPoint.setSystem(telecom.getSystemt());
             if (telecom.getTelecomUse()!=null) {
                 contactPoint.setUse(telecom.getTelecomUse());
             }
@@ -71,11 +71,11 @@ public class PatientEntityToFHIRPatient  implements Transformer<PatientEntity, P
             patient.getAddress().add(address);
 
 
-                address.addLine(addressEntity.getLines());
+                address.addLine(addressEntity.getLinesAddress());
             if (addressEntity.getCity()!=null) address.setCity(addressEntity.getCity());
             if (addressEntity.getCounty()!=null) address.setDistrict(addressEntity.getCounty());
             if (addressEntity.getPostcode()!=null) address.setPostalCode(addressEntity.getPostcode());
-            if (addressEntity.getUse()!=null) address.setUse(addressEntity.getUse());
+            if (addressEntity.getAddressUse()!=null) address.setUse(addressEntity.getAddressUse());
         }
 
 

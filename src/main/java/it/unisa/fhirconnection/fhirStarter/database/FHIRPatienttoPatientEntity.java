@@ -20,7 +20,7 @@ public class FHIRPatienttoPatientEntity implements Transformer<Patient, PatientE
 
         for (org.hl7.fhir.dstu3.model.Identifier identifier : patient.getIdentifier()) {
             it.unisa.fhirconnection.fhirStarter.model.Identifier identifierE = new it.unisa.fhirconnection.fhirStarter.model.Identifier();
-            identifierE.setSystem(identifier.getSystem());
+            identifierE.setSystemid(identifier.getSystem());
             identifierE.setValue(identifier.getValue().replaceAll(" ", ""));
 
             patientEntity.getIdentifiers().add(identifierE);
@@ -44,7 +44,7 @@ public class FHIRPatienttoPatientEntity implements Transformer<Patient, PatientE
             Telecom telecom = new Telecom();
             telecom.setValue(contactPoint.getValue());
             if (contactPoint.hasSystem()) {
-                telecom.setSystem(contactPoint.getSystem());
+                telecom.setSystemt(contactPoint.getSystem());
             }
             if (contactPoint.hasUse()) telecom.setTelecomUse(contactPoint.getUse());
 
@@ -52,7 +52,7 @@ public class FHIRPatienttoPatientEntity implements Transformer<Patient, PatientE
         }
         for (Address address : patient.getAddress()) {
             it.unisa.fhirconnection.fhirStarter.model.Address addressEntity = new it.unisa.fhirconnection.fhirStarter.model.Address();
-                addressEntity.setLines(address.getLine().get(0).toString());
+                addressEntity.setLinesAddress(address.getLine().get(0).toString());
 
 
             if (address.hasCity()) {
@@ -65,7 +65,7 @@ public class FHIRPatienttoPatientEntity implements Transformer<Patient, PatientE
                 addressEntity.setCounty(address.getDistrict());
             }
             if (address.hasUse()) {
-                addressEntity.setUse(address.getUse());
+                addressEntity.setAddressUse(address.getUse());
             }
             patientEntity.getAddresses().add(addressEntity);
         }

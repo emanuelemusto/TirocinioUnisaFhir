@@ -17,7 +17,7 @@ import java.util.Set;
 public class PatientEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idpatient;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

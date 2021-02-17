@@ -20,6 +20,8 @@ move into the project directory and run command: "mvn install" and move into "ta
 
 
 The following url indicates the functionality of this application:
+using your ip and your port.
+
 POST/http://127.0.0.1:8183/login
 GET/http://127.0.0.1:8183/STU3/Patient
 GET/http://127.0.0.1:8183/STU3/AllergyIntolerance

@@ -27,7 +27,7 @@ public class UserRestController {
 
 
 
-            if (utente.getRole() == "MEDIC") {
+            if (utente.getRole().equals("MEDIC")) {
                 return ResponseEntity.ok().body("{\n" +
                         "    \"username\":\"" + utente.getUsername() + "\",\n" +
                         "    \"role\":\"" + utente.getRole() + "\",\n" +
@@ -46,8 +46,6 @@ public class UserRestController {
             System.out.println("non loggato");
         }
         return ResponseEntity.status(503).body(null);
-
-
     }
 
     @RequestMapping(value = "registrazione", method = RequestMethod.POST)

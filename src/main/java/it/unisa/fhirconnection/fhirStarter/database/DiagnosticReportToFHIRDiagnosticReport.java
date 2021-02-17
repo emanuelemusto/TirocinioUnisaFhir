@@ -25,7 +25,7 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         if(diagnosticReport.getIdentifiers()!=null) {
             for (it.unisa.fhirconnection.fhirStarter.model.Identifier identifier : diagnosticReport.getIdentifiers()) {
                 diagnosticReportFhir.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }
@@ -72,7 +72,7 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         codeableConcept.setText(diagnosticReport.getName());
         Coding coding = new Coding();
         coding.setCode(diagnosticReport.getCode());
-        coding.setSystem(diagnosticReport.getSystem());
+        coding.setSystem(diagnosticReport.getSystemd());
         coding.setDisplay(diagnosticReport.getDisplay());
         codeableConcept.addCoding(coding);
         diagnosticReportFhir.setCategory(codeableConcept);

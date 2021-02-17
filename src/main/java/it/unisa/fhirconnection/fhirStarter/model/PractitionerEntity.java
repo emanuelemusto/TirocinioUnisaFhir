@@ -16,7 +16,7 @@ import java.util.Set;
 public class PractitionerEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

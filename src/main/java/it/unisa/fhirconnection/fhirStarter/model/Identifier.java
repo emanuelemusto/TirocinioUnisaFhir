@@ -11,10 +11,10 @@ import javax.persistence.*;
 public class Identifier {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String system;
+    private String systemid;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientEntity patientEntity;

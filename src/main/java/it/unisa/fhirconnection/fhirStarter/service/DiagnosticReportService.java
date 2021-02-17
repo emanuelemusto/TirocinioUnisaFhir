@@ -55,7 +55,7 @@ public class DiagnosticReportService {
         diagnosticReport.setDate(form.getDate());
         diagnosticReport.setCategory(form.getCategory());
         diagnosticReport.setCode(form.getCode());
-        diagnosticReport.setSystem(form.getSystem());
+        diagnosticReport.setSystemd(form.getSystem());
         diagnosticReport.setDisplay(form.getCategory());
 
         System.out.println(form);

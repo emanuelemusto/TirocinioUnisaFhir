@@ -18,7 +18,7 @@ import java.util.Set;
 public class Schedule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

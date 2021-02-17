@@ -88,17 +88,17 @@ public class PatientService {
         address1.setCity(form.getCity());
         address1.setPostcode(form.getPostCode());
         address1.setCountry(form.getCountry());
-        address1.setLines(form.getAddressLine());
+        address1.setLinesAddress(form.getAddressLine());
 
         switch (form.getAddressUse().toLowerCase()) {
             case ("home"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
                 break;
             case ("work"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.WORK);
                 break;
             case ("old"):
-                address1.setUse(org.hl7.fhir.dstu3.model.Address.AddressUse.OLD);
+                address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.OLD);
                 break;
 
         }

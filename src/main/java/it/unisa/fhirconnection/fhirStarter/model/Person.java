@@ -10,7 +10,7 @@ import java.util.Date;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idperson;
 
     @OneToOne(cascade = CascadeType.ALL)

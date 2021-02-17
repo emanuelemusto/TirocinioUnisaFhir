@@ -26,7 +26,7 @@ public class Telecom  {
     //home | work | temp | old | mobile - purpose of this contact point
     private ContactPoint.ContactPointUse telecomUse;
 
-    private ContactPoint.ContactPointSystem system;
+    private ContactPoint.ContactPointSystem systemt;
 
     public String getValue() {
         return value;
@@ -44,12 +44,12 @@ public class Telecom  {
         this.telecomUse = telecomUse;
     }
 
-    public ContactPoint.ContactPointSystem getSystem() {
-        return system;
+    public ContactPoint.ContactPointSystem getSystemt() {
+        return systemt;
     }
 
-    public void setSystem(ContactPoint.ContactPointSystem system) {
-        this.system = system;
+    public void setSystemt(ContactPoint.ContactPointSystem system) {
+        this.systemt = system;
     }
 
     public PatientEntity getPatientEntity() {

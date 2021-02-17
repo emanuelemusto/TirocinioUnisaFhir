@@ -30,7 +30,7 @@ public class AllergyIntoleranceToFHIRAllergyIntolerance implements Transformer<A
         if (allergyIntoleranceEntity.getIdentifiers() != null) {
             for (Identifier identifier : allergyIntoleranceEntity.getIdentifiers()) {
                 allergyIntolerance1.addIdentifier()
-                        .setSystem(identifier.getSystem())
+                        .setSystem(identifier.getSystemid())
                         .setValue(identifier.getValue());
             }
         }

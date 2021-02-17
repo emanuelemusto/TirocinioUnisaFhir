@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import it.unisa.fhirconnection.fhirStarter.service.LogService;
 import it.unisa.fhirconnection.fhirStarter.service.PractitionerService;
 import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
 import org.hl7.fhir.dstu3.model.*;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import it.unisa.fhirconnection.fhirStarter.database.PractitionerDAO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
@@ -47,11 +49,12 @@ public class PractitionerProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Practitioner> searchPractitionerbyFamilyName(
-            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName, @RequiredParam(name = Practitioner.SP_IDENTIFIER) TokenParam theId
+            @RequiredParam(name = Practitioner.SP_FAMILY) StringParam familyName, @RequiredParam(name = Practitioner.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request
     ) {
 
         String username = theId.getSystem();
         String token = theId.getValue();
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
 
         String role = authorize(token, username);
 

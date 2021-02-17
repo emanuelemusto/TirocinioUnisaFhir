@@ -58,7 +58,7 @@ public class UserService {
 
         for (User utente : utenti) {
             if (utente.getTime() != null) {
-                Long tempoTrascorso = TimeUnit.MILLISECONDS.toHours(startTime - utente.getTime());
+                Long tempoTrascorso = TimeUnit.MILLISECONDS.toMinutes(startTime - utente.getTime());
                 if (tempoTrascorso == 1) {
                     utente.setToken(null);
                     userDAO.save(utente);
@@ -67,7 +67,7 @@ public class UserService {
             }
 
         }
-        System.out.println(utenti.size());
+
 
     }
 
@@ -110,7 +110,6 @@ public class UserService {
 
 
     public static User authenticate(LoginForm userpass) {
-        System.out.println("lo username è:" + userpass.getUsername());
         User test = userDAO.findByUsername(userpass.getUsername());
         if (test != null) {
             if (userpass.getPassword().equals(test.getPassword())) {
@@ -119,7 +118,6 @@ public class UserService {
                 test.setToken(userpass.getToken());
                 userDAO.save(test);
                 current_user = test;
-                System.out.println("prova token metodo authenticate " + current_user.getToken());
 
                 return current_user;
             }
@@ -131,10 +129,8 @@ public class UserService {
     }
 
     public static boolean registrate(RegistrationForm userpass) {
-        System.out.print("questa è una prova per la registrazione" + userpass.getUsername() + "   " + userpass.getPassword());
         User test = userDAO.findByUsername(userpass.getUsername());
         if (test == null) {
-            System.out.print("ecco il ruolo " + userpass.getRuolo());
             User utente = new User(userpass.getUsername(), userpass.getPassword(), userpass.getRuolo());
             return userDAO.save(utente) != null;
         }

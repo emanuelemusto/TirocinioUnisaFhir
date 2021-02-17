@@ -1,24 +1,30 @@
 package it.unisa.fhirconnection.fhirStarter.RestController;
 
 
+import it.unisa.fhirconnection.fhirStarter.service.LogService;
 import it.unisa.fhirconnection.fhirStarter.service.UserService;
 import it.unisa.fhirconnection.fhirStarter.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class UserRestController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public static ResponseEntity<String> login(@RequestBody LoginForm userpass) {
+    public static ResponseEntity<String> login(@RequestBody LoginForm userpass, HttpServletRequest request) {
+
         // No exception thrown means the authentication succeeded
         String body = "";
         User utente = UserService.authenticate(userpass);
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), utente.getUsername());
+
 
         if (utente != null) {
             //username e password corrispondono
-            System.out.println("loggato");
-            System.out.println("loggato" + utente.getRole());
+
 
 
             if (utente.getRole() == "MEDIC") {
@@ -45,8 +51,10 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "registrazione", method = RequestMethod.POST)
-    public static ResponseEntity<String> registrazione(@RequestBody RegistrationForm registrationData) {
+    public static ResponseEntity<String> registrazione(@RequestBody RegistrationForm registrationData, HttpServletRequest request) {
         // No exception thrown means the authentication succeeded
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), null);
+
         boolean result = UserService.registrate(registrationData);
 
         if (result) {

@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import it.unisa.fhirconnection.fhirStarter.service.LogService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.FHIRPatienttoPatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import it.unisa.fhirconnection.fhirStarter.database.PatientDAO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
@@ -76,12 +78,13 @@ public class PatientProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
-                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId
+                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request
     ) {
-        System.out.println("prova token value "+theId.getValue());
-        System.out.println("prova token System "+theId.getSystem());
+
+
         String username = theId.getSystem();
         String token = theId.getValue();
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
 
         String role = authorize(token,username);
 

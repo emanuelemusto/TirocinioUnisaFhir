@@ -61,7 +61,6 @@ public class PractitionerService {
     public static void addPractitioner(PractitionerForm dummy){
 
         User utente = UserService.getByUsername(dummy.getUser());
-        System.out.println("prova nel metodo addPractitioner"+utente.getUsername());
         Person person1 = new Person(dummy.getFirstname(), dummy.getFamilyname(), dummy.getGender(), dummy.getDate(), dummy.getCf());
         PractitionerEntity practitionerEntity1 = new PractitionerEntity();
         practitionerEntity1.setDescrition(dummy.getDescrition());

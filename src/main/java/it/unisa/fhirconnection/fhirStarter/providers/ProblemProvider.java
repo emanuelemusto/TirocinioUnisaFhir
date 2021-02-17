@@ -8,10 +8,7 @@ import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
-import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
-import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
-import it.unisa.fhirconnection.fhirStarter.service.PatientService;
-import it.unisa.fhirconnection.fhirStarter.service.ProblemService;
+import it.unisa.fhirconnection.fhirStarter.service.*;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
@@ -19,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorizeByPatientId;
@@ -69,13 +67,14 @@ public class ProblemProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id, @RequiredParam(name= Patient.SP_IDENTIFIER) TokenParam theId) {
+    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id, @RequiredParam(name= Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
         String username = theId.getSystem();
         String token = theId.getValue();
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
 
 
         if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))){
-            System.out.println("condizione ");
+
 
             PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Condition> conditions = new ArrayList<>();

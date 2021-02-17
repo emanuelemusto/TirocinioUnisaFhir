@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.Problem;
 import it.unisa.fhirconnection.fhirStarter.service.*;
@@ -51,46 +52,25 @@ public class ProblemProvider implements IResourceProvider {
         return method;
     }
 
-
-    @Read()
-    public ArrayList<Condition> getAllbyPatient(@IdParam IdType internalId) {
-        PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
-        ArrayList<Condition> conditionds = new ArrayList<>();
-
-        for (Problem problem : patient.getProblems()) {
-            conditionds.add(ProblemService.transform(problem));
-
-
-        }
-
-        return conditionds;
-    }
-
     @Search()
-    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id, @RequiredParam(name= Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
+    public ArrayList<Condition> getAllbyPatient(@RequiredParam(name = Condition.SP_RES_ID) StringParam id, @RequiredParam(name = Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
         String username = theId.getSystem();
         String token = theId.getValue();
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), username);
 
 
-        if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))){
-
-
+        if (authorizeByPatientId(token, username, Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
             PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
-        ArrayList<Condition> conditions = new ArrayList<>();
-
-        for (it.unisa.fhirconnection.fhirStarter.model.Problem problem : patient.getProblems()) {
-            conditions.add(ProblemService.transform(problem));
-
-
+            ArrayList<Condition> conditions = new ArrayList<>();
+            for (it.unisa.fhirconnection.fhirStarter.model.Problem problem : patient.getProblems()) {
+                conditions.add(ProblemService.transform(problem));
+            }
+            return conditions;
+        } else {
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
         }
-
-        return conditions;
-        }
-        return null;
     }
-
-
 
 
 }

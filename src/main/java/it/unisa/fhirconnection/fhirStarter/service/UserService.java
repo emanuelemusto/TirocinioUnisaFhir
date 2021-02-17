@@ -49,7 +49,7 @@ public class UserService {
         return userDAO.findByUsername(username);
     }
 
-    @Scheduled(fixedRate = 900000)
+    @Scheduled(fixedRate = 90000)
     public void scheduleFixedRateTask() {
 
         long startTime = System.currentTimeMillis();
@@ -58,12 +58,8 @@ public class UserService {
 
         for (User utente : utenti) {
             if (utente.getTime() != null) {
-                Long tempoTrascorso = TimeUnit.MILLISECONDS.toHours(startTime - utente.getTime());
-                if (tempoTrascorso == 1) {
-                    utente.setToken(null);
-                    userDAO.save(utente);
-                }
-
+                utente.setToken(null);
+                userDAO.save(utente);
             }
 
         }

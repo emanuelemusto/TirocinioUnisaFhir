@@ -14,8 +14,5 @@ public class PractitionerRestController {
     public static void addPractitioner(@RequestBody PractitionerForm practitioner, HttpServletRequest request) {
         PractitionerService.addPractitioner(practitioner);
         LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), null);
-
-
-
     }
 }

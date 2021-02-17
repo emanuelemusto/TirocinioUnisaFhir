@@ -108,14 +108,14 @@ public class FhirStarterApplication {
 
 
                 Telecom telecom1 = new Telecom();
-                telecom1.setValue("0648352638");
+                telecom1.setValue("0248352638");
                 telecom1.setTelecomUse(ContactPoint.ContactPointUse.MOBILE);
 
                 Address address1 = new Address();
-                address1.setCity("Amsterdam");
-                address1.setPostcode("1055RW");
-                address1.setCountry("NLD");
-                address1.setLinesAddress("Bos en Lommerplein 280");
+                address1.setCity("ROME");
+                address1.setPostcode("12120");
+                address1.setCountry("ITA");
+                address1.setLinesAddress("Via Giuseppe Garibaldi 300");
                 address1.setAddressUse(org.hl7.fhir.dstu3.model.Address.AddressUse.HOME);
 
                 Medication medication = new Medication();

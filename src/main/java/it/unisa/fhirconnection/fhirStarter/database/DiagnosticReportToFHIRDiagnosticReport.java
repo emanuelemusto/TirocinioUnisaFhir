@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<DiagnosticReport, org.hl7.fhir.dstu3.model.DiagnosticReport> {
+public class DiagnosticReportToFHIRDiagnosticReport implements Transformer<DiagnosticReport, org.hl7.fhir.dstu3.model.DiagnosticReport> {
     @Autowired
     private static final PatientEntityToFHIRPatient patientEntityToFHIRPatient = new PatientEntityToFHIRPatient();
 
@@ -22,7 +22,7 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         final org.hl7.fhir.dstu3.model.DiagnosticReport diagnosticReportFhir = new org.hl7.fhir.dstu3.model.DiagnosticReport();
 
         diagnosticReportFhir.setId(String.valueOf(diagnosticReport.getId()));
-        if(diagnosticReport.getIdentifiers()!=null) {
+        if (diagnosticReport.getIdentifiers() != null) {
             for (it.unisa.fhirconnection.fhirStarter.model.Identifier identifier : diagnosticReport.getIdentifiers()) {
                 diagnosticReportFhir.addIdentifier()
                         .setSystem(identifier.getSystemid())
@@ -30,7 +30,7 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
             }
         }
 
-        switch(diagnosticReport.getStatus().toUpperCase()) {
+        switch (diagnosticReport.getStatus().toUpperCase()) {
             case ("AMENDED"):
                 diagnosticReportFhir.setStatus(org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportStatus.AMENDED);
                 break;
@@ -78,22 +78,22 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
         diagnosticReportFhir.setCategory(codeableConcept);
 
 
-        if(diagnosticReport.getPractitionerEntity()!=null) {
+        if (diagnosticReport.getPractitionerEntity() != null) {
             diagnosticReportFhir.getSubject().setReference(diagnosticReport.getPatientEntity().getPerson().getLastName() + " " + diagnosticReport.getPatientEntity().getPerson().getFirstName());
         }
 
 
-       if(diagnosticReport.getPractitionerEntity()!=null) {
-           Reference reference = new Reference();
-           reference.setReference(diagnosticReport.getPractitionerEntity().getPerson().getLastName() + " " + diagnosticReport.getPractitionerEntity().getPerson().getFirstName());
-           org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent diagnosticReportPerformerComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent();
-           diagnosticReportPerformerComponent.setActor(reference);
+        if (diagnosticReport.getPractitionerEntity() != null) {
+            Reference reference = new Reference();
+            reference.setReference(diagnosticReport.getPractitionerEntity().getPerson().getLastName() + " " + diagnosticReport.getPractitionerEntity().getPerson().getFirstName());
+            org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent diagnosticReportPerformerComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportPerformerComponent();
+            diagnosticReportPerformerComponent.setActor(reference);
 
-           diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);
-       }
+            diagnosticReportFhir.addPerformer(diagnosticReportPerformerComponent);
+        }
 
 
-        if (diagnosticReport.getMedia()!=null) {
+        if (diagnosticReport.getMedia() != null) {
             org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent diagnosticReportImageComponent = new org.hl7.fhir.dstu3.model.DiagnosticReport.DiagnosticReportImageComponent();
             diagnosticReportImageComponent.setComment(diagnosticReport.getMediacomment());
 
@@ -110,7 +110,6 @@ public class DiagnosticReportToFHIRDiagnosticReport  implements Transformer<Diag
 
         return diagnosticReportFhir;
     }
-
 
 
 }

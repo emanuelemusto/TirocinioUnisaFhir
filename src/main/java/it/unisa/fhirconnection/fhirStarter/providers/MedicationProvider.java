@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import it.unisa.fhirconnection.fhirStarter.database.MedicationToFhirMedication;
 import it.unisa.fhirconnection.fhirStarter.service.*;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
@@ -68,39 +69,34 @@ public class MedicationProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request ) {
+    public ArrayList<Medication> getAllbyPatient(@RequiredParam(name = Medication.SP_RES_ID) StringParam id, @RequiredParam(name = Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
         String username = theId.getSystem();
         String token = theId.getValue();
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), username);
 
-
-        if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
-
+        if (authorizeByPatientId(token, username, Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
 
             PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
             ArrayList<Medication> medications = new ArrayList<>();
-
             for (it.unisa.fhirconnection.fhirStarter.model.Medication medication : patient.getMedications()) {
                 medications.add(MedicationService.transform(medication));
-
-
             }
-
             return medications;
+
+        } else {
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
         }
-        return null;
     }
 
     @Search()
-    public List<Medication> getAllApprovedMedication(@RequiredParam(name = Medication.SP_STATUS) StringParam param ) {
-        if("true".equals(String.valueOf(param.getValueNotNull()))){
+    public List<Medication> getAllApprovedMedication(@RequiredParam(name = Medication.SP_STATUS) StringParam param) {
+        if ("true".equals(String.valueOf(param.getValueNotNull()))) {
             return new ArrayList<Medication>(MedicationService.medicationApproved());
-        }else {
+        } else {
             return null;
         }
     }
-
-
 
 
 }

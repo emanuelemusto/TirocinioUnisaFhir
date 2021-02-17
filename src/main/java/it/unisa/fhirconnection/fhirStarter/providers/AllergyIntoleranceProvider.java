@@ -7,6 +7,7 @@ import ca.uhn.fhir.rest.api.server.IRequestDetails;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import it.unisa.fhirconnection.fhirStarter.service.AllergyIntoleranceService;
 import it.unisa.fhirconnection.fhirStarter.service.DiagnosticReportService;
 import it.unisa.fhirconnection.fhirStarter.service.LogService;
@@ -72,31 +73,25 @@ public class AllergyIntoleranceProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<AllergyIntolerance> getAllbyPatient(@RequiredParam(name = AllergyIntolerance.SP_RES_ID) StringParam id,
-                                                         @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
-
-        
+                                                         @RequiredParam(name = Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
         String username = theId.getSystem();
         String token = theId.getValue();
 
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), username);
 
-       if(authorizeByPatientId(token,username,Integer.parseInt(String.valueOf(id.getValueNotNull())))){
+        if (authorizeByPatientId(token, username, Integer.parseInt(String.valueOf(id.getValueNotNull())))) {
+            PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+            ArrayList<AllergyIntolerance> allergyIntolerances = new ArrayList<>();
 
-        PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
-        ArrayList<AllergyIntolerance> allergyIntolerances = new ArrayList<>();
-
-        for (it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance allergyIntolerance : patient.getAllergyIntolerances()) {
-            allergyIntolerances.add(AllergyIntoleranceService.transform(allergyIntolerance));
-
-
+            for (it.unisa.fhirconnection.fhirStarter.model.AllergyIntolerance allergyIntolerance : patient.getAllergyIntolerances()) {
+                allergyIntolerances.add(AllergyIntoleranceService.transform(allergyIntolerance));
+            }
+            return allergyIntolerances;
+        } else {
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
         }
-
-        return allergyIntolerances;}
-
-        return null;
     }
-
-
 
 
 }

@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import it.unisa.fhirconnection.fhirStarter.service.LogService;
 import it.unisa.fhirconnection.fhirStarter.service.PatientService;
 import it.unisa.fhirconnection.fhirStarter.database.FHIRPatienttoPatientEntity;
@@ -29,7 +30,7 @@ public class PatientProvider implements IResourceProvider {
     @Autowired
     FhirContext ctx;
 
-    private  static FHIRPatienttoPatientEntity fhirPatienttoPatientEntity;
+    private static FHIRPatienttoPatientEntity fhirPatienttoPatientEntity;
 
     @Autowired
     private static PatientDAO patientDAO;
@@ -78,27 +79,33 @@ public class PatientProvider implements IResourceProvider {
 
     @Search()
     public ArrayList<Patient> searchPatientbyFamilyName(
-                                                  @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name=Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request
+            @RequiredParam(name = Patient.SP_FAMILY) StringParam familyName, @RequiredParam(name = Patient.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request
     ) {
 
 
         String username = theId.getSystem();
         String token = theId.getValue();
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), username);
 
-        String role = authorize(token,username);
+        String role = authorize(token, username);
 
         //la lista di tutti i pazienti solo il medico puo vederla
-        if(role.equals("MEDIC")){
-        ArrayList<Patient> patientArrayList = new ArrayList<>();
-        for (PatientEntity patient : PatientService.getAllPatients()) {
-            String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
-            if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
+        if (role != null) {
+            if (role.equals("MEDIC")) {
+                ArrayList<Patient> patientArrayList = new ArrayList<>();
+                for (PatientEntity patient : PatientService.getAllPatients()) {
+                    String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
+                    if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+                        patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
 
 
-        }
-            return patientArrayList;
+                }
+                System.out.println("provaprova");
+                return patientArrayList;
+            }
+        } else {
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
         }
         return null;
     }

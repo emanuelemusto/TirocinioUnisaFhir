@@ -44,8 +44,8 @@ public class PractitionerProvider implements IResourceProvider {
 
     @Read()
     public Practitioner readPractitioner(@IdParam IdType internalId, HttpServletRequest request) {
-        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), internalId.getIdPart());
         PractitionerEntity practitioner = PractitionerService.getById(Integer.parseInt(internalId.getIdPart()));
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), practitioner.getPerson().getUser().getUsername());
         return PractitionerService.trasformToFHIRPractitioner(practitioner);
     }
 

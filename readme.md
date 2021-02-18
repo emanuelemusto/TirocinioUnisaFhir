@@ -62,11 +62,4 @@ The following url indicates the functionality of this application: using your ip
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
    [MAVEN]: <https://maven.apache.org/download.cgi#>
-POST/http://127.0.0.1:8183/addpatient
-POST/http://127.0.0.1:8183/addDiagnosticReport
-POST/http://127.0.0.1:8183/addAllergy
-POST/http://127.0.0.1:8183/addContition
-POST/http://127.0.0.1:8183/addMedication
-POST/http://127.0.0.1:8183/registrazione
-GET/http://127.0.0.1:8183/STU3/Practitioner
 

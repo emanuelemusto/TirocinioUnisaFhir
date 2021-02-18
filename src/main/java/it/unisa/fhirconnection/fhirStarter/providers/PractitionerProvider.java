@@ -44,8 +44,8 @@ public class PractitionerProvider implements IResourceProvider {
 
     @Read()
     public Practitioner readPractitioner(@IdParam IdType internalId, HttpServletRequest request) {
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), internalId.getIdPart());
         PractitionerEntity practitioner = PractitionerService.getById(Integer.parseInt(internalId.getIdPart()));
-        System.out.println(request.getRemoteAddr());
         return PractitionerService.trasformToFHIRPractitioner(practitioner);
     }
 
@@ -66,9 +66,10 @@ public class PractitionerProvider implements IResourceProvider {
                 ArrayList<Practitioner> practitionerArrayList = new ArrayList<>();
                 for (PractitionerEntity practitioner : PractitionerService.getAllPractitioners()) {
                     String fullname = practitioner.getPerson().getLastName().toLowerCase() + " " + practitioner.getPerson().getFirstName().toLowerCase();
-                    if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                        practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
-
+                    if (familyName != null) {
+                        if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+                            practitionerArrayList.add(PractitionerService.trasformToFHIRPractitioner(practitioner));
+                    }
 
                 }
                 return practitionerArrayList;

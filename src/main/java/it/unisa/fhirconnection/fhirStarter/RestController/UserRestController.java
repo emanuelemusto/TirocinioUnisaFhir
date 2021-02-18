@@ -19,14 +19,11 @@ public class UserRestController {
         // No exception thrown means the authentication succeeded
         String body = "";
         User utente = UserService.authenticate(userpass);
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), utente.getUsername());
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), utente.getUsername());
 
 
         if (utente != null) {
             //username e password corrispondono
-
-
-
             if (utente.getRole().equals("MEDIC")) {
                 return ResponseEntity.ok().body("{\n" +
                         "    \"username\":\"" + utente.getUsername() + "\",\n" +
@@ -51,7 +48,7 @@ public class UserRestController {
     @RequestMapping(value = "registrazione", method = RequestMethod.POST)
     public static ResponseEntity<String> registrazione(@RequestBody RegistrationForm registrationData, HttpServletRequest request) {
         // No exception thrown means the authentication succeeded
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), null);
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), null);
 
         boolean result = UserService.registrate(registrationData);
 

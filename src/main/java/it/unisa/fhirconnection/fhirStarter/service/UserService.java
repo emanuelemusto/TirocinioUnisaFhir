@@ -49,7 +49,7 @@ public class UserService {
         return userDAO.findByUsername(username);
     }
 
-    @Scheduled(fixedRate = 90000)
+    @Scheduled(fixedRate = 1500000)
     public void scheduleFixedRateTask() {
 
         long startTime = System.currentTimeMillis();

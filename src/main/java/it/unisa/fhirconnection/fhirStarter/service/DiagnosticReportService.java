@@ -58,10 +58,8 @@ public class DiagnosticReportService {
         diagnosticReport.setSystemd(form.getSystem());
         diagnosticReport.setDisplay(form.getCategory());
 
-        System.out.println(form);
 
         PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
-        System.out.println(patientEntity);
 
         Set<DiagnosticReport> drs = patientEntity.getDiagnosticReports();
         drs.add(diagnosticReport);
@@ -81,7 +79,6 @@ public class DiagnosticReportService {
             drwi.setMedia("src/main/media/" + file.getOriginalFilename());
             drwi.setMediacomment(copyLocation.toString());
             diagnosticDAO.save(drwi);
-            System.out.println(drwi);
         } catch (Exception e) {
             e.printStackTrace();
             throw new StorageException("Could not store file " + file.getOriginalFilename()

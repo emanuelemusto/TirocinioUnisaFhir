@@ -37,7 +37,6 @@ public class ProblemService {
 
 
         PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
-        System.out.println(patientEntity);
 
         Set<Problem> prs= patientEntity.getProblems();
         prs.add(problem);

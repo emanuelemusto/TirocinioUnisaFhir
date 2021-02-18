@@ -39,7 +39,7 @@ public class PractitionerService {
     public static ArrayList<PractitionerEntity> getAllPractitioners(){
         ArrayList<PractitionerEntity> practitionerEntityList = new ArrayList<>();
         for(PractitionerEntity practitionerEntity : practitionerDAO.findAll()) {
-            System.out.println(practitionerEntity.getId());
+
             practitionerEntityList.add(practitionerEntity);
         }
 

@@ -17,8 +17,4 @@ public class PatientRestController {
 
 
     }
-    @RequestMapping(value = "printcose", method = RequestMethod.GET)
-    public static void getAllEmployees(){
-        System.out.println("ci sono ");
-    }
 }

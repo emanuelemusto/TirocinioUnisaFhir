@@ -35,7 +35,6 @@ public class PatientService {
     public static ArrayList<PatientEntity> getAllPatients() {
         ArrayList<PatientEntity> patientEntityList = new ArrayList<>();
         for (PatientEntity patientEntity : patientDAO.findAll()) {
-            System.out.println(patientEntity.getIdpatient());
             patientEntityList.add(patientEntity);
         }
 

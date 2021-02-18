@@ -28,7 +28,6 @@ public class MediaRestController {
 
     @RequestMapping(value = "loadFile", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public static Resource reject(@ModelAttribute(value="path") String path, HttpServletRequest request) throws Exception {
-        System.out.println(path);
         LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), null);
 
         return DiagnosticReportService.loadAsResource(path);

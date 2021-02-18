@@ -47,7 +47,6 @@ public class ScheduleService {
     }
 
     public static void addSchedule(ScheduleForm scheduleForm) {
-        System.out.println(scheduleForm);
         Schedule schedule = new Schedule();
         schedule.setPlanning(scheduleForm.getPlanning().substring(0, scheduleForm.getPlanning().indexOf('.')));
         schedule.setServiceCategory(scheduleForm.getServiceCategory());

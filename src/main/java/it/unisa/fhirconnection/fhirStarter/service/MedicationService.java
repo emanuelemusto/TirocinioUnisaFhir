@@ -43,8 +43,6 @@ public class MedicationService {
         medication.setAmount(form.getAmount());
         medication.setNote(form.getNote());
 
-        System.out.println(form);
-
         PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
 
         Set<Medication> medicationSet = patientEntity.getMedications();

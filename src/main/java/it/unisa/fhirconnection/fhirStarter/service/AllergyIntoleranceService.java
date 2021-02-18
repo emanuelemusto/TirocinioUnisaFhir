@@ -40,7 +40,7 @@ public class AllergyIntoleranceService {
         allergyIntolerance.setNote(form.getNote());
 
 
-        System.out.println(form);
+
 
         PatientEntity patientEntity = PatientService.getById(Integer.parseInt(form.getPatientId()));
 

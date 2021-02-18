@@ -71,7 +71,8 @@ public class PatientProvider implements IResourceProvider {
     }
 
     @Read()
-    public Patient readPatient(@IdParam IdType internalId) {
+    public Patient readPatient(@IdParam IdType internalId, HttpServletRequest request) {
+        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), internalId.getIdPart());
         PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
         return PatientService.trasformToFHIRPatient(patient);
     }
@@ -95,12 +96,12 @@ public class PatientProvider implements IResourceProvider {
                 ArrayList<Patient> patientArrayList = new ArrayList<>();
                 for (PatientEntity patient : PatientService.getAllPatients()) {
                     String fullname = patient.getPerson().getLastName().toLowerCase() + " " + patient.getPerson().getFirstName().toLowerCase();
-                    if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
-                        patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
-
+                    if (familyName != null) {
+                        if (fullname.contains(String.valueOf(familyName.getValueNotNull()).toLowerCase()))
+                            patientArrayList.add(PatientService.trasformToFHIRPatient(patient));
+                    }
 
                 }
-                System.out.println("provaprova");
                 return patientArrayList;
             }
         } else {

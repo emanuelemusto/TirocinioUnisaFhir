@@ -316,7 +316,7 @@ public class FhirStarterApplication {
                 personDAO.save(person1);
                 patientDAO.save(patientEntity1);
                 userDAO.save(utente);
-                System.out.println("prova1 " + utente.getRole());
+
 
                 personDAO.save(person2);
                 patientDAO.save(patientEntity2);
@@ -346,18 +346,15 @@ public class FhirStarterApplication {
                 drDAO.save(report);
                 drDAO.save(diagnosticReport);
 
-                System.out.println(patientEntity1.getIdpatient());
+
                 for (PatientEntity patient : patientDAO.findAll()) {
-                    System.out.println(patient.getPerson().getLastName());
                     for (DiagnosticReport diagnosticReport1 : patient.getDiagnosticReports()) {
-                        System.out.println(diagnosticReport1.toString());
                     }
 
                 }
             }
 
             for (PractitionerEntity patient : practitionerDAO.findAll()) {
-                System.out.println(patient.getPerson().getLastName());
 
             }
 

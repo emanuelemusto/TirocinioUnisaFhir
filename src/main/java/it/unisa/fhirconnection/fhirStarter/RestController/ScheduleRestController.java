@@ -13,8 +13,8 @@ public class ScheduleRestController {
     @RequestMapping(value = "addSchedulePractitioner", method = RequestMethod.POST)
     public static void addSchedule(@RequestBody ScheduleForm scheduleForm, HttpServletRequest request) {
 
-        ScheduleService.addSchedule(scheduleForm);
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), null);
+        String user=ScheduleService.addSchedule(scheduleForm);
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(), user);
 
 
     }

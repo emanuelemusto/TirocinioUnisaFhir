@@ -73,7 +73,7 @@ public class PatientProvider implements IResourceProvider {
     @Read()
     public Patient readPatient(@IdParam IdType internalId, HttpServletRequest request) {
         PatientEntity patient = PatientService.getById(Integer.parseInt(internalId.getIdPart()));
-        LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), patient.getPerson().getUser().getUsername());
+        //LogService.printLog(request.getRemoteAddr(), request.getRequestURL(), request.getMethod(), patient.getPerson().getUser().getUsername());
         return PatientService.trasformToFHIRPatient(patient);
     }
 

@@ -46,7 +46,7 @@ public class ScheduleService {
         scheduleDAO.save(scheduleDAO.findById(id));
     }
 
-    public static void addSchedule(ScheduleForm scheduleForm) {
+    public static String addSchedule(ScheduleForm scheduleForm) {
         Schedule schedule = new Schedule();
         schedule.setPlanning(scheduleForm.getPlanning().substring(0, scheduleForm.getPlanning().indexOf('.')));
         schedule.setServiceCategory(scheduleForm.getServiceCategory());
@@ -63,7 +63,9 @@ public class ScheduleService {
 
         PatientEntity patientEntity1 = PatientService.getById(Integer.parseInt(scheduleForm.getPatientId()));
 
+
         PractitionerEntity practitionerEntity1 = PractitionerService.getById(Integer.parseInt(scheduleForm.getPractitionerId()));
+        String username = practitionerEntity1.getPerson().getUser().getUsername();
 
         Set<Schedule> scheduleSet = patientEntity1.getSchedules();
         scheduleSet.add(schedule);
@@ -78,6 +80,8 @@ public class ScheduleService {
 
        /* PatientService.save(patientEntity1.getIdpatient());*/
         PractitionerService.save(practitionerEntity1.getId());
+
+        return username;
     }
 
     public static void confirmSchedule(int id) {

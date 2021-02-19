@@ -3,7 +3,9 @@ package it.unisa.fhirconnection.fhirStarter.providers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import it.unisa.fhirconnection.fhirStarter.database.ScheduleDAO;
 import it.unisa.fhirconnection.fhirStarter.model.PatientEntity;
 import it.unisa.fhirconnection.fhirStarter.model.PractitionerEntity;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+
+import static it.unisa.fhirconnection.fhirStarter.service.UserService.authorize;
 
 @Component
 public class ScheduleProvider implements IResourceProvider {
@@ -37,24 +41,44 @@ public class ScheduleProvider implements IResourceProvider {
     }
 
     @Search()
-    public ArrayList<Schedule> getAllbyPatient(@RequiredParam(name = Schedule.SP_RES_ID) StringParam id, HttpServletRequest request) {
+    public ArrayList<Schedule> getAllbyPatient(@RequiredParam(name = Schedule.SP_RES_ID) StringParam id,@RequiredParam(name = Schedule.SP_IDENTIFIER) TokenParam theId, HttpServletRequest request) {
+        String username = theId.getSystem();
+        String token = theId.getValue();
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        String role = authorize(token, username);
+
+        if(role != null) {
         PatientEntity patient = PatientService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
         ArrayList<Schedule> schedules = new ArrayList<>();
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),null);
         for (it.unisa.fhirconnection.fhirStarter.model.Schedule schedule : patient.getSchedules()) {
             schedules.add(ScheduleService.transform(schedule));
         }
         return schedules;
+        }else{
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
+        }
     }
 
     @Search()
-    public ArrayList<Schedule> getAllbyPractionier(@RequiredParam(name = Schedule.SP_ACTOR) StringParam id,HttpServletRequest request) {
-        PractitionerEntity practitionerEntity = PractitionerService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
-        ArrayList<Schedule> schedules = new ArrayList<>();
-        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),null);
-        for (it.unisa.fhirconnection.fhirStarter.model.Schedule schedule : practitionerEntity.getSchedules()) {
-            schedules.add(ScheduleService.transform(schedule));
+    public ArrayList<Schedule> getAllbyPractionier(@RequiredParam(name = Schedule.SP_ACTOR) StringParam id,@RequiredParam(name = Schedule.SP_IDENTIFIER) TokenParam theId,HttpServletRequest request) {
+        String username = theId.getSystem();
+        String token = theId.getValue();
+        LogService.printLog(request.getRemoteAddr(),request.getRequestURL(),request.getMethod(),username);
+        String role = authorize(token, username);
+        if(role != null) {
+            PractitionerEntity practitionerEntity = PractitionerService.getById(Integer.parseInt(String.valueOf(id.getValueNotNull())));
+
+            ArrayList<Schedule> schedules = new ArrayList<>();
+            for (it.unisa.fhirconnection.fhirStarter.model.Schedule schedule : practitionerEntity.getSchedules()) {
+                schedules.add(ScheduleService.transform(schedule));
+
+            }
+            return schedules;
+        }else{
+            OperationOutcome oo = new OperationOutcome();
+            throw new InternalErrorException("Token is expired", oo);
         }
-        return schedules;
+
     }
 }
